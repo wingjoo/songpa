@@ -12,15 +12,15 @@
     <android.support.design.widget.AppBarLayout
         android:id="@+id/appbar"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="108dp"
         android:paddingTop="@dimen/appbar_padding_top"
         android:theme="@style/AppTheme.AppBarOverlay">
 
         <android.support.v7.widget.Toolbar
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
-            android:layout_height="?attr/actionBarSize"
-            android:background="?attr/colorPrimary"
+            android:layout_height="58dp"
+            android:background="@color/mainBG"
             app:layout_scrollFlags="scroll|enterAlways"
             >
             <!--//-->
@@ -37,23 +37,29 @@
                 android:id="@+id/toolbar_title"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Toolbar Title"
+                android:text="@string/title"
+                android:textSize="40dp"
                 android:layout_gravity="center"/>
-
-            <Button
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="add"
+            <ImageButton
+                android:layout_width="24dp"
+                android:layout_height="29dp"
+                app:srcCompat="@drawable/icon_explain_n"
+                android:layout_marginRight="10dp"
                 android:layout_gravity="right"
+                android:background="@android:color/transparent"
                 />
-            // app:popupTheme="@style/AppTheme.PopupOverlay"
+
         </android.support.v7.widget.Toolbar>
 
 
         <android.support.design.widget.TabLayout
             android:id="@+id/tabs"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_height="50dp"
+            app:tabIndicatorColor = "@color/line"
+            android:background="@color/mainBG"
+            />
+
 
     </android.support.design.widget.AppBarLayout>
 

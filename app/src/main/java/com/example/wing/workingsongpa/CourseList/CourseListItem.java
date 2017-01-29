@@ -13,17 +13,17 @@ public class CourseListItem {
     public void setIcon(Drawable icon) {
         iconDrawable = icon ;
     }
-    public void setTitle(String title) {
-        titleStr = title ;
-    }
+//    public void setTitle(String title) {
+//        titleStr = title ;
+//    }
 
 
     public Drawable getIcon() {
         return this.iconDrawable ;
     }
-    public String getTitle() {
-        return this.titleStr ;
-    }
+//    public String getTitle() {
+//        return this.titleStr ;
+//    }
 
 
 }

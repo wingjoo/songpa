@@ -12,7 +12,11 @@ import android.widget.ListView;
 
 import com.example.wing.workingsongpa.R;
 
+import static com.example.wing.workingsongpa.R.drawable.t_road_n_01;
+
 public class CourseListFlagment extends Fragment {
+
+    String[] imageNames = {"t_road_n_01","t_road_n_02","t_road_n_03"};
 
     CourseListViewAdapter adapter;
     public final static String EXTRA_MESSAGE = "com.example.wing.SENDCELLDATA";
@@ -30,6 +34,11 @@ public class CourseListFlagment extends Fragment {
         ListView listview = (ListView) rootView.findViewById(R.id.course_listView);
         listview.setAdapter(adapter) ;
 
+        for (String imageName:imageNames) {
+            int resID  = getResources().getIdentifier(imageName , "drawable", "com.example.wing.workingsongpa");
+            adapter.addItem(ContextCompat.getDrawable(getActivity(), resID));
+        }
+
         //리스트 선택시 행동
         listview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -41,21 +50,10 @@ public class CourseListFlagment extends Fragment {
                 //next activity
                 Intent intent = new Intent(getActivity(), DetailCourseListActivity.class);
 
-                intent.putExtra(EXTRA_MESSAGE, item.getTitle());
+                //intent.putExtra(EXTRA_MESSAGE, item.getTitle());
                 startActivity(intent);
             }
         }) ;
-
-        // 첫 번째 아이템 추가.
-        adapter.addItem(ContextCompat.getDrawable(getActivity(), R.drawable.sample),
-                "Box") ;
-        // 두 번째 아이템 추가.
-        adapter.addItem(ContextCompat.getDrawable(getActivity(), R.drawable.sample),
-                "Circle") ;
-        // 세 번째 아이템 추가.
-        adapter.addItem(ContextCompat.getDrawable(getActivity(), R.drawable.sample),
-                "Ind") ;
-
 
         return rootView;
     }

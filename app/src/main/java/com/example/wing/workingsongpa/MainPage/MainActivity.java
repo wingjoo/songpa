@@ -52,23 +52,20 @@ import java.util.List;
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
-    private ViewPagerAdapter mSectionsPagerAdapter;
     private NonSwipeableViewPager mViewPager;
     private TabLayout tabLayout;
     private DBmanager dbmanager;
 
     private ActionBarDrawerToggle toggle;
 
-    DrawerLayout dlDrawer;
-    ActionBarDrawerToggle dtToggle;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        TextView title =  (TextView)toolbar.findViewById(R.id.toolbar_title);
-        title.setText("걷고싶은 거리 송파");
+//        TextView title =  (TextView)toolbar.findViewById(R.id.toolbar_title);
+//        title.setText("걷고싶은 거리 송파");
 
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
@@ -102,7 +99,18 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar,R.string.drawer_open, R.string.drawer_close);
-        drawer.setDrawerListener(toggle);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            drawer.addDrawerListener(toggle);
+        }else
+        {
+            drawer.setDrawerListener(toggle);
+        }
+
+
+       // toggle.setDrawerIndicatorEnabled(false);
+
+        getSupportActionBar().setHomeAsUpIndicator(R.drawable.icon_map_manu_n);
+
 //        toggle.syncState();
 //        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 //        getSupportActionBar().setHomeButtonEnabled(true);
@@ -118,7 +126,39 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         //탭레이아웃
         tabLayout = (TabLayout) findViewById(R.id.tabs);
         tabLayout.setupWithViewPager(mViewPager);
-        createTabIcons();
+//        TabLayout.Tab listTab = tabLayout.newTab();
+        tabLayout.getTabAt(0).setIcon(R.drawable.icon_list_p);
+        tabLayout.getTabAt(1).setIcon(R.drawable.icon_map_n);
+        //createTabIcons();
+        //탭 클릭시 행동
+        tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener(){
+            @Override
+            public void onTabSelected(TabLayout.Tab tab) {
+                if (tab.getPosition() == 0)
+                {
+                    tab.setIcon(R.drawable.icon_list_p);
+                }else
+                {
+                    tab.setIcon(R.drawable.icon_map_p);
+                }
+            }
+
+            @Override
+            public void onTabUnselected(TabLayout.Tab tab) {
+                if (tab.getPosition() == 0)
+                {
+                    tab.setIcon(R.drawable.icon_list_n);
+                }else
+                {
+                    tab.setIcon(R.drawable.icon_map_n);
+                }
+            }
+
+            @Override
+            public void onTabReselected(TabLayout.Tab tab) {
+            }
+        });
+
 
         //페이지 전환
         tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
@@ -180,41 +220,22 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         viewPager.setAdapter(adapter);
     }
 
-    //탭 아이콘 셋팅
-    private void createTabIcons() {
-        TextView tabOne = (TextView) LayoutInflater.from(this).inflate(R.layout.custom_tab, null);
-//        tabOne.setText("Tab 1");
-        tabOne.setCompoundDrawablesWithIntrinsicBounds(0, R.drawable.ic_map_no_01, 0, 0);
-        tabLayout.getTabAt(0).setCustomView(tabOne);
 
-        TextView tabTwo = (TextView) LayoutInflater.from(this).inflate(R.layout.custom_tab, null);
-//        tabTwo.setText("Tab 2");
-        tabTwo.setCompoundDrawablesWithIntrinsicBounds(0, R.drawable.ic_map_no_02, 0, 0);
-        tabLayout.getTabAt(1).setCustomView(tabTwo);
-    }
-
+/*
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_main, menu);
+
+
         return true;
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
-        }
 
         return super.onOptionsItemSelected(item);
     }
-
+*/
     @SuppressWarnings("StatementWithEmptyBody")
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {

@@ -89,7 +89,7 @@ public class MapResourseProvider extends NMapResourceProvider {
     }
 
 
-
+/*
     public Bitmap getBitmap(Drawable marker) {
         Bitmap bitmap = null;
 
@@ -108,7 +108,7 @@ public class MapResourseProvider extends NMapResourceProvider {
 
         return bitmap;
     }
-
+*/
 
 
     @Override
