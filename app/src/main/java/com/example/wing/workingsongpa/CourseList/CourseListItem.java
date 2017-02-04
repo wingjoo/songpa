@@ -6,9 +6,13 @@ package com.example.wing.workingsongpa.CourseList;
 import android.graphics.drawable.Drawable;
 
 
+import org.json.JSONObject;
+
+
 public class CourseListItem {
     private Drawable iconDrawable ;
-    private String titleStr ;
+
+    private JSONObject itemData;
 
     public void setIcon(Drawable icon) {
         iconDrawable = icon ;
@@ -25,5 +29,14 @@ public class CourseListItem {
 //        return this.titleStr ;
 //    }
 
+    public void setItemData(JSONObject newData)
+    {
+        itemData = newData;
+    }
+
+    public JSONObject getItemData()
+    {
+        return  itemData;
+    }
 
 }

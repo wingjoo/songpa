@@ -10,6 +10,8 @@ import android.widget.ImageView;
 
 import com.example.wing.workingsongpa.R;
 
+import org.json.JSONObject;
+
 import java.util.ArrayList;
 
 /**
@@ -17,7 +19,7 @@ import java.util.ArrayList;
  */
 
 public class DetailCourseListAdapter extends BaseAdapter {
-    private ArrayList<CourseListItem> listViewItemList = new ArrayList<CourseListItem>() ;
+    private ArrayList<DetailCourseListItem> listViewItemList = new ArrayList<DetailCourseListItem>() ;
 
     // ListViewAdapter의 생성자
     public DetailCourseListAdapter() {
@@ -42,12 +44,13 @@ public class DetailCourseListAdapter extends BaseAdapter {
             convertView = inflater.inflate(R.layout.course_list_item, parent, false);
         }
 
+        // Data Set(listViewItemList)에서 position에 위치한 데이터 참조 획득
+        DetailCourseListItem listViewItem = listViewItemList.get(position);
+
+        //*************UI구성**************//
         // 화면에 표시될 View(Layout이 inflate된)으로부터 위젯에 대한 참조 획득
         ImageView iconImageView = (ImageView) convertView.findViewById(R.id.item_bg) ;
         //TextView titleTextView = (TextView) convertView.findViewById(R.id.title) ;
-
-        // Data Set(listViewItemList)에서 position에 위치한 데이터 참조 획득
-        CourseListItem listViewItem = listViewItemList.get(position);
 
         // 아이템 내 각 위젯에 데이터 반영
         iconImageView.setImageDrawable(listViewItem.getIcon());
@@ -70,11 +73,11 @@ public class DetailCourseListAdapter extends BaseAdapter {
     }
 
     // 아이템 데이터 추가를 위한 함수. 개발자가 원하는대로 작성 가능.
-    public void addItem(Drawable icon) {
-        CourseListItem item = new CourseListItem();
+    public void addItem(Drawable icon, JSONObject itemData) {
+        DetailCourseListItem item = new DetailCourseListItem();
 
         item.setIcon(icon);
-
+        item.setItemData(itemData);
 
         listViewItemList.add(item);
     }

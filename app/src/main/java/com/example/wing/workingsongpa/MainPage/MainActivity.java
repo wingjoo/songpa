@@ -1,49 +1,29 @@
 package com.example.wing.workingsongpa.MainPage;
 
-import android.content.res.Configuration;
-import android.database.SQLException;
-import android.graphics.drawable.Drawable;
+
 import android.os.Build;
 import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.TabLayout;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
-import android.support.v4.app.FragmentTransaction;
+
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.os.Bundle;
 //import android.view.LayoutInflater;
 //import android.view.Menu;
 //import android.view.MenuItem;
-import android.text.Spannable;
-import android.text.SpannableString;
-import android.text.SpannableStringBuilder;
-import android.text.style.DynamicDrawableSpan;
-import android.text.style.ImageSpan;
 import android.util.Log;
-import android.view.LayoutInflater;
-import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
-import android.widget.TextView;
 
 import com.example.wing.workingsongpa.CourseList.CourseListFlagment;
-import com.example.wing.workingsongpa.Database.DBmanager;
+import com.example.wing.workingsongpa.Database.DataCenter;
 import com.example.wing.workingsongpa.MapTab.MapFlagment;
 import com.example.wing.workingsongpa.R;
-
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
 //import android.view.ViewGroup;
 //
 //import android.widget.TextView;
@@ -54,7 +34,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     private NonSwipeableViewPager mViewPager;
     private TabLayout tabLayout;
-    private DBmanager dbmanager;
 
     private ActionBarDrawerToggle toggle;
 
@@ -67,47 +46,34 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 //        TextView title =  (TextView)toolbar.findViewById(R.id.toolbar_title);
 //        title.setText("걷고싶은 거리 송파");
 
+
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
 
 
         // ****************************데이터*********************** //
-        //최초 실행시 뻑남
-        //카피 하면서 이슈 있는듯 함
-        //DB
-        dbmanager = new DBmanager(this);
-        try{
-            dbmanager.createDataBase();
-        }catch (IOException ioe)
-        {
-            throw new Error("unable to create dababase");
-        }
 
-        try{
-            dbmanager.openDataBase();
+        //courseList
+        DataCenter.getInstance().loadCourseListJSON(this);
+        //spotList
+        DataCenter.getInstance().loadSpotListJSON(this);
 
-        }catch (SQLException sqle)
-        {
-            throw sqle;
-        }
 
-//        String testData = dbmanager.getResult();
 
 
         // ****************************드로우 메뉴*********************** //
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         toggle = new ActionBarDrawerToggle(
-                this, drawer, toolbar,R.string.drawer_open, R.string.drawer_close);
+                this, drawer, toolbar, R.string.drawer_open, R.string.drawer_close);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             drawer.addDrawerListener(toggle);
-        }else
-        {
+        } else {
             drawer.setDrawerListener(toggle);
         }
 
 
-       // toggle.setDrawerIndicatorEnabled(false);
+        // toggle.setDrawerIndicatorEnabled(false);
 
         getSupportActionBar().setHomeAsUpIndicator(R.drawable.icon_map_manu_n);
 
@@ -131,25 +97,21 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         tabLayout.getTabAt(1).setIcon(R.drawable.icon_map_n);
         //createTabIcons();
         //탭 클릭시 행동
-        tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener(){
+        tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
-                if (tab.getPosition() == 0)
-                {
+                if (tab.getPosition() == 0) {
                     tab.setIcon(R.drawable.icon_list_p);
-                }else
-                {
+                } else {
                     tab.setIcon(R.drawable.icon_map_p);
                 }
             }
 
             @Override
             public void onTabUnselected(TabLayout.Tab tab) {
-                if (tab.getPosition() == 0)
-                {
+                if (tab.getPosition() == 0) {
                     tab.setIcon(R.drawable.icon_list_n);
-                }else
-                {
+                } else {
                     tab.setIcon(R.drawable.icon_map_n);
                 }
             }
@@ -164,14 +126,12 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
-                Log.d("TedPark","로그 내용" + tab.getPosition());
-                if (tab.getPosition() == 0)
-                {//리스트탭 선택 메뉴버튼 숨김, 오른쪽 버튼
+                Log.d("TedPark", "로그 내용" + tab.getPosition());
+                if (tab.getPosition() == 0) {//리스트탭 선택 메뉴버튼 숨김, 오른쪽 버튼
 
                     getSupportActionBar().setDisplayHomeAsUpEnabled(false);
                     getSupportActionBar().setHomeButtonEnabled(false);
-                }else
-                {//맵 탭 선택, 메뉴 버튼 show, add버튼 추가
+                } else {//맵 탭 선택, 메뉴 버튼 show, add버튼 추가
                     getSupportActionBar().setDisplayHomeAsUpEnabled(true);
                     getSupportActionBar().setHomeButtonEnabled(true);
                 }
@@ -181,10 +141,12 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             @Override
             public void onTabUnselected(TabLayout.Tab tab) {
             }
+
             @Override
             public void onTabReselected(TabLayout.Tab tab) {
             }
         });
+    }
 
 
 
@@ -205,7 +167,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 //                        .setAction("Action", null).show();
 //            }
 //        });
-    }
 
 
     private void createViewPager(ViewPager viewPager) {
