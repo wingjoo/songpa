@@ -6,6 +6,7 @@ import android.util.Log;
 
 import org.json.JSONArray;
 import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -25,7 +26,7 @@ import java.io.InputStream;
                     “specialty”:string
                     “infor_use”:string
                     “total_distan”:string
-                    “walking_time”:float
+                    “walking_time”:string
                     “course":[
                         {
                             "course_info":"어쩌구저쩌구",
@@ -54,9 +55,26 @@ import java.io.InputStream;
             ]
         */
 
-public class DataCenter {
 
-    private volatile static DataCenter sharedInstance;
+
+public class DataCenter {
+    public static final String COURSE_LIST_NAME = "courseList.json";
+    public static final String SPOT_LIST_NAME = "spotList.json";
+
+    public static final String SPOT_ID = "id";
+    public static final String SPOT_TITLE = "title";
+    public static final String SPOT_SUB_TITLE = "sub_title";
+    public static final String SPOT_MSG = "msg";
+    public static final String SPOT_NEXT_DIS = "next_spot_distan";
+    public static final String SPOT_LATI = "latitude";
+    public static final String SPOT_LONGI = "longitude";
+    public static final String SPOT_GRUOP_ID = "group_type";
+    public static final String SPOT_MAIN_IMG = "default_img";
+    public static final String SPOT_IMG_LIST = "img_list";
+
+
+
+   private volatile static DataCenter sharedInstance;
 
     private JSONArray spotList;
     private JSONArray courseList;
@@ -74,10 +92,11 @@ public class DataCenter {
         return sharedInstance;
     }
 
+
     // ****************************데이터*********************** //
     public void loadCourseListJSON(Context myContext) {
         try {
-            InputStream is = myContext.getAssets().open("course_list.json");
+            InputStream is = myContext.getAssets().open(COURSE_LIST_NAME);
             int size = is.available();
             byte[] buffer = new byte[size];
             is.read(buffer);
@@ -88,13 +107,13 @@ public class DataCenter {
         } catch (IOException ex) {
             ex.printStackTrace();
         }catch(JSONException je) {
-            Log.e("jsonErr", "json에러입니당~", je);
+            Log.e("jsonErr", "LoadCourseJson에러입니당~", je);
         }
     }
 
     public void loadSpotListJSON(Context myContext) {
         try {
-            InputStream is = myContext.getAssets().open("position_list.json");
+            InputStream is = myContext.getAssets().open(SPOT_LIST_NAME);
             int size = is.available();
             byte[] buffer = new byte[size];
             is.read(buffer);
@@ -105,7 +124,7 @@ public class DataCenter {
         } catch (IOException ex) {
             ex.printStackTrace();
         }catch(JSONException je) {
-            Log.e("jsonErr", "json에러입니당~", je);
+            Log.e("jsonErr", "LoadSpotJson에러입니당~", je);
         }
     }
 
@@ -114,16 +133,34 @@ public class DataCenter {
         return courseList;
     }
 
+    //모든 스팟 가져오기
     public JSONArray getSpotList()
     {
         return spotList;
     }
 
-    public  JSONArray getCourseItems()
+    //해당 코스의 스팟 가져오기
+    public  JSONArray getCourseItems(JSONObject course_data)
     {
+        try
+        {
+            JSONArray courses = course_data.getJSONArray("course");
+            return  courses;
+        }catch (JSONException je) {
+            Log.e("jsonErr", "getCourseItemsJson에러입니당~", je);
+        }
+
 
         return null;
     }
+
+
+    //모든 스팟 가져오기
+
+    //해당 코스의 스팟 가져오기
+
+    //스팟 데이터 가져오기
+
 
 
     //JSONObject 얻어 오기

@@ -22,7 +22,7 @@ import static com.example.wing.workingsongpa.R.drawable.t_road_n_01;
 
 public class CourseListFlagment extends Fragment {
 
-    String[] imageNames = {"t_road_n_01","t_road_n_02","t_road_n_03"};
+    String[] imageNames = {"t_road_n_01","t_road_n_02","t_road_n_03","t_road_n_02","t_road_n_03","t_road_n_02","t_road_n_03","t_road_n_02","t_road_n_03"};
 
     CourseListViewAdapter adapter;
     public final static String EXTRA_MESSAGE = "com.example.wing.SENDCELLDATA";

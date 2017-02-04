@@ -135,9 +135,10 @@ public class MapResourseProvider extends NMapResourceProvider {
     // Resource Ids for single icons
     private final ResourceIdsOnMap mResourceIdsForMarkerOnMap[] = {
 //             Spot, Pin icons
-            new ResourceIdsOnMap(MapFlagType.PIN, R.drawable.ic_pin_01, R.drawable.ic_pin_02),
             new ResourceIdsOnMap(MapFlagType.SPOT, R.drawable.ic_pin_01, R.drawable.ic_pin_02),
-
+            new ResourceIdsOnMap(MapFlagType.COURSE, R.drawable.ic_pin_01, R.drawable.ic_pin_02),
+            new ResourceIdsOnMap(MapFlagType.NORMAL, R.drawable.ic_pin_01, R.drawable.ic_pin_02),
+            new ResourceIdsOnMap(MapFlagType.SELECT, R.drawable.ic_pin_01, R.drawable.ic_pin_02)
 //            // Direction POI icons: From, To
 //            new ResourceIdsOnMap(MapFlagType.FROM, R.drawable.ic_map_start, R.drawable.ic_map_start_over),
 //            new ResourceIdsOnMap(MapFlagType.TO, R.drawable.ic_map_arrive, R.drawable.ic_map_arrive_over),

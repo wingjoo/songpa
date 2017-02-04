@@ -3,11 +3,13 @@ package com.example.wing.workingsongpa.MapTab;
 import android.graphics.Rect;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
+import com.example.wing.workingsongpa.Database.DataCenter;
 import com.example.wing.workingsongpa.R;
 import com.nhn.android.maps.NMapCompassManager;
 import com.nhn.android.maps.NMapContext;
@@ -25,6 +27,10 @@ import com.nhn.android.mapviewer.overlay.NMapOverlayManager;
 import com.nhn.android.mapviewer.overlay.NMapPOIdataOverlay;
 import com.nhn.android.mapviewer.overlay.NMapPathDataOverlay;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 
 public class MapFlagment extends Fragment {
     private NMapContext mMapContext;
@@ -37,6 +43,8 @@ public class MapFlagment extends Fragment {
     private NMapLocationManager mMapLocationManager;
     private NMapCompassManager mMapCompassManager;
    private  MapResourseProvider mMapViewerResourceProvider;
+
+    private JSONArray allSpotList;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -64,6 +72,8 @@ public class MapFlagment extends Fragment {
 
         mMapContext.setupMapView(mapView);
 
+        allSpotList = DataCenter.getInstance().getSpotList();
+
          // register listener for map state changes
 //        mMapView.setOnMapStateChangeListener(onMapViewStateChangeListener);
 //        mMapView.setOnMapViewTouchEventListener(onMapViewTouchEventListener);
@@ -84,13 +94,10 @@ public class MapFlagment extends Fragment {
         //매니져 만들고 프로바이더 제공(프로바이더는 리소스 제공객체)
         mOverlayManager = new NMapOverlayManager(getActivity(), mapView, mMapViewerResourceProvider);
         //핀 만들기
-        testPOIdataOverlay();
-                //register callout overlay listener to customize it.
-//        mOverlayManager.setOnCalloutOverlayListener(onCalloutOverlayListener);
-//        // register callout overlay view listener to customize it.
-        mOverlayManager.setOnCalloutOverlayViewListener(onCalloutOverlayViewListener);
+        showALLSpot();
 
-
+        //register callout overlay listener to customize it.
+        //mOverlayManager.setOnCalloutOverlayViewListener(onCalloutOverlayViewListener);
 
         //경로 만들기
        // testPathDataOverlay();
@@ -107,25 +114,25 @@ public class MapFlagment extends Fragment {
 
     }
 
-    private final NMapOverlayManager.OnCalloutOverlayViewListener onCalloutOverlayViewListener = new NMapOverlayManager.OnCalloutOverlayViewListener() {
-
-        @Override
-        public View onCreateCalloutOverlayView(NMapOverlay itemOverlay, NMapOverlayItem overlayItem, Rect itemBounds) {
-
-            if (overlayItem != null) {
-                // [TEST] 말풍선 오버레이를 뷰로 설정함
-                String title = overlayItem.getTitle();
-
-                if (title != null ) {
-                    return new CustomOverlaView(getActivity(), itemOverlay, overlayItem, itemBounds);
-                }
-            }
-
-            // null을 반환하면 말풍선 오버레이를 표시하지 않음
-            return null;
-        }
-
-    };
+//    private final NMapOverlayManager.OnCalloutOverlayViewListener onCalloutOverlayViewListener = new NMapOverlayManager.OnCalloutOverlayViewListener() {
+//
+//        @Override
+//        public View onCreateCalloutOverlayView(NMapOverlay itemOverlay, NMapOverlayItem overlayItem, Rect itemBounds) {
+//
+//            if (overlayItem != null) {
+//                // [TEST] 말풍선 오버레이를 뷰로 설정함
+//                String title = overlayItem.getTitle();
+//
+//                if (title != null ) {
+//                    return new CustomOverlaView(getActivity(), itemOverlay, overlayItem, itemBounds);
+//                }
+//            }
+//
+//            // null을 반환하면 말풍선 오버레이를 표시하지 않음
+//            return null;
+//        }
+//
+//    };
 
     @Override
     public void onStart(){
@@ -156,35 +163,54 @@ public class MapFlagment extends Fragment {
         mMapContext.onDestroy();
         super.onDestroy();
     }
-    //마커 만들기
-    private void testPOIdataOverlay() {
 
-        int markerId = MapFlagType.PIN;
+    private void showALLSpot()
+    {
+        int markerId = MapFlagType.SPOT;
 
-        // set POI data//2 is pin 갯수
-        NMapPOIdata poiData = new NMapPOIdata(2, mMapViewerResourceProvider);
-        poiData.beginPOIdata(2);
-        poiData.addPOIitem(127.101561,37.512587, "롯데월드", markerId, 0);
-//      아이템에 액세서리 추가 방법 샘플 코드
-//       NMapPOIitem item = poiData.addPOIitem(127.0630205, 37.5091300, "Pizza 777-111", markerId, 0);
-//        item.setRightAccessory(true, MapFlagType.CLICKABLE_ARROW);
-        poiData.addPOIitem(127.10645, 37.511063, "석촌호수", markerId, 0);
+        // pin 추가
+        NMapPOIdata poiData = new NMapPOIdata(allSpotList .length(), mMapViewerResourceProvider);
+        poiData.beginPOIdata(allSpotList .length());
+        for(int i = 0; i < allSpotList .length(); i++) {
+            try {
+                JSONObject spotData = allSpotList.getJSONObject(i);
+                int id = spotData.getInt(DataCenter.SPOT_ID);
+                double longi = spotData.getDouble(DataCenter.SPOT_LONGI);
+                double lati = spotData.getDouble(DataCenter.SPOT_LATI);
+                poiData.addPOIitem(longi,lati, null, markerId, 0, id);
+            }catch (JSONException je) {
+                Log.e("jsonErr", "Show all spot 에러입니당~", je);
+            }
+        }
         poiData.endPOIdata();
+
+
+        //NMapPOIitem addPOIitem(NGeoPoint point, String title, int markerId, Object tag, int id)
+
+        poiData.addPOIitem(127.10645, 37.511063, "석촌호수", markerId, 0);
+
+
+
+//      아이템에 액세서리 추가 방법 샘플 코드
+        //       NMapPOIitem item = poiData.addPOIitem(127.0630205, 37.5091300, "Pizza 777-111", markerId, 0);
+//        item.setRightAccessory(true, MapFlagType.CLICKABLE_ARROW);
 
         // create POI data overlay
         NMapPOIdataOverlay poiDataOverlay = mOverlayManager.createPOIdataOverlay(poiData, null);
 
-        // set event listener to the overlay
-        //아이템 선택할때의 리스터
+
+        //아이템 선택할때의 리스러
         poiDataOverlay.setOnStateChangeListener(onPOIdataStateChangeListener);
 
         // select an item
 //        poiDataOverlay.selectPOIitem(0, true);
 
-        // show all POI data
         //전체 화면에 보이기
         poiDataOverlay.showAllPOIdata(0);
     }
+
+
+
 
     private void testPathDataOverlay() {
 
