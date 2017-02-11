@@ -8,20 +8,36 @@
     android:fitsSystemWindows="true"
     tools:openDrawer="start">
 
+
+    <!--<FrameLayout android:layout_width="match_parent"-->
+        <!--android:layout_height="match_parent"-->
+        <!--android:id="@+id/fl_activity_main_container" />-->
+
+    <ListView android:layout_width="240dp"
+        android:layout_height="match_parent"
+        android:id="@+id/main_nav_menu"
+        android:layout_gravity="start"
+        android:choiceMode="singleChoice"
+        android:divider="@android:color/transparent"
+        android:dividerHeight="0dp"
+        android:background="#EDEDED"/>
+
+
     <include
         layout="@layout/app_bar_main"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 
-    //오픈됐을때 보이는 뷰
-    <android.support.design.widget.NavigationView
-        android:id="@+id/nav_view"
-        android:layout_width="wrap_content"
-        android:layout_height="match_parent"
-        android:layout_gravity="start"
-        android:fitsSystemWindows="true"
-        app:headerLayout="@layout/nav_header_main"
-        app:menu="@menu/activit_main_drawer" />
+    <!--
+        //오픈됐을때 보이는 뷰
+        <android.support.design.widget.NavigationView
+            android:id="@+id/nav_view"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_gravity="start"
+            android:fitsSystemWindows="true"
+            app:menu="@menu/activit_main_drawer" />
+        -->
 
 </android.support.v4.widget.DrawerLayout>
 

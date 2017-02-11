@@ -2,35 +2,44 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="horizontal" android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:layout_marginLeft="10dp"
-    android:layout_marginTop="10dp"
-    android:layout_marginRight="10dp"
-    android:layout_marginBottom="10dp"
+    android:layout_height="114dp"
+    android:background = "@color/white"
     >
-
-    <ImageView
-        android:layout_width="76dp"
-        android:layout_height="wrap_content"
-        app:srcCompat="@drawable/mapbg_blank"
-        android:id="@+id/imageView" />
-
     <LinearLayout
-        android:orientation="vertical"
+        android:orientation="horizontal"
+        android:layout_marginLeft="6dp"
+        android:layout_marginTop="14dp"
+        android:layout_marginRight="6dp"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="86dp" >
 
-        <TextView
-            android:text="TextView"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/textView2" />
+        <ImageView
+            android:layout_width="86dp"
+            android:layout_marginRight="8dp"
+            android:layout_height="86dp"
+            android:id="@+id/icon"/>
 
-        <TextView
-            android:text="TextView"
+        <LinearLayout
+            android:orientation="vertical"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/textView3" />
+            android:layout_height="86dp"
+            >
+
+            <TextView
+                android:text="TextView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="14dp"
+                android:textSize="16dp"
+                android:id="@+id/title" />
+
+            <TextView
+                android:text="TextView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="12dp"
+                android:id="@+id/sub_title" />
+        </LinearLayout>
     </LinearLayout>
 
 </LinearLayout>

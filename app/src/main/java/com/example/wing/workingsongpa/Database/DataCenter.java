@@ -58,8 +58,9 @@ import java.io.InputStream;
 
 
 public class DataCenter {
-    public static final String COURSE_LIST_NAME = "courseList.json";
-    public static final String SPOT_LIST_NAME = "spotList.json";
+    private static final String COURSE_LIST_NAME = "courseList.json";
+    private static final String SPOT_LIST_NAME = "spotList.json";
+    private static final String PATH_LIST_NAME = "path.json";
 
     public static final String SPOT_ID = "id";
     public static final String SPOT_TITLE = "title";
@@ -78,6 +79,7 @@ public class DataCenter {
 
     private JSONArray spotList;
     private JSONArray courseList;
+    private JSONObject pathList;
 
     public static DataCenter getInstance(){
         if (sharedInstance == null)
@@ -127,6 +129,23 @@ public class DataCenter {
             Log.e("jsonErr", "LoadSpotJson에러입니당~", je);
         }
     }
+    public void loadPathJSON(Context myContext) {
+        try {
+            InputStream is = myContext.getAssets().open(PATH_LIST_NAME);
+            int size = is.available();
+            byte[] buffer = new byte[size];
+            is.read(buffer);
+            is.close();
+            String  json = new String(buffer, "UTF-8");
+
+            pathList = new JSONObject(json);
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        }catch(JSONException je) {
+            Log.e("jsonErr", "LoadPathJson에러입니당~", je);
+        }
+    }
+
 
     public JSONArray getCourseList()
     {
@@ -139,21 +158,57 @@ public class DataCenter {
         return spotList;
     }
 
-    //해당 코스의 스팟 가져오기
-    public  JSONArray getCourseItems(JSONObject course_data)
+    //해당 코스의 스팟정보 가져오기
+    public  JSONObject getSpotItem(int position)
     {
         try
         {
-            JSONArray courses = course_data.getJSONArray("course");
-            return  courses;
+            JSONObject spotObj = spotList.getJSONObject(position);
+
+            return  spotObj;
         }catch (JSONException je) {
-            Log.e("jsonErr", "getCourseItemsJson에러입니당~", je);
+            Log.e("jsonErr", "getgetSpotItemJson에러입니당~", je);
         }
 
 
         return null;
     }
 
+//    "96":{
+//        "97":[
+//        {
+//            "longitude" : 127.0842,
+//                "latitude" : 37.5108
+//        },
+//        ]
+//    public  JSONObject getAvailablePath(int s_position)
+//    {
+//        String startKey = String.valueOf(s_position);
+//        try
+//        {
+//            String keys = pathList.getJSONObject(startKey) .keys().toString();
+//
+//            return  null;
+//        }catch (JSONException je) {
+//            Log.e("jsonErr", "getCourseItemsJson에러입니당~", je);
+//        }
+//        return null;
+//    }
+
+    //두 점사이의 path구하기
+    public JSONArray getPath(int s_position, int e_position)
+    {
+        String startKey = String.valueOf(s_position);
+        String endKey = String.valueOf(e_position);
+        try
+        {
+            JSONArray path = pathList.getJSONObject(startKey).getJSONArray(endKey);
+            return  path;
+        }catch (JSONException je) {
+            Log.e("jsonErr", "getCourseItemsJson에러입니당~", je);
+        }
+        return null;
+    }
 
     //모든 스팟 가져오기
 

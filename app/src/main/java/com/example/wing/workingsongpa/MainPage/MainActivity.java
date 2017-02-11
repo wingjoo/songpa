@@ -1,6 +1,9 @@
 package com.example.wing.workingsongpa.MainPage;
 
 
+import android.content.Context;
+import android.content.Intent;
+import android.graphics.Color;
 import android.os.Build;
 import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.NavigationView;
@@ -18,25 +21,38 @@ import android.os.Bundle;
 //import android.view.Menu;
 //import android.view.MenuItem;
 import android.util.Log;
+import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.FrameLayout;
+import android.widget.ListView;
 
 import com.example.wing.workingsongpa.CourseList.CourseListFlagment;
+import com.example.wing.workingsongpa.CourseList.CourseListItem;
+import com.example.wing.workingsongpa.CourseList.DetailCourseListActivity;
 import com.example.wing.workingsongpa.Database.DataCenter;
 import com.example.wing.workingsongpa.MapTab.MapFlagment;
 import com.example.wing.workingsongpa.R;
+import com.tsengvn.typekit.TypekitContextWrapper;
 //import android.view.ViewGroup;
 //
 //import android.widget.TextView;
 
 
 
-public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
+public class MainActivity extends AppCompatActivity {
 
     private NonSwipeableViewPager mViewPager;
     private TabLayout tabLayout;
 
     private ActionBarDrawerToggle toggle;
-
+    private DrawerLayout drawer;
+    private String[] navItems = {"Brown", "Cadet Blue", "Dark Olive Green",
+            "Dark Orange", "Golden Rod"};
+    private ListView lvNavList;
+//    private FrameLayout flContainer;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,7 +65,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
-
+        getSupportActionBar().setHomeAsUpIndicator(R.drawable.icon_map_manu_n);
 
         // ****************************데이터*********************** //
 
@@ -58,12 +74,13 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         //spotList
         DataCenter.getInstance().loadSpotListJSON(this);
 
-
+        DataCenter.getInstance().loadPathJSON(this);
 
 
         // ****************************드로우 메뉴*********************** //
 
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+
         toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.drawer_open, R.string.drawer_close);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
@@ -71,15 +88,42 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         } else {
             drawer.setDrawerListener(toggle);
         }
-
-
         // toggle.setDrawerIndicatorEnabled(false);
 
-        getSupportActionBar().setHomeAsUpIndicator(R.drawable.icon_map_manu_n);
+        lvNavList = (ListView)findViewById(R.id.main_nav_menu);
+//        flContainer = (FrameLayout)findViewById(R.id.main_nav_menu);
 
-//        toggle.syncState();
-//        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-//        getSupportActionBar().setHomeButtonEnabled(true);
+        lvNavList.setAdapter(
+                new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, navItems));
+//        lvNavList.setOnItemClickListener(new DrawerItemClickListener());
+
+        //터치 안먹음
+        lvNavList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView parent, View v, int position, long id) {
+                switch (position) {
+                    case 0:
+                        Log.d("click","LoadCourseJson에러입니당~");
+                        break;
+                    case 1:
+                        Log.d("click","LoadCourseJson에러입니당~");
+                        break;
+                    case 2:
+                        Log.d("click","LoadCourseJson에러입니당~");
+                        break;
+                    case 3:
+                        Log.d("click","LoadCourseJson에러입니당~");
+                        break;
+                    case 4:
+                        Log.d("click","LoadCourseJson에러입니당~");
+                        break;
+
+                }
+                drawer.closeDrawer(lvNavList); // 추가됨
+            }
+        }) ;
+
+
 
         AppBarLayout.LayoutParams params = (AppBarLayout.LayoutParams) toolbar.getLayoutParams();
         params.setScrollFlags(0);  // clear all scroll flags
@@ -134,6 +178,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 } else {//맵 탭 선택, 메뉴 버튼 show, add버튼 추가
                     getSupportActionBar().setDisplayHomeAsUpEnabled(true);
                     getSupportActionBar().setHomeButtonEnabled(true);
+
+                    //if 아무런 코스가 선택되지 않았다면..
+                    DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+                    drawer.openDrawer(GravityCompat.START);
                 }
                 //mViewPager.setCurrentItem(tab.getPosition());
             }
@@ -149,8 +197,35 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     }
 
 
+    ////////////////////////드로우 메뉴 테스트
+    /*
+    private class DrawerItemClickListener implements ListView.OnItemClickListener {
 
+        @Override
+        public void onItemClick(AdapterView<?> adapter, View view, int position,
+                                long id) {
+            switch (position) {
+                case 0:
 
+                    break;
+                case 1:
+
+                    break;
+                case 2:
+
+                    break;
+                case 3:
+
+                    break;
+                case 4:
+
+                    break;
+
+            }
+            drawer.closeDrawer(lvNavList); // 추가됨
+        }
+    }
+*/
 //        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
 //        navigationView.setNavigationItemSelectedListener(this);
 
@@ -181,8 +256,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         viewPager.setAdapter(adapter);
     }
 
-
-/*
+    /*
+    //메뉴 구성시 생성
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
@@ -190,13 +265,27 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         return true;
     }
+    //추가 메뉴
 
+
+    //Android 3.0 이상에서는 메뉴 항목이 앱 바에 표시되어 있는 경우 항상 옵션 메뉴가 열려 있는 것으로 간주됩니다. 이벤트가 발생하고 메뉴 업데이트를 수행하고자 하는 경우,
+    // invalidateOptionsMenu()를 호출하여 시스템이 onPrepareOptionsMenu()를 호출하도록 요청해야 합니다.
     @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
+    public boolean onPrepareOptionsMenu(Menu menu) {
 
-        return super.onOptionsItemSelected(item);
+
+        return super.onPrepareOptionsMenu(menu);
     }
-*/
+
+
+
+        @Override
+        public boolean onOptionsItemSelected(MenuItem item) {
+
+            return super.onOptionsItemSelected(item);
+        }
+
+    //메뉴가 눌렸을때 실행
     @SuppressWarnings("StatementWithEmptyBody")
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
@@ -216,10 +305,31 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         } else if (id == R.id.nav_send) {
 
         }
-
+        //메뉴 닫기
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
     }
 
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.nav_camera:
+            case R.id.nav_gallery:
+                if (item.isChecked()) item.setChecked(false);
+                else item.setChecked(true);
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
+*/
+    @Override
+    protected void attachBaseContext(Context newBase) {
+
+        super.attachBaseContext(TypekitContextWrapper.wrap(newBase));
+
+    }
+
 }
+

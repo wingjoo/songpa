@@ -48,7 +48,7 @@ public class CourseListFlagment extends Fragment {
             {
                 JSONObject itemData = courseList .getJSONObject(i);
                 //이미지 리소스 아이디
-                int resID  = getResources().getIdentifier(imageNames[i] , "drawable", "com.example.wing.workingsongpa");
+                int resID  = getResources().getIdentifier("sample" , "drawable", "com.example.wing.workingsongpa");
                 adapter.addItem(ContextCompat.getDrawable(getActivity(), resID),itemData);
 
             }catch (JSONException je)
@@ -69,6 +69,7 @@ public class CourseListFlagment extends Fragment {
                 //next activity
                 Intent intent = new Intent(getActivity(), DetailCourseListActivity.class);
 
+                String sendStr = item.getItemData().toString();
                 //intent를 통해서 json객체 전송(string으로 변환
                 intent.putExtra(EXTRA_MESSAGE, item.getItemData().toString());
                 startActivity(intent);

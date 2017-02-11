@@ -1,5 +1,6 @@
 package com.example.wing.workingsongpa.CourseList;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
 import android.os.PersistableBundle;
@@ -14,6 +15,7 @@ import android.widget.TextView;
 
 import com.example.wing.workingsongpa.Database.DataCenter;
 import com.example.wing.workingsongpa.R;
+import com.tsengvn.typekit.TypekitContextWrapper;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -33,7 +35,7 @@ public class DetailCourseListActivity extends AppCompatActivity {
         setContentView(R.layout.activity_detail_course_list);
 
         //풀스크린 안됨
-        fullScreencall();
+       // fullScreencall();
 
         JSONObject jsonObj;
         Intent intent = getIntent();
@@ -63,12 +65,16 @@ public class DetailCourseListActivity extends AppCompatActivity {
                     JSONObject courseObject = courseList.getJSONObject(c);
                     String c_info = courseObject.getString("course_info");
                     JSONArray spotList =  courseObject.getJSONArray("spot");
+                    //[1,2,3,4,]
                     //스팟
                     for(int i = 0; i < spotList.length(); i++){
                         try
                         {
+
+                            String spotIndex = spotList.getString(i).toString();
+                            int position = Integer.parseInt(spotIndex);
+                            JSONObject itemData = DataCenter.getInstance().getSpotItem(position);
                             /**********************************/
-                            JSONObject itemData = spotList.getJSONObject(i);
                             String img_url = itemData.getString("default_img").toString();
                             //이미지 리소스 아이디
                             int resID  = getResources().getIdentifier(img_url  , "drawable", "com.example.wing.workingsongpa");
@@ -105,6 +111,14 @@ public class DetailCourseListActivity extends AppCompatActivity {
         }
 
     }
+
+    @Override
+    protected void attachBaseContext(Context newBase) {
+
+        super.attachBaseContext(TypekitContextWrapper.wrap(newBase));
+
+    }
+
 
 
     public void fullScreencall() {

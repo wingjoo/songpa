@@ -33,7 +33,7 @@ public class CourseListViewAdapter extends BaseAdapter {
     // position에 위치한 데이터를 화면에 출력하는데 사용될 View를 리턴. : 필수 구현
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        final int pos = position;
+
         final Context context = parent.getContext();
 
         // "listview_item" Layout을 inflate하여 convertView 참조 획득.
@@ -48,12 +48,9 @@ public class CourseListViewAdapter extends BaseAdapter {
         //*************UI구성**************//
         // 화면에 표시될 View(Layout이 inflate된)으로부터 위젯에 대한 참조 획득
         ImageView iconImageView = (ImageView) convertView.findViewById(R.id.item_bg) ;
-        //TextView titleTextView = (TextView) convertView.findViewById(R.id.title) ;
 
         // 아이템 내 각 위젯에 데이터 반영
         iconImageView.setImageDrawable(listViewItem.getIcon());
-        //titleTextView.setText(listViewItem.getTitle());
-
 
         return convertView;
     }

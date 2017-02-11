@@ -44,6 +44,10 @@ public class MapFlagment extends Fragment {
     private NMapCompassManager mMapCompassManager;
    private  MapResourseProvider mMapViewerResourceProvider;
 
+
+    //overaly
+    NMapPOIdataOverlay allPinOverlay;
+    NMapPOIdataOverlay courseOverlay;
     private JSONArray allSpotList;
 
     @Override
@@ -96,12 +100,8 @@ public class MapFlagment extends Fragment {
         //핀 만들기
         showALLSpot();
 
+        hideAllSopot();
         //register callout overlay listener to customize it.
-        //mOverlayManager.setOnCalloutOverlayViewListener(onCalloutOverlayViewListener);
-
-        //경로 만들기
-       // testPathDataOverlay();
-
 //        // location manager
 //        mMapLocationManager = new NMapLocationManager(getActivity());
 //        mMapLocationManager.setOnLocationChangeListener(onMyLocationChangeListener);
@@ -168,51 +168,101 @@ public class MapFlagment extends Fragment {
     {
         int markerId = MapFlagType.SPOT;
 
-        // pin 추가
-        NMapPOIdata poiData = new NMapPOIdata(allSpotList .length(), mMapViewerResourceProvider);
-        poiData.beginPOIdata(allSpotList .length());
-        for(int i = 0; i < allSpotList .length(); i++) {
-            try {
-                JSONObject spotData = allSpotList.getJSONObject(i);
-                int id = spotData.getInt(DataCenter.SPOT_ID);
-                double longi = spotData.getDouble(DataCenter.SPOT_LONGI);
-                double lati = spotData.getDouble(DataCenter.SPOT_LATI);
-                poiData.addPOIitem(longi,lati, null, markerId, 0, id);
-            }catch (JSONException je) {
-                Log.e("jsonErr", "Show all spot 에러입니당~", je);
+        if (allPinOverlay == null)
+        {
+            NMapPOIdata poiData = new NMapPOIdata(allSpotList .length(), mMapViewerResourceProvider);
+            poiData.beginPOIdata(allSpotList .length());
+            //0번 index는 빈데이터
+            for(int i = 1; i < allSpotList .length(); i++) {
+                try {
+                    JSONObject spotData = allSpotList.getJSONObject(i);
+                    int id = spotData.getInt(DataCenter.SPOT_ID);
+                    double longi = spotData.getDouble(DataCenter.SPOT_LONGI);
+                    double lati = spotData.getDouble(DataCenter.SPOT_LATI);
+                    //NMapPOIitem addPOIitem(NGeoPoint point, String title, int markerId, Object tag, int id)
+                    poiData.addPOIitem(longi,lati, null, markerId, 0, id);
+                }catch (JSONException je) {
+                    Log.e("jsonErr", "Show all spot 에러입니당~", je);
+                }
             }
-        }
-        poiData.endPOIdata();
-
-
-        //NMapPOIitem addPOIitem(NGeoPoint point, String title, int markerId, Object tag, int id)
-
-        poiData.addPOIitem(127.10645, 37.511063, "석촌호수", markerId, 0);
-
+            poiData.endPOIdata();
 
 
 //      아이템에 액세서리 추가 방법 샘플 코드
-        //       NMapPOIitem item = poiData.addPOIitem(127.0630205, 37.5091300, "Pizza 777-111", markerId, 0);
+            //       NMapPOIitem item = poiData.addPOIitem(127.0630205, 37.5091300, "Pizza 777-111", markerId, 0);
 //        item.setRightAccessory(true, MapFlagType.CLICKABLE_ARROW);
 
-        // create POI data overlay
-        NMapPOIdataOverlay poiDataOverlay = mOverlayManager.createPOIdataOverlay(poiData, null);
+            // create POI data overlay
+            allPinOverlay = mOverlayManager.createPOIdataOverlay(poiData, null);
 
+            //아이템 선택할때의 리스러
+            allPinOverlay.setOnStateChangeListener(onPOIdataStateChangeListener);
 
-        //아이템 선택할때의 리스러
-        poiDataOverlay.setOnStateChangeListener(onPOIdataStateChangeListener);
-
-        // select an item
+            // select an item
 //        poiDataOverlay.selectPOIitem(0, true);
+            allPinOverlay = allPinOverlay;
+        }
+
+        // pin 추가
 
         //전체 화면에 보이기
-        poiDataOverlay.showAllPOIdata(0);
+        allPinOverlay.showAllPOIdata(0);
+    }
+
+    private void hideAllSopot()
+    {
+        mOverlayManager.clearCalloutOverlayWith(allPinOverlay);
+    }
+
+    //courseList
+    //
+    public void showCourseList(JSONArray courseList)
+    {
+        int markerId = MapFlagType.COURSE;
+
+
+            NMapPOIdata poiData = new NMapPOIdata(allSpotList .length(), mMapViewerResourceProvider);
+            poiData.beginPOIdata(allSpotList .length());
+            for(int i = 0; i < allSpotList .length(); i++) {
+                try {
+                    JSONObject spotData = allSpotList.getJSONObject(i);
+                    int id = spotData.getInt(DataCenter.SPOT_ID);
+                    double longi = spotData.getDouble(DataCenter.SPOT_LONGI);
+                    double lati = spotData.getDouble(DataCenter.SPOT_LATI);
+                    //NMapPOIitem addPOIitem(NGeoPoint point, String title, int markerId, Object tag, int id)
+                    poiData.addPOIitem(longi,lati, null, markerId, 0, id);
+                }catch (JSONException je) {
+                    Log.e("jsonErr", "Show all spot 에러입니당~", je);
+                }
+            }
+            poiData.endPOIdata();
+
+
+//      아이템에 액세서리 추가 방법 샘플 코드
+            //       NMapPOIitem item = poiData.addPOIitem(127.0630205, 37.5091300, "Pizza 777-111", markerId, 0);
+//        item.setRightAccessory(true, MapFlagType.CLICKABLE_ARROW);
+
+            // create POI data overlay
+            NMapPOIdataOverlay poiDataOverlay = mOverlayManager.createPOIdataOverlay(poiData, null);
+
+            //아이템 선택할때의 리스러
+            poiDataOverlay.setOnStateChangeListener(onPOIdataStateChangeListener);
+
+            // select an item
+//        poiDataOverlay.selectPOIitem(0, true);
+            allPinOverlay = poiDataOverlay;
+        }
+
+
     }
 
 
 
 
+
     private void testPathDataOverlay() {
+
+
 
         // set path data points
         NMapPathData pathData = new NMapPathData(6);

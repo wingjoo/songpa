@@ -27,6 +27,8 @@ dependencies {
     compile 'com.naver.maps.open:naver-map-api:2.1.2@aar'
     compile 'com.android.support:appcompat-v7:25.0.1'
     compile 'com.android.support:design:25.0.1'
+    compile 'com.tsengvn:Typekit:1.0.0'
+    
    // compile 'com.ikimuhendis:ldrawer:0.1'
 
     testCompile 'junit:junit:4.12'
