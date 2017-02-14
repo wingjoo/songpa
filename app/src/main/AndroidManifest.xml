@@ -20,6 +20,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:name=".ApplicationClass"
+        android:largeHeap="true"
         >
         <activity
             android:name=".MainPage.MainActivity"

@@ -6,4 +6,14 @@
     <color name="mainBG">#1E1E1E</color>
     <color name="line">#D0D0D0</color>
     <color name="white">#FFFFFF</color>
+
+    <color name="color_course1">#fbb829</color>
+    <color name="color_course2">#7ab318</color>
+    <color name="color_course3">#b90504</color>
+    <color name="color_course4">#7e1a0b</color>
+    <color name="color_course5">#e94e76</color>
+    <color name="color_course6">#0c486c</color>
+    <color name="color_course7">#fa6900</color>
+    <color name="color_course8">#b62842</color>
+    <color name="color_course9">#FFFFFF</color>
 </resources>

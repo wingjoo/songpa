@@ -2,7 +2,12 @@ package com.example.wing.workingsongpa.Database;
 
 import android.content.Context;
 import android.content.res.AssetManager;
+import android.support.v4.content.ContextCompat;
 import android.util.Log;
+
+import com.example.wing.workingsongpa.ApplicationClass;
+import com.example.wing.workingsongpa.CourseList.EntryItem;
+import com.example.wing.workingsongpa.R;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -10,6 +15,18 @@ import org.json.JSONObject;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.ArrayList;
+
+import static com.example.wing.workingsongpa.Database.DataCenter.CourseType.COURSE_TYPE_NON;
+import static com.example.wing.workingsongpa.Database.DataCenter.CourseType.COURSE_TYPE_ROAD1;
+import static com.example.wing.workingsongpa.Database.DataCenter.CourseType.COURSE_TYPE_ROAD2;
+import static com.example.wing.workingsongpa.Database.DataCenter.CourseType.COURSE_TYPE_ROAD3;
+import static com.example.wing.workingsongpa.Database.DataCenter.CourseType.COURSE_TYPE_ROAD4;
+import static com.example.wing.workingsongpa.Database.DataCenter.CourseType.COURSE_TYPE_ROAD5;
+import static com.example.wing.workingsongpa.Database.DataCenter.CourseType.COURSE_TYPE_ROAD6;
+import static com.example.wing.workingsongpa.Database.DataCenter.CourseType.COURSE_TYPE_ROAD7;
+import static com.example.wing.workingsongpa.Database.DataCenter.CourseType.COURSE_TYPE_ROAD8;
+import static com.example.wing.workingsongpa.Database.DataCenter.CourseType.COURSE_TYPE_ROAD9;
 
 /**
  * Created by knightjym on 2017. 2. 1..
@@ -27,6 +44,7 @@ import java.io.InputStream;
                     “infor_use”:string
                     “total_distan”:string
                     “walking_time”:string
+                    "image_url":"t_road_n_08",
                     “course":[
                         {
                             "course_info":"어쩌구저쩌구",
@@ -53,6 +71,10 @@ import java.io.InputStream;
                 }
 
             ]
+               "start{
+        "longitude" : 127.1073,
+        "latitude" : 37.51363
+      },
         */
 
 
@@ -73,7 +95,25 @@ public class DataCenter {
     public static final String SPOT_MAIN_IMG = "default_img";
     public static final String SPOT_IMG_LIST = "img_list";
 
+    public static final String COURSE_COURSELIST = "course";
+    public static final String COURSE_STORY = "story";
+    public static final String COURSE_SPECIALTY = "specialty";
+    public static final String COURSE_INFORUSE = "infor_use";
+    public static final String COURSE_IMG_URL = "image_url";
 
+    public enum CourseType
+    {
+        COURSE_TYPE_NON,
+        COURSE_TYPE_ROAD1,
+        COURSE_TYPE_ROAD2,
+        COURSE_TYPE_ROAD3,
+        COURSE_TYPE_ROAD4,
+        COURSE_TYPE_ROAD5,
+        COURSE_TYPE_ROAD6,
+        COURSE_TYPE_ROAD7,
+        COURSE_TYPE_ROAD8,
+        COURSE_TYPE_ROAD9
+    }
 
    private volatile static DataCenter sharedInstance;
 
@@ -147,10 +187,46 @@ public class DataCenter {
     }
 
 
-    public JSONArray getCourseList()
+    public ArrayList<JSONObject> getCourseList()
     {
-        return courseList;
+        ArrayList<JSONObject> list = new ArrayList<JSONObject>();
+        for(int c = 0; c < courseList .length(); c++)
+        {
+            try
+            {
+                JSONObject courseObject = courseList.getJSONObject(c);
+                list.add(courseObject);
+
+            }catch (JSONException je)
+            {
+                Log.e("jsonErr", "getCourseList에러입니당~", je);
+                break;
+            }
+        }
+        return list;
     }
+
+    public ArrayList<JSONObject> allCourseList()
+    {
+        //기본만 가져오기
+        ArrayList<JSONObject> list = new ArrayList<JSONObject>();
+        for(int c = 0; c < courseList .length(); c++)
+         {
+             try
+             {
+                 JSONObject courseObject = courseList.getJSONObject(c);
+                 list.add(courseObject);
+
+             }catch (JSONException je)
+             {
+                 Log.e("jsonErr", "getCourseList에러입니당~", je);
+                 break;
+             }
+         }
+
+        return list;
+    }
+
 
     //모든 스팟 가져오기
     public JSONArray getSpotList()
@@ -174,40 +250,124 @@ public class DataCenter {
         return null;
     }
 
-//    "96":{
+
+    //String[spot_id]
+    public  ArrayList<JSONObject>  getAllPath(ArrayList<String> spot_list)
+    {
+        ArrayList<JSONObject> allPath = new ArrayList<JSONObject>();
+        try
+        {
+            for (int c=0; c<spot_list.size()-1; c++) {
+                String start_id = spot_list.get(c).toString();
+                String end_id = spot_list.get(c+1).toString();
+                //모든 스팟에서 해당 스팟의 데이터 가져오기
+                JSONArray pathList = getBetweenPath(start_id,end_id);
+                for (int i=0; i<pathList.length(); i++) {
+                    JSONObject pathObj = pathList.getJSONObject(i);
+                    allPath.add(pathObj);
+                }
+            }
+
+            return  allPath;
+        }catch (JSONException je) {
+            Log.e("jsonErr", "getAvailablePath에러입니당~", je);
+        }
+        return null;
+    }
+
+    //    "96":{
 //        "97":[
 //        {
 //            "longitude" : 127.0842,
 //                "latitude" : 37.5108
 //        },
 //        ]
-//    public  JSONObject getAvailablePath(int s_position)
-//    {
-//        String startKey = String.valueOf(s_position);
-//        try
-//        {
-//            String keys = pathList.getJSONObject(startKey) .keys().toString();
-//
-//            return  null;
-//        }catch (JSONException je) {
-//            Log.e("jsonErr", "getCourseItemsJson에러입니당~", je);
-//        }
-//        return null;
-//    }
-
     //두 점사이의 path구하기
-    public JSONArray getPath(int s_position, int e_position)
+    private JSONArray getBetweenPath(String startKey, String endKey)
     {
-        String startKey = String.valueOf(s_position);
-        String endKey = String.valueOf(e_position);
         try
         {
             JSONArray path = pathList.getJSONObject(startKey).getJSONArray(endKey);
             return  path;
         }catch (JSONException je) {
-            Log.e("jsonErr", "getCourseItemsJson에러입니당~", je);
+            Log.e("jsonErr", "getPath에러입니당~", je);
         }
         return null;
+    }
+
+
+    public CourseType getCourseTypeWithID(int courseID)
+    {
+        CourseType type = COURSE_TYPE_NON;
+        switch (courseID)
+        {
+            case 0:
+                type = COURSE_TYPE_ROAD1;
+                break;
+            case 1:
+                type = COURSE_TYPE_ROAD2;
+                break;
+            case 2:
+                type = COURSE_TYPE_ROAD3;
+                break;
+            case 3:
+                type = COURSE_TYPE_ROAD4;
+                break;
+            case 4:
+                type = COURSE_TYPE_ROAD5;
+                break;
+            case 5:
+                type = COURSE_TYPE_ROAD6;
+                break;
+            case 6:
+                type = COURSE_TYPE_ROAD7;
+                break;
+            case 7:
+                type = COURSE_TYPE_ROAD8;
+                break;
+            case 8:
+                type = COURSE_TYPE_ROAD9;
+                break;
+
+        }
+         return type;
+    }
+
+
+    public int getColorWithType(CourseType type)
+    {
+        int color = R.color.color_course1;
+        switch (type)
+        {
+            case COURSE_TYPE_ROAD1:
+                color = R.color.color_course1;
+                break;
+            case COURSE_TYPE_ROAD2:
+                color = R.color.color_course2;
+                break;
+            case COURSE_TYPE_ROAD3:
+                color = R.color.color_course3;
+                break;
+            case COURSE_TYPE_ROAD4:
+                color = R.color.color_course4;
+                break;
+            case COURSE_TYPE_ROAD5:
+                color = R.color.color_course5;
+                break;
+            case COURSE_TYPE_ROAD6:
+                color = R.color.color_course6;
+                break;
+            case COURSE_TYPE_ROAD7:
+                color = R.color.color_course7;
+                break;
+            case COURSE_TYPE_ROAD8:
+                color = R.color.color_course8;
+                break;
+            case COURSE_TYPE_ROAD9:
+                color = R.color.color_course9;
+                break;
+        }
+        return color;
     }
 
     //모든 스팟 가져오기

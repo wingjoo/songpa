@@ -19,9 +19,9 @@
             <ImageView
                 android:id="@+id/detail_titleView"
                 android:layout_width="fill_parent"
-                android:layout_height="154dp"
+                android:layout_height="wrap_content"
                 app:srcCompat="@drawable/t_road_n_02"
-                android:scaleType="centerCrop"
+                android:scaleType="fitCenter"
                  />
 
 

@@ -9,8 +9,8 @@
 		"latitude": 37.50405,
 		"longitude": 127.10203,
 		"group_type": 1,
-		"default_img": 0,
-		"img_list": 0
+		"default_img": "",
+		"img_list": ""
 	},
 	{
 		"id": 1,
@@ -22,8 +22,8 @@
 		"latitude": 37.51261,
 		"longitude": 127.102082,
 		"group_type": 1,
-		"default_img": 0,
-		"img_list": 0
+		"default_img": "",
+		"img_list": ""
 	},
 	{
 		"id": 2,
@@ -35,8 +35,8 @@
 		"latitude": 37.52261,
 		"longitude": 127.202082,
 		"group_type": 0,
-		"default_img": 0,
-		"img_list": 0
+		"default_img": "",
+		"img_list": ""
 	},
 	{
 		"id": 3,
@@ -48,8 +48,8 @@
 		"latitude": 37.51086,
 		"longitude": 127.07645,
 		"group_type": 2,
-		"default_img": 0,
-		"img_list": 0
+		"default_img": "",
+		"img_list": ""
 	},
 	{
 		"id": 4,
@@ -61,8 +61,8 @@
 		"latitude": 37.515,
 		"longitude": 127.09198,
 		"group_type": 0,
-		"default_img": 0,
-		"img_list": 0
+		"default_img": "",
+		"img_list": ""
 	},
 	{
 		"id": 5,
@@ -74,8 +74,8 @@
 		"latitude": 37.51657,
 		"longitude": 127.11395,
 		"group_type": 0,
-		"default_img": 0,
-		"img_list": 0
+		"default_img": "",
+		"img_list": ""
 	},
 	{
 		"id": 6,
@@ -87,8 +87,8 @@
 		"latitude": 37.51107,
 		"longitude": 127.10537,
 		"group_type": 0,
-		"default_img": 0,
-		"img_list": 0
+		"default_img": "",
+		"img_list": ""
 	},
 	{
 		"id": 7,
@@ -100,8 +100,8 @@
 		"latitude": 37.51187,
 		"longitude": 127.10404,
 		"group_type": 1,
-		"default_img": 0,
-		"img_list": 0
+		"default_img": "",
+		"img_list": ""
 	},
 	{
 		"id": 8,
@@ -113,8 +113,8 @@
 		"latitude": 37.50326,
 		"longitude": 127.10709,
 		"group_type": 1,
-		"default_img": 0,
-		"img_list": 0
+		"default_img": "",
+		"img_list": ""
 	},
 	{
 		"id": 9,
@@ -126,8 +126,8 @@
 		"latitude": 37.5107,
 		"longitude": 127.10152,
 		"group_type": 0,
-		"default_img": 0,
-		"img_list": 0
+		"default_img": "",
+		"img_list": ""
 	},
 	{
 		"id": 10,
@@ -139,8 +139,8 @@
 		"latitude": 37.51331,
 		"longitude": 127.0996,
 		"group_type": 1,
-		"default_img": 0,
-		"img_list": 0
+		"default_img": "",
+		"img_list": ""
 	},
 	{
 		"id": 11,
@@ -152,8 +152,8 @@
 		"latitude": 37.50675,
 		"longitude": 127.1004,
 		"group_type": 0,
-		"default_img": 0,
-		"img_list": 0
+		"default_img": "",
+		"img_list": ""
 	},
 	{
 		"id": 12,
@@ -165,8 +165,8 @@
 		"latitude": 37.48689,
 		"longitude": 127.12031,
 		"group_type": 0,
-		"default_img": 0,
-		"img_list": 0
+		"default_img": "",
+		"img_list": ""
 	},
 	{
 		"id": 13,
@@ -178,8 +178,8 @@
 		"latitude": 37.48647,
 		"longitude": 127.12054,
 		"group_type": 0,
-		"default_img": 0,
-		"img_list": 0
+		"default_img": "",
+		"img_list": ""
 	},
 	{
 		"id": 14,
@@ -191,8 +191,8 @@
 		"latitude": 37.49422,
 		"longitude": 127.14394,
 		"group_type": 0,
-		"default_img": 0,
-		"img_list": 0
+		"default_img": "",
+		"img_list": ""
 	},
 	{
 		"id": 15,
@@ -204,8 +204,8 @@
 		"latitude": 37.49537,
 		"longitude": 127.13481,
 		"group_type": 0,
-		"default_img": 0,
-		"img_list": 0
+		"default_img": "",
+		"img_list": ""
 	},
 	{
 		"id": 16,
@@ -217,8 +217,8 @@
 		"latitude": 37.49385,
 		"longitude": 127.1309,
 		"group_type": 0,
-		"default_img": 0,
-		"img_list": 0
+		"default_img": "",
+		"img_list": ""
 	},
 	{
 		"id": 17,
@@ -230,8 +230,8 @@
 		"latitude": 37.49011,
 		"longitude": 127.13228,
 		"group_type": 0,
-		"default_img": 0,
-		"img_list": 0
+		"default_img": "",
+		"img_list": ""
 	},
 	{
 		"id": 18,
@@ -243,8 +243,8 @@
 		"latitude": 37.50629,
 		"longitude": 127.10998,
 		"group_type": 1,
-		"default_img": 0,
-		"img_list": 0
+		"default_img": "",
+		"img_list": ""
 	},
 	{
 		"id": 19,
@@ -256,8 +256,8 @@
 		"latitude": 37.49457,
 		"longitude": 127.11754,
 		"group_type": 5,
-		"default_img": 0,
-		"img_list": 0
+		"default_img": "",
+		"img_list": ""
 	},
 	{
 		"id": 20,
@@ -269,8 +269,8 @@
 		"latitude": 37.48982,
 		"longitude": 127.10869,
 		"group_type": 5,
-		"default_img": 0,
-		"img_list": 0
+		"default_img": "",
+		"img_list": ""
 	},
 	{
 		"id": 21,
@@ -282,8 +282,8 @@
 		"latitude": 37.50101,
 		"longitude": 127.15867,
 		"group_type": 0,
-		"default_img": 0,
-		"img_list": 0
+		"default_img": "",
+		"img_list": ""
 	},
 	{
 		"id": 22,
@@ -295,8 +295,8 @@
 		"latitude": 37.51874,
 		"longitude": 127.0757,
 		"group_type": 0,
-		"default_img": 0,
-		"img_list": 0
+		"default_img": "",
+		"img_list": ""
 	},
 	{
 		"id": 23,
@@ -308,8 +308,8 @@
 		"latitude": 37.50893,
 		"longitude": 127.08604,
 		"group_type": 2,
-		"default_img": 0,
-		"img_list": 0
+		"default_img": "",
+		"img_list": ""
 	},
 	{
 		"id": 24,
@@ -321,8 +321,8 @@
 		"latitude": 37.5021,
 		"longitude": 127.09321,
 		"group_type": 0,
-		"default_img": 0,
-		"img_list": 0
+		"default_img": "",
+		"img_list": ""
 	},
 	{
 		"id": 25,
@@ -334,8 +334,8 @@
 		"latitude": 37.51351,
 		"longitude": 127.10388,
 		"group_type": 1,
-		"default_img": 0,
-		"img_list": 0
+		"default_img": "",
+		"img_list": ""
 	},
 	{
 		"id": 26,
@@ -347,8 +347,8 @@
 		"latitude": 37.51407,
 		"longitude": 127.10505,
 		"group_type": 1,
-		"default_img": 0,
-		"img_list": 0
+		"default_img": "",
+		"img_list": ""
 	},
 	{
 		"id": 27,
@@ -360,8 +360,8 @@
 		"latitude": 37.52692,
 		"longitude": 127.10838,
 		"group_type": 0,
-		"default_img": 0,
-		"img_list": 0
+		"default_img": "",
+		"img_list": ""
 	},
 	{
 		"id": 28,
@@ -373,8 +373,8 @@
 		"latitude": 37.51663,
 		"longitude": 127.11825,
 		"group_type": 0,
-		"default_img": 0,
-		"img_list": 0
+		"default_img": "",
+		"img_list": ""
 	},
 	{
 		"id": 29,
@@ -386,8 +386,8 @@
 		"latitude": 37.51668,
 		"longitude": 127.12498,
 		"group_type": 3,
-		"default_img": 0,
-		"img_list": 0
+		"default_img": "",
+		"img_list": ""
 	},
 	{
 		"id": 30,
@@ -399,8 +399,8 @@
 		"latitude": 37.51476,
 		"longitude": 127.12769,
 		"group_type": 0,
-		"default_img": 0,
-		"img_list": 0
+		"default_img": "",
+		"img_list": ""
 	},
 	{
 		"id": 31,
@@ -412,8 +412,8 @@
 		"latitude": 37.51915,
 		"longitude": 127.12742,
 		"group_type": 0,
-		"default_img": 0,
-		"img_list": 0
+		"default_img": "",
+		"img_list": ""
 	},
 	{
 		"id": 32,
@@ -425,8 +425,8 @@
 		"latitude": 37.51786,
 		"longitude": 127.12336,
 		"group_type": 0,
-		"default_img": 0,
-		"img_list": 0
+		"default_img": "",
+		"img_list": ""
 	},
 	{
 		"id": 33,
@@ -438,8 +438,8 @@
 		"latitude": 37.52189,
 		"longitude": 127.12361,
 		"group_type": 0,
-		"default_img": 0,
-		"img_list": 0
+		"default_img": "",
+		"img_list": ""
 	},
 	{
 		"id": 34,
@@ -451,8 +451,8 @@
 		"latitude": 37.5215,
 		"longitude": 127.12136,
 		"group_type": 3,
-		"default_img": 0,
-		"img_list": 0
+		"default_img": "",
+		"img_list": ""
 	},
 	{
 		"id": 35,
@@ -464,8 +464,8 @@
 		"latitude": 37.49996,
 		"longitude": 127.13481,
 		"group_type": 0,
-		"default_img": 0,
-		"img_list": 0
+		"default_img": "",
+		"img_list": ""
 	},
 	{
 		"id": 36,
@@ -477,8 +477,8 @@
 		"latitude": 37.51316,
 		"longitude": 127.12765,
 		"group_type": 4,
-		"default_img": 0,
-		"img_list": 0
+		"default_img": "",
+		"img_list": ""
 	},
 	{
 		"id": 37,
@@ -490,8 +490,8 @@
 		"latitude": 37.52013,
 		"longitude": 127.11558,
 		"group_type": 0,
-		"default_img": 0,
-		"img_list": 0
+		"default_img": "",
+		"img_list": ""
 	},
 	{
 		"id": 38,
@@ -503,8 +503,8 @@
 		"latitude": 37.49391,
 		"longitude": 127.13538,
 		"group_type": 0,
-		"default_img": 0,
-		"img_list": 0
+		"default_img": "",
+		"img_list": ""
 	},
 	{
 		"id": 39,
@@ -516,8 +516,8 @@
 		"latitude": 37.48565,
 		"longitude": 127.1339,
 		"group_type": 0,
-		"default_img": 0,
-		"img_list": 0
+		"default_img": "",
+		"img_list": ""
 	},
 	{
 		"id": 40,
@@ -529,8 +529,8 @@
 		"latitude": 37.50244,
 		"longitude": 127.12984,
 		"group_type": 4,
-		"default_img": 0,
-		"img_list": 0
+		"default_img": "",
+		"img_list": ""
 	},
 	{
 		"id": 41,
@@ -542,8 +542,8 @@
 		"latitude": 37.50244,
 		"longitude": 127.12984,
 		"group_type": 0,
-		"default_img": 0,
-		"img_list": 0
+		"default_img": "",
+		"img_list": ""
 	},
 	{
 		"id": 42,
@@ -555,8 +555,8 @@
 		"latitude": 37.50187,
 		"longitude": 127.13056,
 		"group_type": 0,
-		"default_img": 0,
-		"img_list": 0
+		"default_img": "",
+		"img_list": ""
 	},
 	{
 		"id": 43,
@@ -568,8 +568,8 @@
 		"latitude": 37.49768,
 		"longitude": 127.10668,
 		"group_type": 5,
-		"default_img": 0,
-		"img_list": 0
+		"default_img": "",
+		"img_list": ""
 	},
 	{
 		"id": 44,
@@ -581,8 +581,8 @@
 		"latitude": 37.51612,
 		"longitude": 127.10179,
 		"group_type": 0,
-		"default_img": 0,
-		"img_list": 0
+		"default_img": "",
+		"img_list": ""
 	},
 	{
 		"id": 45,
@@ -594,8 +594,8 @@
 		"latitude": 37.50035,
 		"longitude": 127.15681,
 		"group_type": 0,
-		"default_img": 0,
-		"img_list": 0
+		"default_img": "",
+		"img_list": ""
 	},
 	{
 		"id": 46,
@@ -607,8 +607,8 @@
 		"latitude": 37.52998,
 		"longitude": 127.11682,
 		"group_type": 0,
-		"default_img": 0,
-		"img_list": 0
+		"default_img": "",
+		"img_list": ""
 	},
 	{
 		"id": 47,
@@ -620,8 +620,8 @@
 		"latitude": 37.51786,
 		"longitude": 127.11387,
 		"group_type": 0,
-		"default_img": 0,
-		"img_list": 0
+		"default_img": "",
+		"img_list": ""
 	},
 	{
 		"id": 48,
@@ -633,8 +633,8 @@
 		"latitude": 37.51522,
 		"longitude": 127.12194,
 		"group_type": 0,
-		"default_img": 0,
-		"img_list": 0
+		"default_img": "",
+		"img_list": ""
 	},
 	{
 		"id": 49,
@@ -646,8 +646,8 @@
 		"latitude": 37.51285,
 		"longitude": 127.1279,
 		"group_type": 0,
-		"default_img": 0,
-		"img_list": 0
+		"default_img": "",
+		"img_list": ""
 	},
 	{
 		"id": 50,
@@ -659,8 +659,8 @@
 		"latitude": 37.51169,
 		"longitude": 127.11329,
 		"group_type": 1,
-		"default_img": 0,
-		"img_list": 0
+		"default_img": "",
+		"img_list": ""
 	},
 	{
 		"id": 51,
@@ -672,8 +672,8 @@
 		"latitude": 37.48403,
 		"longitude": 127.17713,
 		"group_type": 0,
-		"default_img": 0,
-		"img_list": 0
+		"default_img": "",
+		"img_list": ""
 	},
 	{
 		"id": 52,
@@ -685,8 +685,8 @@
 		"latitude": 37.47862,
 		"longitude": 127.18344,
 		"group_type": 0,
-		"default_img": 0,
-		"img_list": 0
+		"default_img": "",
+		"img_list": ""
 	},
 	{
 		"id": 53,
@@ -698,8 +698,8 @@
 		"latitude": 37.4754,
 		"longitude": 127.1976,
 		"group_type": 0,
-		"default_img": 0,
-		"img_list": 0
+		"default_img": "",
+		"img_list": ""
 	},
 	{
 		"id": 54,
@@ -711,8 +711,8 @@
 		"latitude": 37.47729,
 		"longitude": 127.18081,
 		"group_type": 0,
-		"default_img": 0,
-		"img_list": 0
+		"default_img": "",
+		"img_list": ""
 	},
 	{
 		"id": 55,
@@ -724,8 +724,8 @@
 		"latitude": 37.47374,
 		"longitude": 127.19852,
 		"group_type": 0,
-		"default_img": 0,
-		"img_list": 0
+		"default_img": "",
+		"img_list": ""
 	},
 	{
 		"id": 56,
@@ -737,8 +737,8 @@
 		"latitude": 37.4788,
 		"longitude": 127.17704,
 		"group_type": 0,
-		"default_img": 0,
-		"img_list": 0
+		"default_img": "",
+		"img_list": ""
 	},
 	{
 		"id": 57,
@@ -750,8 +750,8 @@
 		"latitude": 37.48648,
 		"longitude": 127.1287,
 		"group_type": 0,
-		"default_img": 0,
-		"img_list": 0
+		"default_img": "",
+		"img_list": ""
 	},
 	{
 		"id": 58,
@@ -763,8 +763,8 @@
 		"latitude": 37.47807,
 		"longitude": 127.12566,
 		"group_type": 0,
-		"default_img": 0,
-		"img_list": 0
+		"default_img": "",
+		"img_list": ""
 	},
 	{
 		"id": 59,
@@ -776,8 +776,8 @@
 		"latitude": 37.51728,
 		"longitude": 127.06866,
 		"group_type": 0,
-		"default_img": 0,
-		"img_list": 0
+		"default_img": "",
+		"img_list": ""
 	},
 	{
 		"id": 60,
@@ -789,8 +789,8 @@
 		"latitude": 37.51826,
 		"longitude": 127.08029,
 		"group_type": 0,
-		"default_img": 0,
-		"img_list": 0
+		"default_img": "",
+		"img_list": ""
 	},
 	{
 		"id": 61,
@@ -802,8 +802,8 @@
 		"latitude": 37.51728,
 		"longitude": 127.09056,
 		"group_type": 0,
-		"default_img": 0,
-		"img_list": 0
+		"default_img": "",
+		"img_list": ""
 	},
 	{
 		"id": 62,
@@ -815,8 +815,8 @@
 		"latitude": 37.49067,
 		"longitude": 127.15696,
 		"group_type": 0,
-		"default_img": 0,
-		"img_list": 0
+		"default_img": "",
+		"img_list": ""
 	},
 	{
 		"id": 63,
@@ -828,8 +828,8 @@
 		"latitude": 37.48636,
 		"longitude": 127.167,
 		"group_type": 0,
-		"default_img": 0,
-		"img_list": 0
+		"default_img": "",
+		"img_list": ""
 	},
 	{
 		"id": 64,
@@ -841,8 +841,8 @@
 		"latitude": 37.47982,
 		"longitude": 127.17653,
 		"group_type": 0,
-		"default_img": 0,
-		"img_list": 0
+		"default_img": "",
+		"img_list": ""
 	},
 	{
 		"id": 65,
@@ -854,8 +854,8 @@
 		"latitude": 37.48493,
 		"longitude": 127.17584,
 		"group_type": 0,
-		"default_img": 0,
-		"img_list": 0
+		"default_img": "",
+		"img_list": ""
 	},
 	{
 		"id": 66,
@@ -867,8 +867,8 @@
 		"latitude": 37.48682,
 		"longitude": 127.17803,
 		"group_type": 0,
-		"default_img": 0,
-		"img_list": 0
+		"default_img": "",
+		"img_list": ""
 	},
 	{
 		"id": 67,
@@ -880,8 +880,8 @@
 		"latitude": 37.48184,
 		"longitude": 127.18485,
 		"group_type": 0,
-		"default_img": 0,
-		"img_list": 0
+		"default_img": "",
+		"img_list": ""
 	},
 	{
 		"id": 68,
@@ -893,8 +893,8 @@
 		"latitude": 37.48047,
 		"longitude": 127.1843,
 		"group_type": 0,
-		"default_img": 0,
-		"img_list": 0
+		"default_img": "",
+		"img_list": ""
 	},
 	{
 		"id": 69,
@@ -906,8 +906,8 @@
 		"latitude": 37.48037,
 		"longitude": 127.20361,
 		"group_type": 0,
-		"default_img": 0,
-		"img_list": 0
+		"default_img": "",
+		"img_list": ""
 	},
 	{
 		"id": 70,
@@ -919,8 +919,8 @@
 		"latitude": 37.48344,
 		"longitude": 127.20627,
 		"group_type": 0,
-		"default_img": 0,
-		"img_list": 0
+		"default_img": "",
+		"img_list": ""
 	},
 	{
 		"id": 71,
@@ -932,8 +932,8 @@
 		"latitude": 37.47938,
 		"longitude": 127.19936,
 		"group_type": 0,
-		"default_img": 0,
-		"img_list": 0
+		"default_img": "",
+		"img_list": ""
 	},
 	{
 		"id": 72,
@@ -945,8 +945,8 @@
 		"latitude": 37.47417,
 		"longitude": 127.19378,
 		"group_type": 0,
-		"default_img": 0,
-		"img_list": 0
+		"default_img": "",
+		"img_list": ""
 	},
 	{
 		"id": 73,
@@ -958,8 +958,8 @@
 		"latitude": 37.47124,
 		"longitude": 127.18352,
 		"group_type": 0,
-		"default_img": 0,
-		"img_list": 0
+		"default_img": "",
+		"img_list": ""
 	},
 	{
 		"id": 74,
@@ -971,8 +971,8 @@
 		"latitude": 37.47032,
 		"longitude": 127.1855,
 		"group_type": 0,
-		"default_img": 0,
-		"img_list": 0
+		"default_img": "",
+		"img_list": ""
 	},
 	{
 		"id": 75,
@@ -984,8 +984,8 @@
 		"latitude": 37.47128,
 		"longitude": 127.18944,
 		"group_type": 0,
-		"default_img": 0,
-		"img_list": 0
+		"default_img": "",
+		"img_list": ""
 	},
 	{
 		"id": 76,
@@ -997,8 +997,8 @@
 		"latitude": 37.47315,
 		"longitude": 127.18114,
 		"group_type": 0,
-		"default_img": 0,
-		"img_list": 0
+		"default_img": "",
+		"img_list": ""
 	},
 	{
 		"id": 77,
@@ -1010,8 +1010,8 @@
 		"latitude": 37.47851,
 		"longitude": 127.18039,
 		"group_type": 0,
-		"default_img": 0,
-		"img_list": 0
+		"default_img": "",
+		"img_list": ""
 	},
 	{
 		"id": 78,
@@ -1023,8 +1023,8 @@
 		"latitude": 37.51166,
 		"longitude": 127.10216,
 		"group_type": 1,
-		"default_img": 0,
-		"img_list": 0
+		"default_img": "",
+		"img_list": ""
 	},
 	{
 		"id": 79,
@@ -1036,8 +1036,8 @@
 		"latitude": 37.5104,
 		"longitude": 127.10636,
 		"group_type": 1,
-		"default_img": 0,
-		"img_list": 0
+		"default_img": "",
+		"img_list": ""
 	},
 	{
 		"id": 80,
@@ -1049,8 +1049,8 @@
 		"latitude": 37.50747,
 		"longitude": 127.10138,
 		"group_type": 1,
-		"default_img": 0,
-		"img_list": 0
+		"default_img": "",
+		"img_list": ""
 	},
 	{
 		"id": 81,
@@ -1062,8 +1062,8 @@
 		"latitude": 37.51227,
 		"longitude": 127.10035,
 		"group_type": 1,
-		"default_img": 0,
-		"img_list": 0
+		"default_img": "",
+		"img_list": ""
 	},
 	{
 		"id": 82,
@@ -1075,8 +1075,8 @@
 		"latitude": 37.51738,
 		"longitude": 127.08512,
 		"group_type": 2,
-		"default_img": 0,
-		"img_list": 0
+		"default_img": "",
+		"img_list": ""
 	},
 	{
 		"id": 83,
@@ -1088,8 +1088,8 @@
 		"latitude": 37.51847,
 		"longitude": 127.08666,
 		"group_type": 2,
-		"default_img": 0,
-		"img_list": 0
+		"default_img": "",
+		"img_list": ""
 	},
 	{
 		"id": 84,
@@ -1101,8 +1101,8 @@
 		"latitude": 37.52315,
 		"longitude": 127.10071,
 		"group_type": 0,
-		"default_img": 0,
-		"img_list": 0
+		"default_img": "",
+		"img_list": ""
 	},
 	{
 		"id": 85,
@@ -1114,8 +1114,8 @@
 		"latitude": 37.53857,
 		"longitude": 127.12185,
 		"group_type": 0,
-		"default_img": 0,
-		"img_list": 0
+		"default_img": "",
+		"img_list": ""
 	},
 	{
 		"id": 86,
@@ -1127,8 +1127,8 @@
 		"latitude": 37.53751,
 		"longitude": 127.12014,
 		"group_type": 0,
-		"default_img": 0,
-		"img_list": 0
+		"default_img": "",
+		"img_list": ""
 	},
 	{
 		"id": 87,
@@ -1140,8 +1140,8 @@
 		"latitude": 37.53574,
 		"longitude": 127.11673,
 		"group_type": 0,
-		"default_img": 0,
-		"img_list": 0
+		"default_img": "",
+		"img_list": ""
 	},
 	{
 		"id": 88,
@@ -1153,8 +1153,8 @@
 		"latitude": 37.53237,
 		"longitude": 127.11887,
 		"group_type": 0,
-		"default_img": 0,
-		"img_list": 0
+		"default_img": "",
+		"img_list": ""
 	},
 	{
 		"id": 89,
@@ -1166,8 +1166,8 @@
 		"latitude": 37.52448,
 		"longitude": 127.11727,
 		"group_type": 0,
-		"default_img": 0,
-		"img_list": 0
+		"default_img": "",
+		"img_list": ""
 	},
 	{
 		"id": 90,
@@ -1179,8 +1179,8 @@
 		"latitude": 37.52313,
 		"longitude": 127.1196,
 		"group_type": 0,
-		"default_img": 0,
-		"img_list": 0
+		"default_img": "",
+		"img_list": ""
 	},
 	{
 		"id": 91,
@@ -1192,8 +1192,8 @@
 		"latitude": 37.52381,
 		"longitude": 127.12431,
 		"group_type": 3,
-		"default_img": 0,
-		"img_list": 0
+		"default_img": "",
+		"img_list": ""
 	},
 	{
 		"id": 92,
@@ -1205,8 +1205,8 @@
 		"latitude": 37.52054,
 		"longitude": 127.12471,
 		"group_type": 0,
-		"default_img": 0,
-		"img_list": 0
+		"default_img": "",
+		"img_list": ""
 	},
 	{
 		"id": 93,
@@ -1218,8 +1218,8 @@
 		"latitude": 37.51555,
 		"longitude": 127.12214,
 		"group_type": 3,
-		"default_img": 0,
-		"img_list": 0
+		"default_img": "",
+		"img_list": ""
 	},
 	{
 		"id": 94,
@@ -1231,8 +1231,8 @@
 		"latitude": 37.50853,
 		"longitude": 127.1173,
 		"group_type": 3,
-		"default_img": 0,
-		"img_list": 0
+		"default_img": "",
+		"img_list": ""
 	},
 	{
 		"id": 95,
@@ -1244,8 +1244,8 @@
 		"latitude": 37.50067,
 		"longitude": 127.10179,
 		"group_type": 0,
-		"default_img": 0,
-		"img_list": 0
+		"default_img": "",
+		"img_list": ""
 	},
 	{
 		"id": 96,
@@ -1257,8 +1257,8 @@
 		"latitude": 37.5108,
 		"longitude": 127.08424,
 		"group_type": 2,
-		"default_img": 0,
-		"img_list": 0
+		"default_img": "",
+		"img_list": ""
 	},
 	{
 		"id": 97,
@@ -1270,8 +1270,8 @@
 		"latitude": 37.51642,
 		"longitude": 127.08419,
 		"group_type": 2,
-		"default_img": 0,
-		"img_list": 0
+		"default_img": "",
+		"img_list": ""
 	},
 	{
 		"id": 98,
@@ -1283,8 +1283,8 @@
 		"latitude": 37.51798,
 		"longitude": 127.08458,
 		"group_type": 2,
-		"default_img": 0,
-		"img_list": 0
+		"default_img": "",
+		"img_list": ""
 	},
 	{
 		"id": 99,
@@ -1296,8 +1296,8 @@
 		"latitude": 37.52021,
 		"longitude": 127.09312,
 		"group_type": 2,
-		"default_img": 0,
-		"img_list": 0
+		"default_img": "",
+		"img_list": ""
 	},
 	{
 		"id": 100,
@@ -1309,8 +1309,8 @@
 		"latitude": 37.51833,
 		"longitude": 127.0815,
 		"group_type": 2,
-		"default_img": 0,
-		"img_list": 0
+		"default_img": "",
+		"img_list": ""
 	},
 	{
 		"id": 101,
@@ -1322,8 +1322,8 @@
 		"latitude": 37.51633,
 		"longitude": 127.08087,
 		"group_type": 2,
-		"default_img": 0,
-		"img_list": 0
+		"default_img": "",
+		"img_list": ""
 	},
 	{
 		"id": 102,
@@ -1335,8 +1335,8 @@
 		"latitude": 37.51473,
 		"longitude": 127.07795,
 		"group_type": 2,
-		"default_img": 0,
-		"img_list": 0
+		"default_img": "",
+		"img_list": ""
 	},
 	{
 		"id": 103,
@@ -1348,8 +1348,8 @@
 		"latitude": 37.51169,
 		"longitude": 127.07216,
 		"group_type": 2,
-		"default_img": 0,
-		"img_list": 0
+		"default_img": "",
+		"img_list": ""
 	},
 	{
 		"id": 104,
@@ -1361,8 +1361,8 @@
 		"latitude": 37.51512,
 		"longitude": 127.13238,
 		"group_type": 0,
-		"default_img": 0,
-		"img_list": 0
+		"default_img": "",
+		"img_list": ""
 	},
 	{
 		"id": 105,
@@ -1374,8 +1374,8 @@
 		"latitude": 37.51229,
 		"longitude": 127.14001,
 		"group_type": 4,
-		"default_img": 0,
-		"img_list": 0
+		"default_img": "",
+		"img_list": ""
 	},
 	{
 		"id": 106,
@@ -1387,8 +1387,8 @@
 		"latitude": 37.51085,
 		"longitude": 127.14121,
 		"group_type": 0,
-		"default_img": 0,
-		"img_list": 0
+		"default_img": "",
+		"img_list": ""
 	},
 	{
 		"id": 107,
@@ -1400,8 +1400,8 @@
 		"latitude": 37.50788,
 		"longitude": 127.1393,
 		"group_type": 4,
-		"default_img": 0,
-		"img_list": 0
+		"default_img": "",
+		"img_list": ""
 	},
 	{
 		"id": 108,
@@ -1413,8 +1413,8 @@
 		"latitude": 37.50762,
 		"longitude": 127.13658,
 		"group_type": 4,
-		"default_img": 0,
-		"img_list": 0
+		"default_img": "",
+		"img_list": ""
 	},
 	{
 		"id": 109,
@@ -1426,8 +1426,8 @@
 		"latitude": 37.50346,
 		"longitude": 127.13701,
 		"group_type": 0,
-		"default_img": 0,
-		"img_list": 0
+		"default_img": "",
+		"img_list": ""
 	},
 	{
 		"id": 110,
@@ -1439,8 +1439,8 @@
 		"latitude": 37.50173,
 		"longitude": 127.1369,
 		"group_type": 0,
-		"default_img": 0,
-		"img_list": 0
+		"default_img": "",
+		"img_list": ""
 	},
 	{
 		"id": 111,
@@ -1452,8 +1452,8 @@
 		"latitude": 37.50065,
 		"longitude": 127.13955,
 		"group_type": 0,
-		"default_img": 0,
-		"img_list": 0
+		"default_img": "",
+		"img_list": ""
 	},
 	{
 		"id": 112,
@@ -1465,8 +1465,8 @@
 		"latitude": 37.49706,
 		"longitude": 127.1499,
 		"group_type": 0,
-		"default_img": 0,
-		"img_list": 0
+		"default_img": "",
+		"img_list": ""
 	},
 	{
 		"id": 113,
@@ -1478,8 +1478,8 @@
 		"latitude": 37.4874,
 		"longitude": 127.12484,
 		"group_type": 5,
-		"default_img": 0,
-		"img_list": 0
+		"default_img": "",
+		"img_list": ""
 	},
 	{
 		"id": 114,
@@ -1491,8 +1491,8 @@
 		"latitude": 37.48985,
 		"longitude": 127.12431,
 		"group_type": 0,
-		"default_img": 0,
-		"img_list": 0
+		"default_img": "",
+		"img_list": ""
 	},
 	{
 		"id": 115,
@@ -1504,8 +1504,8 @@
 		"latitude": 37.49351,
 		"longitude": 127.11698,
 		"group_type": 5,
-		"default_img": 0,
-		"img_list": 0
+		"default_img": "",
+		"img_list": ""
 	},
 	{
 		"id": 116,
@@ -1517,8 +1517,8 @@
 		"latitude": 37.49867,
 		"longitude": 127.11435,
 		"group_type": 0,
-		"default_img": 0,
-		"img_list": 0
+		"default_img": "",
+		"img_list": ""
 	},
 	{
 		"id": 117,
@@ -1530,8 +1530,8 @@
 		"latitude": 37.50015,
 		"longitude": 127.11312,
 		"group_type": 0,
-		"default_img": 0,
-		"img_list": 0
+		"default_img": "",
+		"img_list": ""
 	},
 	{
 		"id": 118,
@@ -1543,8 +1543,8 @@
 		"latitude": 37.50143,
 		"longitude": 127.11235,
 		"group_type": 5,
-		"default_img": 0,
-		"img_list": 0
+		"default_img": "",
+		"img_list": ""
 	},
 	{
 		"id": 119,
@@ -1556,8 +1556,8 @@
 		"latitude": 37.47889,
 		"longitude": 127.12188,
 		"group_type": 0,
-		"default_img": 0,
-		"img_list": 0
+		"default_img": "",
+		"img_list": ""
 	},
 	{
 		"id": 120,
@@ -1569,8 +1569,8 @@
 		"latitude": 37.47725,
 		"longitude": 127.12204,
 		"group_type": 0,
-		"default_img": 0,
-		"img_list": 0
+		"default_img": "",
+		"img_list": ""
 	},
 	{
 		"id": 121,
@@ -1582,8 +1582,8 @@
 		"latitude": 37.47633,
 		"longitude": 127.12754,
 		"group_type": 0,
-		"default_img": 0,
-		"img_list": 0
+		"default_img": "",
+		"img_list": ""
 	},
 	{
 		"id": 122,
@@ -1595,8 +1595,8 @@
 		"latitude": 37.48088,
 		"longitude": 127.13035,
 		"group_type": 0,
-		"default_img": 0,
-		"img_list": 0
+		"default_img": "",
+		"img_list": ""
 	},
 	{
 		"id": 123,
@@ -1608,8 +1608,8 @@
 		"latitude": 37.48361,
 		"longitude": 127.13409,
 		"group_type": 0,
-		"default_img": 0,
-		"img_list": 0
+		"default_img": "",
+		"img_list": ""
 	},
 	{
 		"id": 124,
@@ -1621,8 +1621,8 @@
 		"latitude": 37.49384,
 		"longitude": 127.13784,
 		"group_type": 0,
-		"default_img": 0,
-		"img_list": 0
+		"default_img": "",
+		"img_list": ""
 	},
 	{
 		"id": 125,
@@ -1634,8 +1634,8 @@
 		"latitude": 37.497,
 		"longitude": 127.13673,
 		"group_type": 0,
-		"default_img": 0,
-		"img_list": 0
+		"default_img": "",
+		"img_list": ""
 	},
 	{
 		"id": 126,
@@ -1647,8 +1647,8 @@
 		"latitude": 37.50123,
 		"longitude": 127.13793,
 		"group_type": 0,
-		"default_img": 0,
-		"img_list": 0
+		"default_img": "",
+		"img_list": ""
 	},
 	{
 		"id": 127,
@@ -1660,8 +1660,8 @@
 		"latitude": 37.51582,
 		"longitude": 127.09922,
 		"group_type": 0,
-		"default_img": 0,
-		"img_list": 0
+		"default_img": "",
+		"img_list": ""
 	},
 	{
 		"id": 128,
@@ -1673,8 +1673,8 @@
 		"latitude": 37.51123,
 		"longitude": 127.09793,
 		"group_type": 1,
-		"default_img": 0,
-		"img_list": 0
+		"default_img": "",
+		"img_list": ""
 	},
 	{
 		"id": 129,
@@ -1686,8 +1686,8 @@
 		"latitude": 37.51391,
 		"longitude": 127.10345,
 		"group_type": 1,
-		"default_img": 0,
-		"img_list": 0
+		"default_img": "",
+		"img_list": ""
 	},
 	{
 		"id": 130,
@@ -1699,8 +1699,8 @@
 		"latitude": 37.51118,
 		"longitude": 127.09773,
 		"group_type": 1,
-		"default_img": 0,
-		"img_list": 0
+		"default_img": "",
+		"img_list": ""
 	},
 	{
 		"id": 131,
@@ -1712,8 +1712,8 @@
 		"latitude": 37.50903,
 		"longitude": 127.09782,
 		"group_type": 1,
-		"default_img": 0,
-		"img_list": 0
+		"default_img": "",
+		"img_list": ""
 	},
 	{
 		"id": 132,
@@ -1725,8 +1725,8 @@
 		"latitude": 37.51057,
 		"longitude": 127.10031,
 		"group_type": 0,
-		"default_img": 0,
-		"img_list": 0
+		"default_img": "",
+		"img_list": ""
 	},
 	{
 		"id": 133,
@@ -1738,8 +1738,8 @@
 		"latitude": 37.51432,
 		"longitude": 127.10782,
 		"group_type": 1,
-		"default_img": 0,
-		"img_list": 0
+		"default_img": "",
+		"img_list": ""
 	},
 	{
 		"id": 134,
@@ -1751,8 +1751,8 @@
 		"latitude": 37.51365,
 		"longitude": 127.10508,
 		"group_type": 0,
-		"default_img": 0,
-		"img_list": 0
+		"default_img": "",
+		"img_list": ""
 	},
 	{
 		"id": 135,
@@ -1764,8 +1764,8 @@
 		"latitude": 37.51391,
 		"longitude": 127.10345,
 		"group_type": 0,
-		"default_img": 0,
-		"img_list": 0
+		"default_img": "",
+		"img_list": ""
 	},
 	{
 		"id": 136,
@@ -1777,8 +1777,8 @@
 		"latitude": 37.5107,
 		"longitude": 127.10152,
 		"group_type": 0,
-		"default_img": 0,
-		"img_list": 0
+		"default_img": "",
+		"img_list": ""
 	},
 	{
 		"id": 137,
@@ -1790,8 +1790,8 @@
 		"latitude": 37.51003,
 		"longitude": 127.09928,
 		"group_type": 0,
-		"default_img": 0,
-		"img_list": 0
+		"default_img": "",
+		"img_list": ""
 	},
 	{
 		"id": 138,
@@ -1803,8 +1803,8 @@
 		"latitude": 37.50675,
 		"longitude": 127.1004,
 		"group_type": 1,
-		"default_img": 0,
-		"img_list": 0
+		"default_img": "",
+		"img_list": ""
 	},
 	{
 		"id": 139,
@@ -1816,8 +1816,8 @@
 		"latitude": 37.50569,
 		"longitude": 127.10132,
 		"group_type": 0,
-		"default_img": 0,
-		"img_list": 0
+		"default_img": "",
+		"img_list": ""
 	}
 
 ]

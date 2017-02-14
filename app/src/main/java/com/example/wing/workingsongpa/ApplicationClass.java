@@ -19,4 +19,10 @@ public class ApplicationClass extends  android.app.Application {
                 .addBold(Typekit.createFromAsset(this, "NanumGothicBold.ttf"));
 
     }
+
+    public static interface Item {
+
+        public boolean isSection();
+
+    }
 }

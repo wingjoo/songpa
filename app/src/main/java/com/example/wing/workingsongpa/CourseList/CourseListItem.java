@@ -22,6 +22,7 @@ public class CourseListItem {
 //    }
 
 
+
     public Drawable getIcon() {
         return this.iconDrawable ;
     }

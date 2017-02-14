@@ -29,6 +29,7 @@ import android.widget.ArrayAdapter;
 import android.widget.FrameLayout;
 import android.widget.ListView;
 
+import com.example.wing.workingsongpa.ApplicationClass;
 import com.example.wing.workingsongpa.CourseList.CourseListFlagment;
 import com.example.wing.workingsongpa.CourseList.CourseListItem;
 import com.example.wing.workingsongpa.CourseList.DetailCourseListActivity;
@@ -36,6 +37,14 @@ import com.example.wing.workingsongpa.Database.DataCenter;
 import com.example.wing.workingsongpa.MapTab.MapFlagment;
 import com.example.wing.workingsongpa.R;
 import com.tsengvn.typekit.TypekitContextWrapper;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.util.ArrayList;
+
+import static com.example.wing.workingsongpa.CourseList.CourseListFlagment.EXTRA_MESSAGE;
 //import android.view.ViewGroup;
 //
 //import android.widget.TextView;
@@ -52,17 +61,16 @@ public class MainActivity extends AppCompatActivity {
     private String[] navItems = {"Brown", "Cadet Blue", "Dark Olive Green",
             "Dark Orange", "Golden Rod"};
     private ListView lvNavList;
-//    private FrameLayout flContainer;
+
+    private boolean isSelectedCourse;
+    private MapFlagment mapFlagment;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-//        TextView title =  (TextView)toolbar.findViewById(R.id.toolbar_title);
-//        title.setText("걷고싶은 거리 송파");
-
-
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
         getSupportActionBar().setHomeAsUpIndicator(R.drawable.icon_map_manu_n);
@@ -75,7 +83,7 @@ public class MainActivity extends AppCompatActivity {
         DataCenter.getInstance().loadSpotListJSON(this);
 
         DataCenter.getInstance().loadPathJSON(this);
-
+        isSelectedCourse = false;
 
         // ****************************드로우 메뉴*********************** //
 
@@ -89,40 +97,31 @@ public class MainActivity extends AppCompatActivity {
             drawer.setDrawerListener(toggle);
         }
         // toggle.setDrawerIndicatorEnabled(false);
+        ArrayList<ApplicationClass.Item> items = new ArrayList<ApplicationClass.Item>();
+        //기본 코스만 해결 하는걸로
+        ArrayList<JSONObject> dataList = DataCenter.getInstance().allCourseList();
+        for (JSONObject data: dataList) {
+            items.add(new DrawMenuItem(data));
+        }
 
+
+        //adapt
+        DrawMenuAdapter adapter = new DrawMenuAdapter(this,items);
         lvNavList = (ListView)findViewById(R.id.main_nav_menu);
-//        flContainer = (FrameLayout)findViewById(R.id.main_nav_menu);
-
-        lvNavList.setAdapter(
-                new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, navItems));
-//        lvNavList.setOnItemClickListener(new DrawerItemClickListener());
-
-        //터치 안먹음
+        lvNavList.setAdapter(adapter);
         lvNavList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView parent, View v, int position, long id) {
-                switch (position) {
-                    case 0:
-                        Log.d("click","LoadCourseJson에러입니당~");
-                        break;
-                    case 1:
-                        Log.d("click","LoadCourseJson에러입니당~");
-                        break;
-                    case 2:
-                        Log.d("click","LoadCourseJson에러입니당~");
-                        break;
-                    case 3:
-                        Log.d("click","LoadCourseJson에러입니당~");
-                        break;
-                    case 4:
-                        Log.d("click","LoadCourseJson에러입니당~");
-                        break;
+                //drawMenu Item
+                DrawMenuItem item = (DrawMenuItem)parent.getItemAtPosition(position) ;
+                //item.itemData
+                JSONObject data =  item.itemData;
+                mapFlagment.showCourse(data);
+                isSelectedCourse = true;
 
-                }
                 drawer.closeDrawer(lvNavList); // 추가됨
             }
-        }) ;
-
+        });
 
 
         AppBarLayout.LayoutParams params = (AppBarLayout.LayoutParams) toolbar.getLayoutParams();
@@ -179,9 +178,12 @@ public class MainActivity extends AppCompatActivity {
                     getSupportActionBar().setDisplayHomeAsUpEnabled(true);
                     getSupportActionBar().setHomeButtonEnabled(true);
 
-                    //if 아무런 코스가 선택되지 않았다면..
-                    DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-                    drawer.openDrawer(GravityCompat.START);
+                    if (!isSelectedCourse)
+                    {
+                        //if 아무런 코스가 선택되지 않았다면..
+                        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+                        drawer.openDrawer(GravityCompat.START);
+                    }
                 }
                 //mViewPager.setCurrentItem(tab.getPosition());
             }
@@ -197,58 +199,11 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
-    ////////////////////////드로우 메뉴 테스트
-    /*
-    private class DrawerItemClickListener implements ListView.OnItemClickListener {
-
-        @Override
-        public void onItemClick(AdapterView<?> adapter, View view, int position,
-                                long id) {
-            switch (position) {
-                case 0:
-
-                    break;
-                case 1:
-
-                    break;
-                case 2:
-
-                    break;
-                case 3:
-
-                    break;
-                case 4:
-
-                    break;
-
-            }
-            drawer.closeDrawer(lvNavList); // 추가됨
-        }
-    }
-*/
-//        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
-//        navigationView.setNavigationItemSelectedListener(this);
-
-
-//
-//        //플로팅 버튼
-//        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-//
-//        //온클릭 리스너가 터치시 응답
-//        fab.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-//                        .setAction("Action", null).show();
-//            }
-//        });
-
-
     private void createViewPager(ViewPager viewPager) {
         ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager());
 
         CourseListFlagment courseList = new CourseListFlagment();
-        MapFlagment mapFlagment = new MapFlagment();
+        mapFlagment = new MapFlagment();
         mapFlagment.setArguments(new Bundle());
 
         adapter.addFrag(courseList, "Tab 1");
@@ -256,74 +211,28 @@ public class MainActivity extends AppCompatActivity {
         viewPager.setAdapter(adapter);
     }
 
-    /*
-    //메뉴 구성시 생성
     @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 
+        if (resultCode == RESULT_OK){
+            try {
+                //map fragment 이동
+                isSelectedCourse = true;
+                TabLayout.Tab tab = tabLayout.getTabAt(1);
+                tab.select();
 
-        return true;
-    }
-    //추가 메뉴
+                JSONObject selectedCourseData = new JSONObject(data.getStringExtra(DetailCourseListActivity.SELECTED_COURSE));
+                mapFlagment.showCourse(selectedCourseData);
 
-
-    //Android 3.0 이상에서는 메뉴 항목이 앱 바에 표시되어 있는 경우 항상 옵션 메뉴가 열려 있는 것으로 간주됩니다. 이벤트가 발생하고 메뉴 업데이트를 수행하고자 하는 경우,
-    // invalidateOptionsMenu()를 호출하여 시스템이 onPrepareOptionsMenu()를 호출하도록 요청해야 합니다.
-    @Override
-    public boolean onPrepareOptionsMenu(Menu menu) {
-
-
-        return super.onPrepareOptionsMenu(menu);
-    }
-
-
-
-        @Override
-        public boolean onOptionsItemSelected(MenuItem item) {
-
-            return super.onOptionsItemSelected(item);
-        }
-
-    //메뉴가 눌렸을때 실행
-    @SuppressWarnings("StatementWithEmptyBody")
-    @Override
-    public boolean onNavigationItemSelected(MenuItem item) {
-        // Handle navigation view item clicks here.
-        int id = item.getItemId();
-
-        if (id == R.id.nav_camera) {
-            // Handle the camera action
-        } else if (id == R.id.nav_gallery) {
-
-        } else if (id == R.id.nav_slideshow) {
-
-        } else if (id == R.id.nav_manage) {
-
-        } else if (id == R.id.nav_share) {
-
-        } else if (id == R.id.nav_send) {
+            }catch (JSONException e)
+            {
+                Log.e("jsonErr", "Activity Error", e);
+            }
 
         }
-        //메뉴 닫기
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-        drawer.closeDrawer(GravityCompat.START);
-        return true;
+        super.onActivityResult(requestCode, resultCode, data);
     }
 
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case R.id.nav_camera:
-            case R.id.nav_gallery:
-                if (item.isChecked()) item.setChecked(false);
-                else item.setChecked(true);
-                return true;
-            default:
-                return super.onOptionsItemSelected(item);
-        }
-    }
-*/
     @Override
     protected void attachBaseContext(Context newBase) {
 

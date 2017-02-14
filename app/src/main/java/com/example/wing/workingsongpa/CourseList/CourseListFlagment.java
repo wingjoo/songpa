@@ -18,11 +18,11 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import static com.example.wing.workingsongpa.R.drawable.t_road_n_01;
+import java.util.ArrayList;
+
 
 public class CourseListFlagment extends Fragment {
 
-    String[] imageNames = {"t_road_n_01","t_road_n_02","t_road_n_03","t_road_n_02","t_road_n_03","t_road_n_02","t_road_n_03","t_road_n_02","t_road_n_03"};
 
     CourseListViewAdapter adapter;
     public final static String EXTRA_MESSAGE = "com.example.wing.SENDCELLDATA";
@@ -40,22 +40,17 @@ public class CourseListFlagment extends Fragment {
         ListView listview = (ListView) rootView.findViewById(R.id.course_listView);
         listview.setAdapter(adapter) ;
 
-        JSONArray courseList = DataCenter.getInstance().getCourseList();
-
-        for(int i = 0; i < courseList .length(); i++){
-
-            try
+        //JSONArray courseList = DataCenter.getInstance().getCourseList();
+        ArrayList<JSONObject> courseList = DataCenter.getInstance().getCourseList();
+        for (JSONObject data:courseList) {
+            try {
+                String res_url = data.getString(DataCenter.COURSE_IMG_URL).toString();
+                int resID  = getResources().getIdentifier(res_url, "drawable", "com.example.wing.workingsongpa");
+                adapter.addItem(ContextCompat.getDrawable(getActivity(), resID),data);
+            }catch (JSONException e)
             {
-                JSONObject itemData = courseList .getJSONObject(i);
-                //이미지 리소스 아이디
-                int resID  = getResources().getIdentifier("sample" , "drawable", "com.example.wing.workingsongpa");
-                adapter.addItem(ContextCompat.getDrawable(getActivity(), resID),itemData);
-
-            }catch (JSONException je)
-            {
-                Log.e("jsonErr", "json에러입니당~", je);
+                Log.e("jsonErr", "list image load에러입니당~", e);
             }
-
         }
 
         //리스트 선택시 행동
@@ -71,8 +66,10 @@ public class CourseListFlagment extends Fragment {
 
                 String sendStr = item.getItemData().toString();
                 //intent를 통해서 json객체 전송(string으로 변환
-                intent.putExtra(EXTRA_MESSAGE, item.getItemData().toString());
-                startActivity(intent);
+                intent.putExtra(EXTRA_MESSAGE, sendStr);
+
+                int requestCode = 1;
+                startActivityForResult(intent, requestCode);
             }
         }) ;
 
