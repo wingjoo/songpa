@@ -12,7 +12,7 @@ import org.json.JSONObject;
 public class EntryItem implements ApplicationClass.Item {
 
 	public final Drawable iconDrawable;
-	public final  JSONObject itemData;
+	public final JSONObject itemData;
 
 	private String title;
 	private String subTitle;

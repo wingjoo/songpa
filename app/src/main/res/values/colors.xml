@@ -16,4 +16,9 @@
     <color name="color_course7">#fa6900</color>
     <color name="color_course8">#b62842</color>
     <color name="color_course9">#FFFFFF</color>
+
+    <color name="color_subtitle">#b6b6b6</color>
+    <color name="color_title">#252525</color>
+    <color name="color_into_text">#5a5a5a</color>
+    <color name="color_msg_text">#777777</color>
 </resources>

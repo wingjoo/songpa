@@ -3,10 +3,10 @@ package com.example.wing.workingsongpa.MainPage;
 
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Color;
+
 import android.os.Build;
 import android.support.design.widget.AppBarLayout;
-import android.support.design.widget.NavigationView;
+
 import android.support.design.widget.TabLayout;
 
 import android.support.v4.view.GravityCompat;
@@ -17,16 +17,12 @@ import android.support.v7.widget.Toolbar;
 
 import android.support.v4.view.ViewPager;
 import android.os.Bundle;
-//import android.view.LayoutInflater;
-//import android.view.Menu;
-//import android.view.MenuItem;
+
 import android.util.Log;
-import android.view.Menu;
-import android.view.MenuItem;
+
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
-import android.widget.FrameLayout;
+
 import android.widget.ListView;
 
 import com.example.wing.workingsongpa.ApplicationClass;
@@ -38,16 +34,12 @@ import com.example.wing.workingsongpa.MapTab.MapFlagment;
 import com.example.wing.workingsongpa.R;
 import com.tsengvn.typekit.TypekitContextWrapper;
 
-import org.json.JSONArray;
+
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
 
-import static com.example.wing.workingsongpa.CourseList.CourseListFlagment.EXTRA_MESSAGE;
-//import android.view.ViewGroup;
-//
-//import android.widget.TextView;
 
 
 

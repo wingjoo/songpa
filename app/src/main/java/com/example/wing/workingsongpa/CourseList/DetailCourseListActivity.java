@@ -2,7 +2,6 @@ package com.example.wing.workingsongpa.CourseList;
 
 import android.content.Context;
 import android.content.Intent;
-import android.media.Image;
 import android.os.Build;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
@@ -25,11 +24,12 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 
-import static com.example.wing.workingsongpa.CourseList.CourseListFlagment.EXTRA_MESSAGE;
-
+import static com.example.wing.workingsongpa.CourseList.CourseListFlagment.COURSE_DATA;
 
 public class DetailCourseListActivity extends AppCompatActivity {
 
+
+    public final static String SPOT_DATA = "com.example.wing.SENDSPOTDATA";
     JSONObject courseData;
     ArrayList<ApplicationClass.Item> items = new ArrayList<ApplicationClass.Item>();
     public static final String SELECTED_COURSE = "selected_course";
@@ -42,7 +42,7 @@ public class DetailCourseListActivity extends AppCompatActivity {
         Intent intent = getIntent();
         try
         {
-            courseData = new JSONObject(intent.getStringExtra(EXTRA_MESSAGE));
+            courseData = new JSONObject(intent.getStringExtra(COURSE_DATA));
         }catch (JSONException je)
         {
             Log.e("jsonErr", "json에러입니당~", je);
@@ -75,14 +75,12 @@ public class DetailCourseListActivity extends AppCompatActivity {
             }
         });
 
-
+        //리스트 뷰 가져와서 아답터 셋
+        ListView listview = (ListView)findViewById(R.id.detail_course_listView);
 
         if (courseData != null)
         {
-            //리스트 뷰 가져와서 아답터 셋
-            ListView listview = (ListView)findViewById(R.id.detail_course_listView);
 
-            //!!!!!!!!!!!!!!section으로 나눠서 진행으로 변경해야됨 >> 구글링 필요
             try {
                 ImageView titleView = (ImageView)findViewById(R.id.detail_titleView);
                 String res_url = courseData.getString(DataCenter.COURSE_IMG_URL).toString();
@@ -131,22 +129,30 @@ public class DetailCourseListActivity extends AppCompatActivity {
             EntryAdapter adapter = new EntryAdapter(this, items);
             listview.setAdapter(adapter);
 
-            //스팟 선택시 행동
-            //디테일 화면으로 이동
-            listview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-                @Override
-                public void onItemClick(AdapterView parent, View v, int position, long id) {
-                    // get item
-                    EntryItem item = (EntryItem)parent.getItemAtPosition(position) ;
 
-                    // TODO : use item data.
-                    //next activity
-//                Intent intent = new Intent(this, DetailCourseListActivity.class);
-//
-//                startActivity(intent);
-                }
-            }) ;
         }
+
+
+        //스팟 선택시 행동
+        //디테일 화면으로 이동
+        listview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView parent, View v, int position, long id) {
+                // get item
+                EntryItem item = (EntryItem)parent.getItemAtPosition(position);
+
+                // TODO : use item data.
+                //next activity
+                Intent intent = new Intent(DetailCourseListActivity.this , SpotDetailActivity.class);
+
+                String sendStr = item.itemData.toString();
+                //intent를 통해서 json객체 전송(string으로 변환
+                intent.putExtra(SPOT_DATA, sendStr);
+
+
+                startActivity(intent);
+            }
+        }) ;
 
     }
 

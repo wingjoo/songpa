@@ -23,14 +23,13 @@ import java.util.ArrayList;
 
 public class CourseListFlagment extends Fragment {
 
-
     CourseListViewAdapter adapter;
-    public final static String EXTRA_MESSAGE = "com.example.wing.SENDCELLDATA";
+    public final static String COURSE_DATA = "com.example.wing.SENDCOURSEDATA";
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState){
 
-        // Adapter 생성
         adapter = new CourseListViewAdapter() ;
+        // Adapter 생성
 
         //아답터를 이용해서 데이터 바인딩
         //ArrayAdapter adapter = new ArrayAdapter(getActivity(), android.R.layout.simple_list_item_1, LIST_MENU) ;
@@ -66,7 +65,7 @@ public class CourseListFlagment extends Fragment {
 
                 String sendStr = item.getItemData().toString();
                 //intent를 통해서 json객체 전송(string으로 변환
-                intent.putExtra(EXTRA_MESSAGE, sendStr);
+                intent.putExtra(COURSE_DATA, sendStr);
 
                 int requestCode = 1;
                 startActivityForResult(intent, requestCode);

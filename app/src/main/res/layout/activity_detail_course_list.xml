@@ -21,7 +21,7 @@
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 app:srcCompat="@drawable/t_road_n_02"
-                android:scaleType="fitCenter"
+                android:scaleType="fitXY"
                  />
 
 
@@ -34,6 +34,7 @@
                 android:layout_marginLeft = "10dp"
                 android:layout_marginTop="17dp"
                 android:background="@android:color/transparent"
+                android:scaleType="fitXY"
                 />
 
             <ImageButton
@@ -45,6 +46,7 @@
                 android:layout_marginTop="17dp"
                 android:layout_gravity="right"
                 android:background="@android:color/transparent"
+                android:scaleType="fitXY"
                 />
 
         </FrameLayout>
