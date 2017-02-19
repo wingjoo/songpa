@@ -111,7 +111,8 @@ public class MainActivity extends AppCompatActivity {
                 mapFlagment.showCourse(data);
                 isSelectedCourse = true;
 
-                drawer.closeDrawer(lvNavList); // 추가됨
+                //닫기
+                drawer.closeDrawer(lvNavList);
             }
         });
 

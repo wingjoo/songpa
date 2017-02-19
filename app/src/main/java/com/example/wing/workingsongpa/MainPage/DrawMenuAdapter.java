@@ -49,7 +49,7 @@ public class DrawMenuAdapter extends ArrayAdapter<ApplicationClass.Item> {
                 convertView.setLongClickable(false);
 
                 final TextView sectionView = (TextView) convertView.findViewById(R.id.title);
-                sectionView.setText(si.getTitle());
+                sectionView.setText("코스 선택");
             }else{
                 // Data Set(listViewItemList)에서 position에 위치한 데이터 참조 획득
                 DrawMenuItem item = (DrawMenuItem)i;
@@ -57,17 +57,29 @@ public class DrawMenuAdapter extends ArrayAdapter<ApplicationClass.Item> {
                 convertView = vi.inflate(R.layout.drawmenu_item, parent, false);
 
                 //*************UI구성**************//
-
                 TextView titleTextView = (TextView) convertView.findViewById(R.id.title) ;
-                //ImageView iconImageView = (ImageView) convertView.findViewById(R.id.icon) ;
-
                 // 아이템 내 각 위젯에 데이터 반영
-
                 String title = item.getCourse_title();
 
-                if (title != null)
+                if (title.length() > 0)
                 {
                     titleTextView.setText(title);
+                }else
+                {
+                    titleTextView.setVisibility(View.GONE);
+                }
+
+                TextView subTitleView = (TextView) convertView.findViewById(R.id.sub_title) ;
+                // 아이템 내 각 위젯에 데이터 반영
+                String subTitle = item.getSub_title();
+
+                if (subTitle.length() > 0)
+                {
+                    subTitleView.setText(subTitle);
+                    subTitleView.setTextColor(item.getCourseColor());
+                }else
+                {
+                    subTitleView.setVisibility(View.GONE);
                 }
             }
         }

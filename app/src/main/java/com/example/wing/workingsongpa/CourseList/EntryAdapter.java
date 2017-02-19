@@ -3,6 +3,7 @@ package com.example.wing.workingsongpa.CourseList;
 import java.util.ArrayList;
 
 import android.content.Context;
+import android.graphics.Bitmap;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,6 +12,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.wing.workingsongpa.ApplicationClass;
+import com.example.wing.workingsongpa.Database.DataCenter;
 import com.example.wing.workingsongpa.R;
 
 public class EntryAdapter extends ArrayAdapter<ApplicationClass.Item> {
@@ -58,7 +60,10 @@ public class EntryAdapter extends ArrayAdapter<ApplicationClass.Item> {
 				TextView subTiitleTextView = (TextView) convertView.findViewById(R.id.sub_title) ;
 
 				// 아이템 내 각 위젯에 데이터 반영
-				iconImageView.setImageDrawable(item.iconDrawable);
+
+
+				iconImageView.setImageBitmap(item.imgScr);
+//				iconImageView.setImageDrawable(item.iconDrawable);
 				String title = item.getTitle();
 				String subTitle = item.getSubTitle();
 				if (title != null)

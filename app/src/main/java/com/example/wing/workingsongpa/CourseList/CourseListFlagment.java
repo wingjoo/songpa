@@ -1,6 +1,11 @@
 package com.example.wing.workingsongpa.CourseList;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.res.Resources;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.opengl.GLES20;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
@@ -19,6 +24,8 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+
+import static android.R.attr.bitmap;
 
 
 public class CourseListFlagment extends Fragment {
@@ -44,8 +51,13 @@ public class CourseListFlagment extends Fragment {
         for (JSONObject data:courseList) {
             try {
                 String res_url = data.getString(DataCenter.COURSE_IMG_URL).toString();
+
+                Resources resources =  getResources();
                 int resID  = getResources().getIdentifier(res_url, "drawable", "com.example.wing.workingsongpa");
-                adapter.addItem(ContextCompat.getDrawable(getActivity(), resID),data);
+                Bitmap bScr = DataCenter.getInstance().resizeImge(resources,resID);
+
+                adapter.addItem(bScr,data);
+//                adapter.addItem(ContextCompat.getDrawable(getActivity(), resID),data);
             }catch (JSONException e)
             {
                 Log.e("jsonErr", "list image load에러입니당~", e);

@@ -2,6 +2,7 @@ package com.example.wing.workingsongpa.CourseList;
 
 
 import android.content.Context;
+import android.graphics.Bitmap;
 import android.graphics.drawable.Drawable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -13,6 +14,8 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 
 import com.example.wing.workingsongpa.R;
+
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -35,6 +38,7 @@ public class SpotDetailAdapter extends FragmentPagerAdapter {
     public Fragment getItem(int position) {
         // getItem is called to instantiate the fragment for the given page.
         // Return a PlaceholderFragment (defined as a static inner class below).
+        //return TestFragment.newInstance(CONTENT[position % CONTENT.length]);
         return spotImgList.get(position);
     }
 
@@ -78,9 +82,8 @@ public class SpotDetailAdapter extends FragmentPagerAdapter {
 //    }
 
     // 아이템 데이터 추가를 위한 함수. 개발자가 원하는대로 작성 가능.
-    public void addItem(Drawable icon) {
-        SpotImage item = new SpotImage();
-        item.setIcon(icon);
+    public void addItem(Bitmap data) {
+        SpotImage item = SpotImage.newInstance(data);
         spotImgList .add(item);
     }
 

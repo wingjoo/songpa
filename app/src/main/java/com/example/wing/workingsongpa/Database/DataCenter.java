@@ -2,6 +2,13 @@ package com.example.wing.workingsongpa.Database;
 
 import android.content.Context;
 import android.content.res.AssetManager;
+import android.content.res.Resources;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.Canvas;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
+import android.opengl.GLES20;
 import android.support.v4.content.ContextCompat;
 import android.util.Log;
 
@@ -94,6 +101,7 @@ public class DataCenter {
     public static final String SPOT_GRUOP_ID = "group_type";
     public static final String SPOT_MAIN_IMG = "default_img";
     public static final String SPOT_IMG_LIST = "img_list";
+    public static final String SPOT_INFO = "info";
 
     public static final String COURSE_COURSELIST = "course";
     public static final String COURSE_STORY = "story";
@@ -368,6 +376,50 @@ public class DataCenter {
                 break;
         }
         return color;
+    }
+
+    public Bitmap resizeImge(Resources rsc, int rscID)
+    {
+        BitmapFactory.Options options = new BitmapFactory.Options();
+        options.inSampleSize = 2;
+        Bitmap src = BitmapFactory.decodeResource(rsc,rscID,options);
+
+        //resize
+//        int[] maxTextureSize = new int[1];
+//        GLES20.glGetIntegerv(GLES20.GL_MAX_TEXTURE_SIZE, maxTextureSize, 0);
+//
+//        Bitmap bitImg = BitmapFactory.decodeFile(res_url);
+//
+//        if (bitImg .getHeight() > maxTextureSize[0]){
+//            int resizedWidth = 200;
+//            int resizedHeight = 600;
+//            bitImg .createScaledBitmap(bitImg, resizedWidth, resizedHeight, false);
+//        }
+
+        return src;
+    }
+
+    public Bitmap drawableToBitmap (Drawable drawable) {
+        Bitmap bitmap = null;
+
+        if (drawable instanceof BitmapDrawable) {
+            BitmapDrawable bitmapDrawable = (BitmapDrawable) drawable;
+            if(bitmapDrawable.getBitmap() != null) {
+                return bitmapDrawable.getBitmap();
+            }
+        }
+
+        if(drawable.getIntrinsicWidth() <= 0 || drawable.getIntrinsicHeight() <= 0) {
+            bitmap = Bitmap.createBitmap(1, 1, Bitmap.Config.ARGB_8888); // Single color bitmap will be created of 1x1 pixel
+        } else {
+            bitmap = Bitmap.createBitmap(drawable.getIntrinsicWidth(), drawable.getIntrinsicHeight(), Bitmap.Config.ARGB_8888);
+        }
+
+        Canvas canvas = new Canvas(bitmap);
+        drawable.setBounds(0, 0, canvas.getWidth(), canvas.getHeight());
+        drawable.draw(canvas);
+
+        return bitmap;
     }
 
     //모든 스팟 가져오기

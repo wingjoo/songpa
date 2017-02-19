@@ -1,5 +1,6 @@
 package com.example.wing.workingsongpa.CourseList;
 
+import android.graphics.Bitmap;
 import android.widget.BaseAdapter;
 
 import android.content.Context;
@@ -10,6 +11,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.example.wing.workingsongpa.Database.DataCenter;
 import com.example.wing.workingsongpa.R;
 
 import org.json.JSONObject;
@@ -49,8 +51,11 @@ public class CourseListViewAdapter extends BaseAdapter {
         // 화면에 표시될 View(Layout이 inflate된)으로부터 위젯에 대한 참조 획득
         ImageView iconImageView = (ImageView) convertView.findViewById(R.id.item_bg) ;
 
+//        Bitmap imgScr  = DataCenter.getInstance().drawableToBitmap(listViewItem.getIcon());
+        iconImageView.setImageBitmap(listViewItem.getImgScr());
+
         // 아이템 내 각 위젯에 데이터 반영
-        iconImageView.setImageDrawable(listViewItem.getIcon());
+//        iconImageView.setImageDrawable(listViewItem.getIcon());
 
         return convertView;
     }
@@ -74,4 +79,12 @@ public class CourseListViewAdapter extends BaseAdapter {
         item.setIcon(icon);
         listViewItemList.add(item);
     }
+
+    public void addItem(Bitmap scr, JSONObject itemData) {
+        CourseListItem item = new CourseListItem();
+        item.setItemData(itemData);
+        item.setImgScr(scr);
+        listViewItemList.add(item);
+    }
+
 }

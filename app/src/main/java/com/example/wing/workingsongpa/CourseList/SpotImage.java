@@ -1,5 +1,6 @@
 package com.example.wing.workingsongpa.CourseList;
 
+import android.graphics.Bitmap;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -19,15 +20,31 @@ import org.json.JSONObject;
 
 public class SpotImage  extends Fragment {
 
-    private Drawable iconDrawable ;
 
-    public void setIcon(Drawable icon) {
-        iconDrawable = icon ;
+    public Bitmap imgScr;
+
+//    public void setIcon(Drawable icon) {
+//        iconDrawable = icon ;
+//    }
+//
+//    public Drawable getIcon() {
+//        return this.iconDrawable ;
+//    }
+
+//    public SpotImage()
+//    {
+//
+//    }
+
+
+    public static SpotImage newInstance(Bitmap data) {
+        SpotImage fragment = new SpotImage();
+
+        fragment.imgScr = data;
+
+        return fragment;
     }
 
-    public Drawable getIcon() {
-        return this.iconDrawable ;
-    }
 
 
     @Nullable
@@ -46,7 +63,7 @@ public class SpotImage  extends Fragment {
         // 아이템 내 각 위젯에 데이터 반영
 
         //미완성
-//        iconImageView.setImageDrawable(item.getIcon());
+        iconImageView.setImageBitmap(imgScr);
 
         return rootView;
     }

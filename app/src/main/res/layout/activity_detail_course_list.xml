@@ -1,68 +1,62 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
     android:id="@+id/activity_detail_course_list"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.example.wing.workingsongpa.CourseList.DetailCourseListActivity">
+    >
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="154dp">
+
+        <ImageView
+            android:id="@+id/detail_titleView"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            app:srcCompat="@drawable/t_road_n_02"
+            android:scaleType="fitXY"
+            />
+
+
+        <ImageButton
+            android:id="@+id/detail_back"
+            android:layout_width="24dp"
+            android:layout_height="29dp"
+            app:srcCompat="@drawable/icon_list_back_n"
+            android:layout_gravity="left"
+            android:layout_marginLeft = "10dp"
+            android:layout_marginTop="17dp"
+            android:background="@android:color/transparent"
+            android:scaleType="fitXY"
+            />
+
+        <ImageButton
+            android:id="@+id/detail_goToMap"
+            android:layout_width="24dp"
+            android:layout_height="29dp"
+            app:srcCompat="@drawable/icon_list_map_n"
+            android:layout_marginRight="10dp"
+            android:layout_marginTop="17dp"
+            android:layout_gravity="right"
+            android:background="@android:color/transparent"
+            android:scaleType="fitXY"
+            />
+
+    </FrameLayout>
 
     <LinearLayout
         android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <FrameLayout
+        <ListView
             android:layout_width="match_parent"
-            android:layout_height="154dp">
+            android:layout_height="match_parent"
+            android:id="@+id/detail_course_listView" />
+        />
 
-            <ImageView
-                android:id="@+id/detail_titleView"
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                app:srcCompat="@drawable/t_road_n_02"
-                android:scaleType="fitXY"
-                 />
-
-
-            <ImageButton
-                android:id="@+id/detail_back"
-                android:layout_width="24dp"
-                android:layout_height="29dp"
-                app:srcCompat="@drawable/icon_list_back_n"
-                android:layout_gravity="left"
-                android:layout_marginLeft = "10dp"
-                android:layout_marginTop="17dp"
-                android:background="@android:color/transparent"
-                android:scaleType="fitXY"
-                />
-
-            <ImageButton
-                android:id="@+id/detail_goToMap"
-                android:layout_width="24dp"
-                android:layout_height="29dp"
-                app:srcCompat="@drawable/icon_list_map_n"
-                android:layout_marginRight="10dp"
-                android:layout_marginTop="17dp"
-                android:layout_gravity="right"
-                android:background="@android:color/transparent"
-                android:scaleType="fitXY"
-                />
-
-        </FrameLayout>
-
-        <LinearLayout
-            android:orientation="vertical"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
-
-            <ListView
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:id="@+id/detail_course_listView" />
-                />
-
-        </LinearLayout>
     </LinearLayout>
 
-</RelativeLayout>
+</LinearLayout>

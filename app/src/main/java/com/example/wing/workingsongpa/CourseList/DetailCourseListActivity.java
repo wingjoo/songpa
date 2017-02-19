@@ -2,6 +2,8 @@ package com.example.wing.workingsongpa.CourseList;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.res.Resources;
+import android.graphics.Bitmap;
 import android.os.Build;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
@@ -84,8 +86,12 @@ public class DetailCourseListActivity extends AppCompatActivity {
             try {
                 ImageView titleView = (ImageView)findViewById(R.id.detail_titleView);
                 String res_url = courseData.getString(DataCenter.COURSE_IMG_URL).toString();
+
+                Resources resources =  getResources();
                 int courseID  = getResources().getIdentifier(res_url, "drawable", "com.example.wing.workingsongpa");
-                titleView.setImageDrawable(ContextCompat.getDrawable(this, courseID));
+                Bitmap courseScr = DataCenter.getInstance().resizeImge(resources,courseID);
+
+                titleView.setImageBitmap(courseScr);
 
 
                 JSONArray courseList =  courseData.getJSONArray("course");
@@ -105,14 +111,17 @@ public class DetailCourseListActivity extends AppCompatActivity {
                             int position = Integer.parseInt(spotIndex);
                             JSONObject itemData = DataCenter.getInstance().getSpotItem(position);
                             /**********************************/
-                            String img_url = itemData.getString("default_img").toString();
+                            String img_url = itemData.getString(DataCenter.SPOT_MAIN_IMG).toString();
                             if (img_url == null || img_url.length() == 0)
                             {
                                 img_url = "sample";
                             }
                             //이미지 리소스 아이디
+
                             int resID  = getResources().getIdentifier(img_url  , "drawable", "com.example.wing.workingsongpa");
-                            items.add(new EntryItem(ContextCompat.getDrawable(this, resID), itemData));
+                            Bitmap bScr = DataCenter.getInstance().resizeImge(resources,resID);
+
+                            items.add(new EntryItem(bScr, itemData));
                         }catch (JSONException je)
                         {
                             Log.e("jsonErr", "json에러입니당~", je);

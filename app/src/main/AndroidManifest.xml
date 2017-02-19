@@ -26,14 +26,22 @@
             android:name=".MainPage.MainActivity"
             android:label="@string/app_name"
             android:theme="@style/AppTheme.NoActionBar">
+            <!--android:hardwareAccelerated="false"-->
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".CourseList.DetailCourseListActivity"></activity>
+        <activity
+            android:name=".CourseList.DetailCourseListActivity">
+            <!--android:hardwareAccelerated="false"-->
+        </activity>
 
+        <activity
+            android:name=".CourseList.SpotDetailActivity">
+            <!--android:hardwareAccelerated="false"-->
+        </activity>
     </application>
 
 </manifest>

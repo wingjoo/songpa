@@ -16,8 +16,9 @@ public class DrawMenuItem implements ApplicationClass.Item {
 
     public final JSONObject itemData;
 
+    private int color;
     private String course_title;
-
+    private String sub_title;
 
     public DrawMenuItem( JSONObject newData) {
 
@@ -25,6 +26,9 @@ public class DrawMenuItem implements ApplicationClass.Item {
         itemData = newData;
         try{
             this.course_title =  itemData.getString(DataCenter.SPOT_TITLE).toString();
+            this.sub_title = itemData.getString(DataCenter.SPOT_SUB_TITLE).toString();
+            DataCenter.CourseType type = DataCenter.getInstance().getCourseTypeWithID(itemData.getInt(DataCenter.SPOT_ID));
+            color = DataCenter.getInstance().getColorWithType(type);
 
         }catch (JSONException je)
         {
@@ -36,6 +40,18 @@ public class DrawMenuItem implements ApplicationClass.Item {
     public String getCourse_title() {
         return course_title;
     }
+
+    public int getCourseColor()
+    {
+        return color;
+    }
+
+    public String getSub_title()
+    {
+        return sub_title;
+    }
+
+
 
     @Override
     public boolean isSection() {

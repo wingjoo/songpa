@@ -19,7 +19,9 @@
 
             <FrameLayout
                 android:layout_width="match_parent"
-                android:layout_height="344dp">
+                android:layout_height="354dp"
+                >
+
 
                 <LinearLayout
                     android:orientation="vertical"
@@ -29,14 +31,16 @@
                     <android.support.v4.view.ViewPager
                         android:id="@+id/img_pager"
                         android:layout_width="fill_parent"
-                        android:layout_height="0dp"
+                        android:layout_height="344dp"
                         android:layout_weight="1"
                         />
+
                     <com.viewpagerindicator.LinePageIndicator
                         android:id="@+id/indicator"
                         android:padding="12dp"
                         android:layout_height="wrap_content"
                         android:layout_width="fill_parent"
+                        android:layout_gravity="right"
                         app:strokeWidth="4dp"
                         app:lineWidth="8dp"
                         app:unselectedColor="#ADADAD"
@@ -44,26 +48,29 @@
                         />
                 </LinearLayout>
 
-
                 <ImageButton
                     android:id="@+id/detail_back"
                     android:layout_width="24dp"
                     android:layout_height="29dp"
                     app:srcCompat="@drawable/icon_list_back_n"
                     android:layout_gravity="left"
-                    android:layout_marginLeft = "10dp"
+                    android:layout_marginLeft = "4dp"
                     android:layout_marginTop="17dp"
                     android:background="@android:color/transparent"
                     android:scaleType="fitXY"
                     />
+
             </FrameLayout>
+
 
             <TextView
                 android:text="TextView"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="24dp"
-                android:textSize="12dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:textSize="12sp"
                 android:textColor="@color/color_subtitle"
                 android:id="@+id/sub_title" />
 
@@ -72,7 +79,9 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="6dp"
-                android:textSize="16dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:textSize="16sp"
                 android:textColor="@color/color_title"
                 android:id="@+id/title" />
 
@@ -82,7 +91,9 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="12dp"
-                android:textSize="10dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:textSize="10sp"
                 android:textColor="@color/color_into_text"
                 android:id="@+id/info_text" />
 
@@ -91,7 +102,9 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="24dp"
-                android:textSize="12dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:textSize="12sp"
                 android:textColor="@color/color_msg_text"
                 android:id="@+id/msg_text" />
 
