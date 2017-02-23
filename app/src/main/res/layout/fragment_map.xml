@@ -1,56 +1,42 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
     android:layout_height="match_parent">
 
+    <!-- Map-->
+    <com.nhn.android.maps.NMapView
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:id="@+id/mapView"/>
 
-
-    <FrameLayout
+    <!--find location-->
+    <ImageButton
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_marginRight="6dp"
+        android:layout_marginTop="6dp"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentTop="true"
+        android:background="@android:color/transparent"
+        app:srcCompat="@drawable/map_tracking_n"
+        android:scaleType="fitCenter"
+        android:id="@+id/traking_btn"
+        />
+    
+    <!-- Bottom Custom View-->
+    <LinearLayout
+        android:orientation="horizontal" 
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="114dp"
+        android:background = "@color/white"
+        android:layout_alignParentBottom="true"
+        android:id="@+id/pinOverlayView"
+        />
 
-        <com.nhn.android.maps.NMapView
-            android:layout_width="fill_parent"
-            android:layout_height="fill_parent"
-            android:id="@+id/mapView"/>
+    
 
-        <LinearLayout
-            android:id="@+id/detail_popup"
-            android:orientation="horizontal"
-            android:layout_width="match_parent"
-            android:gravity="bottom"
-            android:layout_height="86dp" >
-
-            <ImageView
-                android:layout_width="86dp"
-                android:layout_marginRight="8dp"
-                android:layout_height="86dp"
-                android:id="@+id/icon"/>
-
-            <LinearLayout
-                android:orientation="vertical"
-                android:layout_width="match_parent"
-                android:layout_height="86dp"
-                >
-
-                <TextView
-                    android:text="TextView"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="14dp"
-                    android:textSize="16sp"
-                    android:id="@+id/title" />
-
-                <TextView
-                    android:text="TextView"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:textSize="12sp"
-                    android:id="@+id/sub_title" />
-            </LinearLayout>
-        </LinearLayout>
-    </FrameLayout>
-
-</LinearLayout>
+</RelativeLayout>

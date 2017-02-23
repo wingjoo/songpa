@@ -205,39 +205,32 @@ public class MapResourseProvider extends NMapResourceProvider {
 
     @Override
     public Drawable[] getLocationDot() {
-        //사용 안하는 가정
-//        Drawable[] drawable = new Drawable[2];
-//
-////        drawable[0] = mContext.getResources().getDrawable(R.drawable.pubtrans_ic_mylocation_off);
-////        drawable[1] = mContext.getResources().getDrawable(R.drawable.pubtrans_ic_mylocation_on);
-//
-//        for (int i = 0; i < drawable.length; i++) {
-//            int w = drawable[i].getIntrinsicWidth() / 2;
-//            int h = drawable[i].getIntrinsicHeight() / 2;
-//
-//            drawable[i].setBounds(-w, -h, w, h);
-//        }
+        Drawable[] drawable = new Drawable[2];
 
-        return null;
+        drawable[0] = mContext.getResources().getDrawable(R.drawable.icon_pin);
+        drawable[1] = mContext.getResources().getDrawable(R.drawable.icon_pin);
+
+        for (int i = 0; i < drawable.length; i++) {
+            int w = drawable[i].getIntrinsicWidth() / 2;
+            int h = drawable[i].getIntrinsicHeight() / 2;
+
+            drawable[i].setBounds(-w, -h, w, h);
+        }
+
+        return drawable;
     }
 
     @Override
     public Drawable getDirectionArrow() {
 
-        Drawable drawable = null;
+        Drawable drawable = mContext.getResources().getDrawable(R.drawable.ic_angle);
 
-//        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-//            drawable = mContext.getResources().getDrawable(R.drawable.sample, mContext.getTheme());
-//        } else {
-//            drawable = mContext.getResources().getDrawable(R.drawable.sample);
-//        }
-//
-//        if (drawable != null) {
-//            int w = drawable.getIntrinsicWidth() / 2;
-//            int h = drawable.getIntrinsicHeight() / 2;
-//
-//            drawable.setBounds(-w, -h, w, h);
-//        }
+        if (drawable != null) {
+            int w = drawable.getIntrinsicWidth() / 2;
+            int h = drawable.getIntrinsicHeight() / 2;
+
+            drawable.setBounds(-w, -h, w, h);
+        }
 
         return drawable;
     }
@@ -335,10 +328,10 @@ public class MapResourseProvider extends NMapResourceProvider {
 
         Drawable drawable;
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            drawable = mContext.getResources().getDrawable(R.drawable.bg_speech, mContext.getTheme());
+            drawable = mContext.getResources().getDrawable(R.drawable.map_pin_ex, mContext.getTheme());
             //bg_speech
         } else {
-            drawable = mContext.getResources().getDrawable(R.drawable.bg_speech);
+            drawable = mContext.getResources().getDrawable(R.drawable.map_pin_ex);
         }
 
         return drawable;

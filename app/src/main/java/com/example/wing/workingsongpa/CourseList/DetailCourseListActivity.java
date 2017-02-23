@@ -40,6 +40,7 @@ public class DetailCourseListActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_detail_course_list);
+        getSupportActionBar().hide();
 
         Intent intent = getIntent();
         try

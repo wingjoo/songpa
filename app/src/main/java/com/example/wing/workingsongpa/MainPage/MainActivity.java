@@ -1,14 +1,18 @@
 package com.example.wing.workingsongpa.MainPage;
 
 
+import android.Manifest;
 import android.content.Context;
 import android.content.Intent;
 
+import android.content.pm.PackageManager;
 import android.os.Build;
 import android.support.design.widget.AppBarLayout;
 
 import android.support.design.widget.TabLayout;
 
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -62,10 +66,11 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
-        getSupportActionBar().setHomeAsUpIndicator(R.drawable.icon_map_manu_n);
+        getSupportActionBar().setHomeAsUpIndicator(R.drawable.menu_icon);
 
         // ****************************데이터*********************** //
 
@@ -129,6 +134,7 @@ public class MainActivity extends AppCompatActivity {
         tabLayout = (TabLayout) findViewById(R.id.tabs);
         tabLayout.setupWithViewPager(mViewPager);
 //        TabLayout.Tab listTab = tabLayout.newTab();
+        //start 상태
         tabLayout.getTabAt(0).setIcon(R.drawable.icon_list_p);
         tabLayout.getTabAt(1).setIcon(R.drawable.icon_map_n);
         //createTabIcons();
@@ -232,6 +238,8 @@ public class MainActivity extends AppCompatActivity {
         super.attachBaseContext(TypekitContextWrapper.wrap(newBase));
 
     }
+
+
 
 }
 

@@ -1,17 +1,31 @@
 package com.example.wing.workingsongpa.MapTab;
 
+import android.Manifest;
+import android.content.Context;
+import android.content.Intent;
+import android.content.res.Resources;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.Color;
 import android.graphics.Rect;
+import android.location.Location;
 import android.os.Bundle;
+import android.provider.Settings;
 import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
+import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import com.example.wing.workingsongpa.ApplicationClass;
 import com.example.wing.workingsongpa.Database.DataCenter;
+import com.example.wing.workingsongpa.MainPage.MainActivity;
 import com.example.wing.workingsongpa.R;
+import com.gun0912.tedpermission.PermissionListener;
+import com.gun0912.tedpermission.TedPermission;
 import com.nhn.android.maps.NMapCompassManager;
 import com.nhn.android.maps.NMapContext;
 import com.nhn.android.maps.NMapController;
@@ -19,6 +33,8 @@ import com.nhn.android.maps.NMapLocationManager;
 import com.nhn.android.maps.NMapOverlay;
 import com.nhn.android.maps.NMapOverlayItem;
 import com.nhn.android.maps.NMapView;
+import com.nhn.android.maps.maplib.NGeoPoint;
+import com.nhn.android.maps.nmapmodel.NMapError;
 import com.nhn.android.maps.overlay.NMapPOIdata;
 import com.nhn.android.maps.overlay.NMapPOIitem;
 import com.nhn.android.maps.overlay.NMapPathData;
@@ -42,17 +58,27 @@ public class MapFlagment extends Fragment {
     private NMapController mMapController;
     private NMapOverlayManager mOverlayManager;
 
+
     private NMapMyLocationOverlay mMyLocationOverlay;
     private NMapLocationManager mMapLocationManager;
     private NMapCompassManager mMapCompassManager;
     private  MapResourseProvider mMapViewerResourceProvider;
+
+    private NGeoPoint beforPoint;
+    private int beforZoomlevel;
 
     private NMapController mapController;
     private DataCenter.CourseType selectedCourseType;
     //overaly
     NMapPOIdataOverlay allPinOverlay;
     NMapPOIdataOverlay courseOverlay;
+    NMapPathDataOverlay pathOverlay;
+
     private JSONArray allSpotList;
+    private ImageButton trackingBtn;
+    private LinearLayout bottomView;
+    private PinOverlayView overlayView;
+    private Boolean isTraking;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -64,11 +90,35 @@ public class MapFlagment extends Fragment {
         super.onCreate(savedInstanceState);
         mMapContext =  new NMapContext(super.getActivity());
         mMapContext.onCreate();
+
+
     }
 
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
+
+        PermissionListener permissionlistener = new PermissionListener() {
+            @Override
+            public void onPermissionGranted() {
+                Toast.makeText(getActivity(), "Permission Granted", Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onPermissionDenied(ArrayList<String> deniedPermissions) {
+                Toast.makeText(getActivity(), "Permission Denied\n" + deniedPermissions.toString(), Toast.LENGTH_SHORT).show();
+            }
+
+        };
+
+        new TedPermission(getActivity())
+                .setPermissionListener(permissionlistener)
+                .setDeniedMessage("If you reject permission,you can not use this service\n\nPlease turn on permissions at [Setting] > [Permission]")
+                .setPermissions(Manifest.permission.ACCESS_COARSE_LOCATION, Manifest.permission.ACCESS_FINE_LOCATION)
+                .check();
+
+        isTraking = false;
+
         mapView = (NMapView)getView().findViewById(R.id.mapView);
         // initialize map view
         mapView.setClientId(CLIENT_ID);// 클라이언트 아이디 설정
@@ -78,6 +128,7 @@ public class MapFlagment extends Fragment {
         mapView.setFocusable(true);
         mapView.setFocusableInTouchMode(true);
         mapView.requestFocus();
+
         /*
         scalingFactor : 타일 이미지 확대 배율. 최솟값은 1배 (1.0f) 이며, 지도 타일 1픽셀이 화면의 1픽셀에 대응됨을 의미한다. 1배일 경우 최근의 고밀도 단말에서는 글자가 지나치게 작게 보이므로 적절한 배율을 지정해 시인성을 높일 수 있다. 고정값을 사용하기보다는 화면 밀도를 기준으로 적정한 값을 계산하여 전달하는 편이 바람직하다.
                mapHD : HD 타일 사용 여부. 고해상도 지도 타일을 사용하려면 true로 지정한다. 지도 타일이 더 선명해지지만 동일 영역을 표시하기 위한 데이터량이 대략 2배 정도 증가한다.
@@ -89,7 +140,7 @@ public class MapFlagment extends Fragment {
         mMapContext.setupMapView(mapView);
 
         /////지도 설정////////////
-        mapController =  mapView.getMapController();
+        mapController = mapView.getMapController();
         mapController.setZoomEnabled(true);
         //지도 중심 좌표 및 축척 레벨을 설정한다. 축척 레벨을 지정하지 않으면 중심 좌표만 변경된다. 유효 축척 레벨 범위는 1~14이다
         //NGeoPoint point, int level
@@ -98,7 +149,7 @@ public class MapFlagment extends Fragment {
         allSpotList = DataCenter.getInstance().getSpotList();
 
          // register listener for map state changes
-//        mMapView.setOnMapStateChangeListener(onMapViewStateChangeListener);
+        mapView.setOnMapStateChangeListener(onMapViewStateChangeListener);
 //        mMapView.setOnMapViewTouchEventListener(onMapViewTouchEventListener);
 //        mMapView.setOnMapViewDelegate(onMapViewTouchDelegate);
 //
@@ -106,6 +157,9 @@ public class MapFlagment extends Fragment {
         //컨트롤러
         // use map controller to zoom in/out, pan and set map center, zoom level etc.
         mMapController = mapView.getMapController();
+        beforPoint = new NGeoPoint(127.11227,37.49735);
+        beforZoomlevel = 10;
+        mMapController.setMapCenter(beforPoint,beforZoomlevel);
 
         // use built in zoom controls
 //        NMapView.LayoutParams lp = new NMapView.LayoutParams(NMapView.LayoutParams.WRAP_CONTENT,
@@ -117,21 +171,137 @@ public class MapFlagment extends Fragment {
         // create overlay manager
         //매니져 만들고 프로바이더 제공(프로바이더는 리소스 제공객체)
         mOverlayManager = new NMapOverlayManager(getActivity(), mapView, mMapViewerResourceProvider);
-        //핀 만들기
-        //showALLSpot();
 
-        //register callout overlay listener to customize it.
-//        // location manager
-//        mMapLocationManager = new NMapLocationManager(getActivity());
+
+        /***********************trackingBtn***********************************/
+        mMapLocationManager = new NMapLocationManager(getActivity());
+        mMapLocationManager.setOnLocationChangeListener(onMyLocationChangeListener);
 //        mMapLocationManager.setOnLocationChangeListener(onMyLocationChangeListener);
+        mMapCompassManager = new NMapCompassManager(getActivity());
+        mMyLocationOverlay = mOverlayManager.createMyLocationOverlay(mMapLocationManager, mMapCompassManager);
 
-//        // compass manager
-//        mMapCompassManager = new NMapCompassManager(getActivity());
 
-//        // create my location overlay
-//        mMyLocationOverlay = mOverlayManager.createMyLocationOverlay(mMapLocationManager, mMapCompassManager);
+        //***************트래킥 버튼 클릭****************//
+        trackingBtn = (ImageButton)getView().findViewById(R.id.traking_btn);
+        trackingBtn .setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v) {
+                // Do something with the value of the button
+                if (mMapLocationManager.isMyLocationEnabled())
+                {
+                    stopMyLocation();
+
+                }else
+                {
+                    startMyLocation();
+                    isTraking = true;
+                }
+
+            }
+        });
+       //****************Waring bottom overlay다시 만들기
+        bottomView = (LinearLayout) getView().findViewById(R.id.pinOverlayView);
+
+        overlayView = new PinOverlayView(getContext());
+        bottomView.addView(overlayView);
+        bottomView.setVisibility(View.GONE);
 
     }
+
+
+    private final NMapLocationManager.OnLocationChangeListener onMyLocationChangeListener = new NMapLocationManager.OnLocationChangeListener() {
+
+        @Override
+        public boolean onLocationChanged(NMapLocationManager locationManager, NGeoPoint myLocation) {
+
+            if (mMapController != null) {
+                if (isTraking)
+                {
+                    //
+                    mMapController.animateTo(myLocation);
+                    mMapController.setMapCenter(myLocation,14);
+                    //이미지 변경
+                    Resources resources =  getResources();
+                    int resID  = getResources().getIdentifier("map_tracking_p", "drawable", "com.example.wing.workingsongpa");
+                    Bitmap bScr = BitmapFactory.decodeResource(resources,resID);
+                    trackingBtn.setImageBitmap(bScr);
+
+
+                    isTraking = false;
+                }
+            }
+            return true;
+        }
+
+        @Override
+        public void onLocationUpdateTimeout(NMapLocationManager locationManager) {
+
+
+            Toast.makeText(getActivity(), "Your current location is temporarily unavailable.", Toast.LENGTH_LONG).show();
+        }
+
+        @Override
+        public void onLocationUnavailableArea(NMapLocationManager locationManager, NGeoPoint myLocation) {
+
+            Toast.makeText(getActivity(), "Your current location is unavailable area.", Toast.LENGTH_LONG).show();
+            stopMyLocation();
+        }
+
+    };
+
+
+    private void startMyLocation() {
+//        && !mapView.isAutoRotateEnabled()
+        if (mMyLocationOverlay != null ) {
+
+            //locationOverlay가 있는지 확인후 없으면 추가
+            if (!mOverlayManager.hasOverlay(mMyLocationOverlay)) {
+                mOverlayManager.addOverlay(mMyLocationOverlay);
+            }
+
+            //로케이션중이 아닐때
+            boolean isMyLocationEnabled = mMapLocationManager.enableMyLocation(true);
+            if (!isMyLocationEnabled) {
+                //셋팅이 안되어 있을경우
+                Toast.makeText(getActivity(), "Please enable a My Location source in system settings", Toast.LENGTH_LONG).show();
+
+                Intent goToSettings = new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS);
+                startActivity(goToSettings);
+
+                return;
+            }
+
+            //위치 찾기
+//            mMyLocationOverlay.setCompassHeadingVisible(true);
+            mMapCompassManager.enableCompass();
+//            mapView.setAutoRotateEnabled(false, false);
+
+
+
+            mapView.postInvalidate();
+        }
+    }
+
+
+    private void stopMyLocation() {
+        if (mMyLocationOverlay != null && mMapLocationManager.isMyLocationEnabled()) {
+
+            Resources resources =  getResources();
+            int resID  = getResources().getIdentifier("map_tracking_n", "drawable", "com.example.wing.workingsongpa");
+            Bitmap bScr = BitmapFactory.decodeResource(resources,resID);
+            trackingBtn.setImageBitmap(bScr);
+
+            mMapLocationManager.disableMyLocation();
+
+//            mMyLocationOverlay.setCompassHeadingVisible(false);
+            mMapCompassManager.disableCompass();
+//            mapView.setAutoRotateEnabled(false, false);
+            mMapController.setMapCenter(beforPoint,beforZoomlevel);
+
+            mOverlayManager.removeOverlay(mMyLocationOverlay);
+        }
+    }
+
 
     public void setSelectedCourseType(DataCenter.CourseType selectedCourseType) {
         this.selectedCourseType = selectedCourseType;
@@ -175,19 +345,33 @@ public class MapFlagment extends Fragment {
         allPinOverlay.showAllPOIdata(0);
     }
 
-    //작동 안함
+
     private void hideAllSopot()
     {
-        mOverlayManager.clearCalloutOverlayWith(allPinOverlay);
+        mOverlayManager.removeOverlay(allPinOverlay);
     }
+
+    private void clearCourse()
+    {
+        if (courseOverlay != null)
+        {
+            mOverlayManager.removeOverlay(courseOverlay);
+        }
+        if (pathOverlay != null)
+        {
+            mOverlayManager.removeOverlay(pathOverlay);
+        }
+    }
+
 
     //courseList
     //[{"course_info":String, "spot":List}]
     //코스 보여주기
     public void showCourse(JSONObject courseListData)
     {
+        clearCourse();
         //spot를 구하는 용도로 사용
-        ArrayList<JSONObject> spotDataLIst = new ArrayList<JSONObject>();
+        ArrayList<JSONObject> spotDataList = new ArrayList<JSONObject>();
         //path를 구하는 용도로 사용
         ArrayList<String> spotIDList  = new ArrayList<String>();
 
@@ -206,15 +390,15 @@ public class MapFlagment extends Fragment {
                     int spotIndex = Integer.parseInt(spot_id);
                     //모든 스팟에서 해당 스팟의 데이터 가져오기
                     JSONObject spotData = allSpotList.getJSONObject(spotIndex);
-                    spotDataLIst.add(spotData);
+                    spotDataList.add(spotData);
                 }
             }
-            //spot 표시
-            drawSpotWithList(spotDataLIst);
-
             //path그리기
             ArrayList<JSONObject> allPathLIst = DataCenter.getInstance().getAllPath(spotIDList);
             drawPathWithList(allPathLIst);
+
+            //spot 표시
+            drawSpotWithList(spotDataList);
 
         }catch (JSONException e)
         {
@@ -235,7 +419,7 @@ public class MapFlagment extends Fragment {
                 double longi = spotData.getDouble(DataCenter.SPOT_LONGI);
                 double lati = spotData.getDouble(DataCenter.SPOT_LATI);
                 //NMapPOIitem addPOIitem(NGeoPoint point, String title, int markerId, Object tag, int id)
-                poiData.addPOIitem(longi,lati, null, markerId, 0, id);
+                poiData.addPOIitem(longi,lati, null, markerId, spotData, id);
             }
             // create POI data overlay
             NMapPOIdataOverlay poiDataOverlay = mOverlayManager.createPOIdataOverlay(poiData, null);
@@ -266,22 +450,35 @@ public class MapFlagment extends Fragment {
             for (JSONObject position:list) {
                 double longi =  position.getDouble(DataCenter.SPOT_LONGI);
                 double lati =  position.getDouble(DataCenter.SPOT_LATI);
+//                pathData.addPathPoint(longi, lati, NMapPathLineStyle.TYPE_SOLID);
                 pathData.addPathPoint(longi, lati, 0);
             }
+
+
+//            NMapPathLineStyle pathLineStyle = new NMapPathLineStyle(mapView.getContext());
+//            pathLineStyle.setPataDataType(NMapPathLineStyle.DATA_TYPE_POLYLINE);
+//
+////            pathLineStyle.setLineColor(DataCenter.getInstance().getColorWithType(selectedCourseType), 0x80);
+//            //색상 변하지 않음
+//            pathLineStyle.setLineStyle(NMapPathLineStyle.TYPE_SOLID);
+//            pathLineStyle.setLineColor(R.color.color_course1, 0x88);
+//            pathLineStyle.setLineWidth(9);
+//            pathData.setPathLineStyle(pathLineStyle);
             pathData.endPathData();
 
-            NMapPathLineStyle pathLineStyle = new NMapPathLineStyle(mapView.getContext());
-            pathLineStyle.setPataDataType(NMapPathLineStyle.DATA_TYPE_POLYLINE);
 
-//            pathLineStyle.setLineColor(DataCenter.getInstance().getColorWithType(selectedCourseType), 0x80);
-            //색상 변하지 않음
-            pathLineStyle.setLineColor(R.color.color_course1, 0x80);
-            pathLineStyle.setLineStyle(NMapPathLineStyle.TYPE_SOLID);
-            pathLineStyle.setLineWidth(10);
-            pathData.setPathLineStyle(pathLineStyle);
+            //rgb로 바꿔야 색상 바뀜color
+//            int color = (int)Long.parseLong(myColorString, 16);
+//            int r = (color >> 16) & 0xFF;
+//            int g = (color >> 8) & 0xFF;
+//            int b = (color >> 0) & 0xFF;
+
 
             NMapPathDataOverlay pathDataOverlay = mOverlayManager.createPathDataOverlay(pathData);
+            pathDataOverlay.setLineColor(Color.rgb(128,255,128), 0x88);
+            pathDataOverlay.setLineWidth(9);
             pathDataOverlay.showAllPathData(0);
+            pathOverlay = pathDataOverlay;
         }catch (JSONException e)
         {
             Log.e("jsonErr", "draw Line 에러입니당~", e);
@@ -290,7 +487,7 @@ public class MapFlagment extends Fragment {
     }
 
 
-//    핀 선택시 호출
+//////////////////// 핀 선택시 호출
     private final NMapPOIdataOverlay.OnStateChangeListener onPOIdataStateChangeListener = new NMapPOIdataOverlay.OnStateChangeListener() {
 
     //클릭시
@@ -305,12 +502,74 @@ public class MapFlagment extends Fragment {
         public void onFocusChanged(NMapPOIdataOverlay poiDataOverlay, NMapPOIitem item) {
             if (item != null)
             {
-                Toast.makeText(getActivity(), "change: " + item.getTitle(), Toast.LENGTH_LONG).show();
+                JSONObject objectData = (JSONObject)item.getTag();
+                overlayView.setData(objectData);
+                bottomView.setVisibility(View.VISIBLE);
+
+//                Toast.makeText(getActivity(), "change: " + item.getTitle(), Toast.LENGTH_LONG).show();
+            }else
+            {
+                bottomView.setVisibility(View.GONE);
             }
 
         }
+
     };
 
+
+    /* MapView State Change Listener*/
+    private final NMapView.OnMapStateChangeListener onMapViewStateChangeListener = new NMapView.OnMapStateChangeListener() {
+
+
+        @Override
+        public void onMapInitHandler(NMapView mapView, NMapError errorInfo) {
+
+            if (errorInfo == null) { // success
+                // restore map view state such as map center position and zoom level.
+
+            } else { // fail
+
+            }
+        }
+
+        @Override
+        public void onAnimationStateChange(NMapView mapView, int animType, int animState) {
+            Log.i("StateChange", "onAnimationStateChange: animType=" + animType + ", animState=" + animState);
+        }
+
+        @Override
+        public void onMapCenterChange(NMapView mapView, NGeoPoint center) {
+
+//            Log.i("zoomlevel", "onMapCenterChange: center=" + String.valueOf(mapController.getZoomLevel()));
+            if (!isTraking && mMapLocationManager != null && !mMapLocationManager.isMyLocationEnabled())
+            {
+                beforPoint = center;
+                Log.i("onMapCenterChange", "onMapCenterChange: center=" + center.toString());
+            }
+
+            /*if (bottomView != null && bottomView.getVisibility() == View.VISIBLE)
+            {
+                mapView.clearFocus();
+                bottomView.setVisibility(View.GONE);
+            }*/
+
+        }
+
+        @Override
+        public void onZoomLevelChange(NMapView mapView, int level) {
+            if (!isTraking && mMapLocationManager != null && !mMapLocationManager.isMyLocationEnabled())
+            {
+                beforZoomlevel = level;
+
+            }
+        }
+
+        @Override
+        public void onMapCenterChangeFine(NMapView mapView) {
+
+        }
+
+    };
 
 
 //    private final NMapOverlayManager.OnCalloutOverlayViewListener onCalloutOverlayViewListener = new NMapOverlayManager.OnCalloutOverlayViewListener() {
@@ -351,6 +610,7 @@ public class MapFlagment extends Fragment {
     @Override
     public void onStop() {
         mMapContext.onStop();
+        stopMyLocation();
         super.onStop();
     }
     @Override
@@ -362,6 +622,9 @@ public class MapFlagment extends Fragment {
         mMapContext.onDestroy();
         super.onDestroy();
     }
+
+
+
 
 }
 
@@ -404,59 +667,4 @@ public class MapFlagment extends Fragment {
 //    }
 //
 //};
-
-//
-//    private void startMyLocation() {
-//
-//        if (mMyLocationOverlay != null) {
-//            if (!mOverlayManager.hasOverlay(mMyLocationOverlay)) {
-//                mOverlayManager.addOverlay(mMyLocationOverlay);
-//            }
-//
-//            if (mMapLocationManager.isMyLocationEnabled()) {
-//
-//                if (!mMapView.isAutoRotateEnabled()) {
-//                    mMyLocationOverlay.setCompassHeadingVisible(true);
-//
-//                    mMapCompassManager.enableCompass();
-//
-//                    mMapView.setAutoRotateEnabled(true, false);
-//
-//                    mMapContainerView.requestLayout();
-//                } else {
-//                    stopMyLocation();
-//                }
-//
-//                mMapView.postInvalidate();
-//            } else {
-//                boolean isMyLocationEnabled = mMapLocationManager.enableMyLocation(true);
-//                if (!isMyLocationEnabled) {
-//                    Toast.makeText(NMapViewer.this, "Please enable a My Location source in system settings",
-//                            Toast.LENGTH_LONG).show();
-//
-//                    Intent goToSettings = new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS);
-//                    startActivity(goToSettings);
-//
-//                    return;
-//                }
-//            }
-//        }
-//    }
-//
-//    private void stopMyLocation() {
-//        if (mMyLocationOverlay != null) {
-//            mMapLocationManager.disableMyLocation();
-//
-//            if (mMapView.isAutoRotateEnabled()) {
-//                mMyLocationOverlay.setCompassHeadingVisible(false);
-//
-//                mMapCompassManager.disableCompass();
-//
-//                mMapView.setAutoRotateEnabled(false, false);
-//
-//                mMapContainerView.requestLayout();
-//            }
-//        }
-//    }
-
 

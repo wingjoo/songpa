@@ -1,15 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:orientation="horizontal"
     android:layout_width="match_parent"
-    android:layout_height="56dp">
+    android:layout_height="56dp"
+    android:gravity="center"
+
+
+    >
 
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="vertical"
+        android:layout_alignParentLeft="true"
         android:layout_marginLeft="18dp"
+        android:layout_centerInParent="true"
 
         >
 
@@ -19,7 +24,7 @@
             android:layout_height="wrap_content"
             android:textSize="12sp"
             android:textColor="#3c3c3c"
-            android:gravity="center_vertical"
+            android:text="course title"
             />
 
         <TextView
@@ -27,19 +32,19 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textSize="8sp"
-            android:gravity="center_vertical"
+            android:text="sub title"
             />
     </LinearLayout>
 
-    <!--ImageView
+    <ImageView
         android:id="@+id/image"
-        android:background="@color/color_course1"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="24dp"
+        android:layout_height="24dp"
         android:layout_marginRight="18dp"
-
-        android:layout_gravity="right|center_vertical"
+        android:layout_alignParentRight="true"
+        android:layout_centerInParent="true"
         app:srcCompat="@drawable/manu_n"
-        /-->
+        android:background="@android:color/transparent"
+        />
 
 </RelativeLayout>

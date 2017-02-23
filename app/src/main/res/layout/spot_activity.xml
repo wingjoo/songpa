@@ -17,7 +17,7 @@
             android:orientation="vertical" >
 
 
-            <FrameLayout
+            <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="354dp"
                 >
@@ -52,15 +52,15 @@
                     android:id="@+id/detail_back"
                     android:layout_width="24dp"
                     android:layout_height="29dp"
-                    app:srcCompat="@drawable/icon_list_back_n"
+                    app:srcCompat="@drawable/back_icon"
                     android:layout_gravity="left"
-                    android:layout_marginLeft = "4dp"
+                    android:layout_marginLeft = "10dp"
                     android:layout_marginTop="17dp"
                     android:background="@android:color/transparent"
                     android:scaleType="fitXY"
                     />
 
-            </FrameLayout>
+            </RelativeLayout>
 
 
             <TextView

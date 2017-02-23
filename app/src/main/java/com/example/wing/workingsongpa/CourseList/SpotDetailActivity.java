@@ -9,6 +9,7 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewPager;
+import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageButton;
@@ -32,7 +33,7 @@ import static com.example.wing.workingsongpa.CourseList.DetailCourseListActivity
  * Created by knightjym on 2017. 2. 18..
  */
 
-public class SpotDetailActivity extends FragmentActivity {
+public class SpotDetailActivity extends AppCompatActivity {
 
     ViewPager mPager;
     LinePageIndicator mIndicator;
@@ -43,7 +44,7 @@ public class SpotDetailActivity extends FragmentActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.spot_activity);
-
+        getSupportActionBar().hide();
 
         ImageButton back = (ImageButton)findViewById(R.id.detail_back);
         back.setOnClickListener(new View.OnClickListener(){

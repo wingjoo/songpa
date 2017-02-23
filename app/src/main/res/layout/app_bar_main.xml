@@ -48,11 +48,11 @@
                     android:layout_gravity="center"/>
                 <ImageButton
                     android:layout_width="24dp"
-                    android:layout_height="29dp"
+                    android:layout_height="24dp"
                     app:srcCompat="@drawable/icon_explain_n"
                     android:layout_marginRight="10dp"
                     android:layout_gravity="right"
-                    android:scaleType="fitXY"
+                    android:scaleType="fitCenter"
                     android:background="@android:color/transparent"
                     />
 
