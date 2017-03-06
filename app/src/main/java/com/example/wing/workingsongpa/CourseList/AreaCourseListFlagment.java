@@ -1,15 +1,13 @@
 package com.example.wing.workingsongpa.CourseList;
 
-import android.content.Context;
 import android.content.Intent;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.opengl.GLES20;
-import android.support.v4.app.Fragment;
+import android.graphics.Point;
 import android.os.Bundle;
-import android.support.v4.content.ContextCompat;
+import android.support.v4.app.Fragment;
 import android.util.Log;
+import android.view.Display;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,16 +17,16 @@ import android.widget.ListView;
 import com.example.wing.workingsongpa.Database.DataCenter;
 import com.example.wing.workingsongpa.R;
 
-import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
 
-import static android.R.attr.bitmap;
+/**
+ * Created by knightjym on 2017. 2. 23..
+ */
 
-
-public class CourseListFlagment extends Fragment {
+public class AreaCourseListFlagment extends Fragment {
 
     CourseListViewAdapter adapter;
     public final static String COURSE_DATA = "com.example.wing.SENDCOURSEDATA";
@@ -38,8 +36,10 @@ public class CourseListFlagment extends Fragment {
         adapter = new CourseListViewAdapter() ;
         // Adapter 생성
 
-        //아답터를 이용해서 데이터 바인딩
-        //ArrayAdapter adapter = new ArrayAdapter(getActivity(), android.R.layout.simple_list_item_1, LIST_MENU) ;
+        Display display = getActivity().getWindowManager().getDefaultDisplay();
+        Point size = new Point();
+        display.getSize(size);
+        int width = size.x;
 
         //리스트 뷰 가져와서 아답터 셋
         View rootView = inflater.inflate(R.layout.fragment_main, container, false);
@@ -54,7 +54,7 @@ public class CourseListFlagment extends Fragment {
 
                 Resources resources =  getResources();
                 int resID  = getResources().getIdentifier(res_url, "drawable", "com.example.wing.workingsongpa");
-                Bitmap bScr = DataCenter.getInstance().resizeImge(resources,resID);
+                Bitmap bScr = DataCenter.getInstance().resizeImge(resources,resID,width);
 
                 adapter.addItem(bScr,data);
 //                adapter.addItem(ContextCompat.getDrawable(getActivity(), resID),data);
@@ -79,8 +79,9 @@ public class CourseListFlagment extends Fragment {
                 //intent를 통해서 json객체 전송(string으로 변환
                 intent.putExtra(COURSE_DATA, sendStr);
 
-                int requestCode = 1;
-                startActivityForResult(intent, requestCode);
+//                int requestCode = 1;
+//                startActivityForResult(intent, requestCode);
+                startActivity(intent);
             }
         }) ;
 

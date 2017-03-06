@@ -1,6 +1,4 @@
-package com.example.wing.workingsongpa.MainPage;
-
-import android.graphics.drawable.Drawable;
+package com.example.wing.workingsongpa.MapTab;
 
 import com.example.wing.workingsongpa.ApplicationClass;
 import com.example.wing.workingsongpa.Database.DataCenter;
@@ -20,14 +18,17 @@ public class DrawMenuItem implements ApplicationClass.Item {
     private String course_title;
     private String sub_title;
 
-    public DrawMenuItem( JSONObject newData) {
+    private int section;
 
+    public DrawMenuItem(JSONObject newData,int section) {
 
         itemData = newData;
+        this.section = section;
+
         try{
-            this.course_title =  itemData.getString(DataCenter.SPOT_TITLE).toString();
-            this.sub_title = itemData.getString(DataCenter.SPOT_SUB_TITLE).toString();
-            DataCenter.CourseType type = DataCenter.getInstance().getCourseTypeWithID(itemData.getInt(DataCenter.SPOT_ID));
+            this.course_title =  itemData.getString(DataCenter.TITLE_KEY).toString();
+            this.sub_title = itemData.getString(DataCenter.SUB_TITLE_KEY).toString();
+            DataCenter.CourseType type = DataCenter.getInstance().getCourseTypeWithID(itemData.getInt(DataCenter.ID));
             color = DataCenter.getInstance().getColorWithType(type);
 
         }catch (JSONException je)
@@ -51,6 +52,7 @@ public class DrawMenuItem implements ApplicationClass.Item {
         return sub_title;
     }
 
+    public int getSection(){return section;}
 
 
     @Override

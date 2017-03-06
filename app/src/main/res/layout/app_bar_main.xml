@@ -46,10 +46,12 @@
                     android:text="@string/title"
                     android:textSize="34sp"
                     android:layout_gravity="center"/>
+
                 <ImageButton
+                    android:id="@+id/map_icon"
                     android:layout_width="24dp"
                     android:layout_height="24dp"
-                    app:srcCompat="@drawable/icon_explain_n"
+                    app:srcCompat="@drawable/goto_map_icon"
                     android:layout_marginRight="10dp"
                     android:layout_gravity="right"
                     android:scaleType="fitCenter"
@@ -65,6 +67,8 @@
                 android:layout_height="50dp"
                 app:tabIndicatorColor = "@color/line"
                 android:background="@color/mainBG"
+                app:tabTextColor="@color/color_title"
+                app:tabSelectedTextColor="@color/color_selected"/>
                 />
 
 

@@ -4,11 +4,12 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
+import android.graphics.Point;
 import android.os.Build;
-import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Display;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ImageButton;
@@ -17,6 +18,8 @@ import android.widget.ListView;
 
 import com.example.wing.workingsongpa.ApplicationClass;
 import com.example.wing.workingsongpa.Database.DataCenter;
+import com.example.wing.workingsongpa.MainPage.MainActivity;
+import com.example.wing.workingsongpa.MapTab.MapActivity;
 import com.example.wing.workingsongpa.R;
 import com.tsengvn.typekit.TypekitContextWrapper;
 
@@ -26,7 +29,8 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 
-import static com.example.wing.workingsongpa.CourseList.CourseListFlagment.COURSE_DATA;
+import static com.example.wing.workingsongpa.CourseList.RecommandCourseListFlagment.COURSE_DATA;
+import static com.example.wing.workingsongpa.MapTab.MapActivity.MAP_ACTIVITY_INTENT;
 
 public class DetailCourseListActivity extends AppCompatActivity {
 
@@ -41,6 +45,11 @@ public class DetailCourseListActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_detail_course_list);
         getSupportActionBar().hide();
+
+        Display display = getWindowManager().getDefaultDisplay();
+        Point size = new Point();
+        display.getSize(size);
+        int width = size.x;
 
         Intent intent = getIntent();
         try
@@ -70,11 +79,12 @@ public class DetailCourseListActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 // Do something with the value of the button
-                Intent intent = new Intent();
+                Intent intent = new Intent(DetailCourseListActivity.this , MapActivity.class);
+
                 String sendStr = courseData.toString();
-                intent.putExtra(SELECTED_COURSE,sendStr);
-                setResult(RESULT_OK,intent);
-                finish();
+                //intent를 통해서 json객체 전송(string으로 변환
+                intent.putExtra(MAP_ACTIVITY_INTENT, sendStr);
+                startActivity(intent);
             }
         });
 
@@ -90,7 +100,7 @@ public class DetailCourseListActivity extends AppCompatActivity {
 
                 Resources resources =  getResources();
                 int courseID  = getResources().getIdentifier(res_url, "drawable", "com.example.wing.workingsongpa");
-                Bitmap courseScr = DataCenter.getInstance().resizeImge(resources,courseID);
+                Bitmap courseScr = DataCenter.getInstance().resizeImge(resources, courseID, width);
 
                 titleView.setImageBitmap(courseScr);
 
@@ -115,12 +125,12 @@ public class DetailCourseListActivity extends AppCompatActivity {
                             String img_url = itemData.getString(DataCenter.SPOT_MAIN_IMG).toString();
                             if (img_url == null || img_url.length() == 0)
                             {
-                                img_url = "sample";
+                                img_url = "list_img";
                             }
                             //이미지 리소스 아이디
 
                             int resID  = getResources().getIdentifier(img_url  , "drawable", "com.example.wing.workingsongpa");
-                            Bitmap bScr = DataCenter.getInstance().resizeImge(resources,resID);
+                            Bitmap bScr = DataCenter.getInstance().resizeImge(resources, resID, width/4);
 
                             items.add(new EntryItem(bScr, itemData));
                         }catch (JSONException je)
@@ -151,7 +161,6 @@ public class DetailCourseListActivity extends AppCompatActivity {
                 // get item
                 EntryItem item = (EntryItem)parent.getItemAtPosition(position);
 
-                // TODO : use item data.
                 //next activity
                 Intent intent = new Intent(DetailCourseListActivity.this , SpotDetailActivity.class);
 

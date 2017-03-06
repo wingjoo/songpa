@@ -15,6 +15,8 @@ import com.example.wing.workingsongpa.ApplicationClass;
 import com.example.wing.workingsongpa.Database.DataCenter;
 import com.example.wing.workingsongpa.R;
 
+import org.json.JSONObject;
+
 public class EntryAdapter extends ArrayAdapter<ApplicationClass.Item> {
 
 	private Context context;
@@ -58,14 +60,20 @@ public class EntryAdapter extends ArrayAdapter<ApplicationClass.Item> {
 				ImageView iconImageView = (ImageView) convertView.findViewById(R.id.icon) ;
 				TextView titleTextView = (TextView) convertView.findViewById(R.id.title) ;
 				TextView subTiitleTextView = (TextView) convertView.findViewById(R.id.sub_title) ;
+				TextView msgTextView = (TextView) convertView.findViewById(R.id.msg) ;
+
+//				iconImageView.setImageDrawable(item.iconDrawable);
 
 				// 아이템 내 각 위젯에 데이터 반영
-
-
-				iconImageView.setImageBitmap(item.imgScr);
-//				iconImageView.setImageDrawable(item.iconDrawable);
 				String title = item.getTitle();
 				String subTitle = item.getSubTitle();
+				String msgText = item.getMsg();
+
+				if (item.imgScr != null)
+				{
+					iconImageView.setImageBitmap(item.imgScr);
+				}
+
 				if (title != null)
 				{
 					titleTextView.setText(title);
@@ -74,9 +82,21 @@ public class EntryAdapter extends ArrayAdapter<ApplicationClass.Item> {
 				{
 					subTiitleTextView.setText(subTitle);
 				}
+
+				if (msgText != null)
+				{
+					msgTextView.setText(msgText);
+				}
 			}
 		}
 		return convertView;
+	}
+
+	public void updateTopItemWithData(Bitmap scr, JSONObject newData)
+	{
+		ApplicationClass.Item i = items.get(0);
+		EntryItem item  = (EntryItem)i;
+		item.setData(scr, newData);
 	}
 
 }

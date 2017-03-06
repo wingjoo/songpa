@@ -1,12 +1,8 @@
 package com.example.wing.workingsongpa.MainPage;
 
-import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
-
-import com.example.wing.workingsongpa.CourseList.CourseListFlagment;
-import com.example.wing.workingsongpa.MapTab.MapFlagment;
 
 import java.util.ArrayList;
 import java.util.List;

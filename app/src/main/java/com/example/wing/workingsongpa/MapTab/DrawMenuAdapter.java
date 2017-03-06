@@ -1,15 +1,13 @@
-package com.example.wing.workingsongpa.MainPage;
+package com.example.wing.workingsongpa.MapTab;
 
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.wing.workingsongpa.ApplicationClass;
-import com.example.wing.workingsongpa.CourseList.EntryItem;
 import com.example.wing.workingsongpa.CourseList.SectionItem;
 import com.example.wing.workingsongpa.R;
 

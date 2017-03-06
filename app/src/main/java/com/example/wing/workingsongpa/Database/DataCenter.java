@@ -11,7 +11,9 @@ import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.opengl.GLES20;
 import android.support.v4.content.ContextCompat;
+import android.util.DisplayMetrics;
 import android.util.Log;
+import android.view.WindowManager;
 
 import com.example.wing.workingsongpa.ApplicationClass;
 import com.example.wing.workingsongpa.CourseList.EntryItem;
@@ -70,6 +72,7 @@ import static com.example.wing.workingsongpa.Database.DataCenter.CourseType.COUR
                     “sub_title:string
                     “next_spot_distan”:string
                     “msg”:string
+                    "sub_msg" :[{"title" : String,"text":String}]
                     “info”:string
                     “latitude”:float
                     “longitude”:float
@@ -91,11 +94,14 @@ public class DataCenter {
     private static final String COURSE_LIST_NAME = "courseList.json";
     private static final String SPOT_LIST_NAME = "spotList.json";
     private static final String PATH_LIST_NAME = "path.json";
+    private static final String AREA_LIST_NAME = "areaList.json";
 
-    public static final String SPOT_ID = "id";
-    public static final String SPOT_TITLE = "title";
-    public static final String SPOT_SUB_TITLE = "sub_title";
+    public static final String ID = "id";
+    public static final String TITLE_KEY = "title";
+    public static final String TEXT_KEY = "text";
+    public static final String SUB_TITLE_KEY = "sub_title";
     public static final String SPOT_MSG = "msg";
+    public static final String SPOT_SUBMSG = "sub_msg";
     public static final String SPOT_NEXT_DIS = "next_spot_distan";
     public static final String SPOT_LATI = "latitude";
     public static final String SPOT_LONGI = "longitude";
@@ -109,6 +115,8 @@ public class DataCenter {
     public static final String COURSE_SPECIALTY = "specialty";
     public static final String COURSE_INFORUSE = "infor_use";
     public static final String COURSE_IMG_URL = "image_url";
+
+    public static final String AREA_LINE_POSITION = "area_position";
 
     public enum CourseType
     {
@@ -128,6 +136,7 @@ public class DataCenter {
 
     private JSONArray spotList;
     private JSONArray courseList;
+    private JSONArray areaList;
     private JSONObject pathList;
 
     public static DataCenter getInstance(){
@@ -145,6 +154,15 @@ public class DataCenter {
 
 
     // ****************************데이터*********************** //
+    public void loadDataWithContext(Context myContext)
+    {
+        loadCourseListJSON(myContext);
+        loadPathJSON(myContext);
+        loadSpotListJSON(myContext);
+        loadAreaListJSON(myContext);
+    }
+
+
     public void loadCourseListJSON(Context myContext) {
         try {
             InputStream is = myContext.getAssets().open(COURSE_LIST_NAME);
@@ -195,6 +213,24 @@ public class DataCenter {
         }
     }
 
+    public void loadAreaListJSON(Context myContext) {
+        try {
+            InputStream is = myContext.getAssets().open(AREA_LIST_NAME);
+            int size = is.available();
+            byte[] buffer = new byte[size];
+            is.read(buffer);
+            is.close();
+            String  json = new String(buffer, "UTF-8");
+
+            areaList = new JSONArray(json);
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        }catch(JSONException je) {
+            Log.e("jsonErr", "LoadAreaJson에러입니당~", je);
+        }
+    }
+
+
 
     public ArrayList<JSONObject> getCourseList()
     {
@@ -234,6 +270,28 @@ public class DataCenter {
          }
 
         return list;
+    }
+
+
+    public ArrayList<JSONObject> getAreaList() {
+
+        ArrayList<JSONObject> list = new ArrayList<JSONObject>();
+        for(int c = 0; c < areaList .length(); c++)
+        {
+            try
+            {
+                JSONObject areaObject = areaList.getJSONObject(c);
+                list.add(areaObject);
+
+            }catch (JSONException je)
+            {
+                Log.e("jsonErr", "getCourseList에러입니당~", je);
+                break;
+            }
+        }
+
+        return list;
+
     }
 
 
@@ -380,26 +438,74 @@ public class DataCenter {
     }
 
 
-
-    public Bitmap resizeImge(Resources rsc, int rscID)
+    public String getHaxColorWithType(CourseType type)
     {
+        String haxColor = "#fbb829";
+        switch (type)
+        {
+            case COURSE_TYPE_ROAD1:
+                haxColor = "#fbb829";
+                break;
+            case COURSE_TYPE_ROAD2:
+                haxColor = "#7ab318";
+                break;
+            case COURSE_TYPE_ROAD3:
+                haxColor = "#b90504";
+                break;
+            case COURSE_TYPE_ROAD4:
+                haxColor = "#7e1a0b";
+                break;
+            case COURSE_TYPE_ROAD5:
+                haxColor = "#e94e76";
+                break;
+            case COURSE_TYPE_ROAD6:
+                haxColor = "#0c486c";
+                break;
+            case COURSE_TYPE_ROAD7:
+                haxColor = "#fa6900";
+                break;
+            case COURSE_TYPE_ROAD8:
+                haxColor = "#b62842";
+                break;
+
+        }
+        return haxColor;
+    }
+
+
+
+    public Bitmap resizeImge(Resources rsc, int rscID, int reqWidth)
+    {
+//        BitmapFactory.Options options = new BitmapFactory.Options();
+//        options.inSampleSize = 2;
+//        Bitmap src = BitmapFactory.decodeResource(rsc,rscID,options);
+
         BitmapFactory.Options options = new BitmapFactory.Options();
-        options.inSampleSize = 2;
-        Bitmap src = BitmapFactory.decodeResource(rsc,rscID,options);
+        options.inJustDecodeBounds = true;
+        BitmapFactory.decodeResource(rsc,rscID, options);
 
-        //resize
-//        int[] maxTextureSize = new int[1];
-//        GLES20.glGetIntegerv(GLES20.GL_MAX_TEXTURE_SIZE, maxTextureSize, 0);
-//
-//        Bitmap bitImg = BitmapFactory.decodeFile(res_url);
-//
-//        if (bitImg .getHeight() > maxTextureSize[0]){
-//            int resizedWidth = 200;
-//            int resizedHeight = 600;
-//            bitImg .createScaledBitmap(bitImg, resizedWidth, resizedHeight, false);
-//        }
+        int imageWidth = options.outWidth;
+        int imageheight = options.outWidth;
 
-        return src;
+        if (imageWidth > reqWidth){
+            int sampleSize = imageWidth/reqWidth;
+
+            options.inSampleSize = sampleSize;
+
+        }
+
+        //리사이즈 다시 고민해봅시다
+        Bitmap src = BitmapFactory.decodeResource(rsc,rscID);
+        Bitmap resized = null;
+        while (imageWidth > reqWidth) {
+            resized = Bitmap.createScaledBitmap(src,reqWidth, (imageheight * reqWidth) / imageWidth, true);
+            imageheight = resized.getHeight();
+            imageWidth = resized.getWidth();
+        }
+
+
+
+        return resized;
     }
 
     public Bitmap drawableToBitmap (Drawable drawable) {

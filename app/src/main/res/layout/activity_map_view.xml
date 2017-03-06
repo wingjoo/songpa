@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v4.widget.DrawerLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/drawer_layout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fitsSystemWindows="true"
+    >
+
+    <android.support.design.widget.CoordinatorLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <android.support.design.widget.AppBarLayout
+            android:layout_width="match_parent"
+            android:layout_height="58dp"
+            android:theme="@style/AppTheme.AppBarOverlay">
+
+            <android.support.v7.widget.Toolbar
+                android:id="@+id/toolbar"
+                android:layout_width="match_parent"
+                android:layout_height="58dp"
+                android:background="@color/mainBG"
+                app:layout_scrollFlags="scroll|enterAlways"
+                >
+
+                <TextView
+                    android:id="@+id/toolbar_title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/map_title"
+                    android:textSize="22sp"
+                    android:layout_gravity="center"/>
+
+                <!--custom add-->
+                <!--<ImageButton-->
+                <!--android:id="@+id/draw_btn"-->
+                <!--android:layout_width="24dp"-->
+                <!--android:layout_height="24dp"-->
+                <!--app:srcCompat="@drawable/icon_map_manu_n"-->
+                <!--android:layout_marginLeft="10dp"-->
+                <!--android:layout_gravity="left"-->
+                <!--android:scaleType="fitCenter"-->
+                <!--android:background="@android:color/transparent"-->
+                <!--/>-->
+            </android.support.v7.widget.Toolbar>
+        </android.support.design.widget.AppBarLayout>
+
+        <!-- Map-->
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <!-- MapView-->
+            <com.nhn.android.maps.NMapView
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:id="@+id/mapView"/>
+
+            <!--find location-->
+            <ImageButton
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_marginRight="6dp"
+                android:layout_marginTop="6dp"
+                android:layout_alignParentRight="true"
+                android:layout_alignParentTop="true"
+                android:background="@android:color/transparent"
+
+                android:scaleType="fitCenter"
+                android:id="@+id/traking_btn"
+                />
+
+
+            <ListView
+                android:layout_width="match_parent"
+                android:layout_height="114dp"
+                android:background = "@color/white"
+                android:layout_alignParentBottom="true"
+                android:id="@+id/detail_course_listView" />
+            />
+
+        </RelativeLayout>
+
+    </android.support.design.widget.CoordinatorLayout>
+
+
+    <ListView android:layout_width="240dp"
+        android:layout_height="match_parent"
+        android:id="@+id/nav_menu"
+        android:layout_gravity="start"
+        android:choiceMode="singleChoice"
+        android:background="#EDEDED"/>
+
+
+</android.support.v4.widget.DrawerLayout>
+
