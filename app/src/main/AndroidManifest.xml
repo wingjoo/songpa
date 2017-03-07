@@ -41,7 +41,9 @@
             <!--android:hardwareAccelerated="false"-->
         </activity>
         <activity
-            android:name=".CourseList.DetailCourseListActivity">
+            android:name=".CourseList.DetailCourseListActivity"
+            android:theme="@style/AppTheme"
+            >
             <!--android:hardwareAccelerated="false"-->
         </activity>
 

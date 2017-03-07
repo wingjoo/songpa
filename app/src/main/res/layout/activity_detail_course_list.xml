@@ -7,58 +7,55 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <FrameLayout
-        android:layout_width="match_parent"
-        android:layout_height="154dp">
 
-        <ImageView
-            android:id="@+id/detail_titleView"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            app:srcCompat="@drawable/t_road_n_02"
-            android:scaleType="fitXY"
-            />
+    <!--<android.support.design.widget.AppBarLayout-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:theme="@style/AppTheme.AppBarOverlay">-->
+
+        <!--<android.support.v7.widget.Toolbar-->
+            <!--android:id="@+id/toolbar"-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="?attr/actionBarSize"-->
+            <!--android:background="?attr/colorPrimary"-->
+            <!--app:popupTheme="@style/AppTheme.PopupOverlay">-->
+
+            <!--<ImageButton-->
+                <!--android:id="@+id/detail_back"-->
+                <!--android:layout_width="25dp"-->
+                <!--android:layout_height="25dp"-->
+                <!--app:srcCompat="@drawable/back_icon"-->
+                <!--android:layout_gravity="left"-->
+                <!--android:layout_marginLeft = "10dp"-->
+                <!--android:layout_marginTop="6dp"-->
+                <!--android:background="@android:color/transparent"-->
+                <!--android:scaleType="fitXY"-->
+                <!--/>-->
+
+            <!--<ImageButton-->
+                <!--android:id="@+id/detail_goToMap"-->
+                <!--android:layout_width="25dp"-->
+                <!--android:layout_height="25dp"-->
+                <!--app:srcCompat="@drawable/goto_map_icon"-->
+                <!--android:layout_marginRight="10dp"-->
+                <!--android:layout_marginTop="6dp"-->
+                <!--android:layout_gravity="right"-->
+                <!--android:background="@android:color/transparent"-->
+                <!--android:scaleType="fitXY"-->
+                <!--/>-->
+
+        <!--</android.support.v7.widget.Toolbar>-->
 
 
-        <ImageButton
-            android:id="@+id/detail_back"
-            android:layout_width="24dp"
-            android:layout_height="24dp"
-            app:srcCompat="@drawable/back_icon"
-            android:layout_gravity="left"
-            android:layout_marginLeft = "10dp"
-            android:layout_marginTop="17dp"
-            android:background="@android:color/transparent"
-            android:scaleType="fitXY"
-            />
+    <!--</android.support.design.widget.AppBarLayout>-->
 
-        <ImageButton
-            android:id="@+id/detail_goToMap"
-            android:layout_width="24dp"
-            android:layout_height="24dp"
-            app:srcCompat="@drawable/goto_map_icon"
-            android:layout_marginRight="10dp"
-            android:layout_marginTop="17dp"
-            android:layout_gravity="right"
-            android:background="@android:color/transparent"
-            android:scaleType="fitXY"
-            />
 
-    </FrameLayout>
 
-    <LinearLayout
-        android:orientation="vertical"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
 
-        <ListView
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:id="@+id/detail_course_listView"
-            
-            />
-        />
-
-    </LinearLayout>
 
 </LinearLayout>
+
+
+
+
+    <!--custom:headerView="@layout/course_detail_list_header"-->
