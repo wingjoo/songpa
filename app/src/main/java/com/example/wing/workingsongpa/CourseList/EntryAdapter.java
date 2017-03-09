@@ -12,8 +12,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.wing.workingsongpa.ApplicationClass;
-import com.example.wing.workingsongpa.Database.DataCenter;
 import com.example.wing.workingsongpa.R;
+
 
 import org.json.JSONObject;
 

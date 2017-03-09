@@ -13,7 +13,8 @@ public class MapFlagType {
 
     // Pin icons
     public static final int SPOT = SINGLE_POI_BASE + 1;
-    public static final int COURSE = SPOT + 1;
+    public static final int START = SPOT + 1;
+    public static final int COURSE = START + 1;
     public static final int NORMAL = COURSE + 1;
    // public static final int SELECT = NORMAL + 1;
 

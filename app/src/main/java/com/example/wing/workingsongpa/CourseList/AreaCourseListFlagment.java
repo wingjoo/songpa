@@ -1,8 +1,10 @@
 package com.example.wing.workingsongpa.CourseList;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Point;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -46,17 +48,16 @@ public class AreaCourseListFlagment extends Fragment {
         ListView listview = (ListView) rootView.findViewById(R.id.course_listView);
         listview.setAdapter(adapter) ;
 
-        //JSONArray courseList = DataCenter.getInstance().getCourseList();
-        ArrayList<JSONObject> courseList = DataCenter.getInstance().getCourseList();
+        ArrayList<JSONObject> courseList = DataCenter.getInstance().getAreaList();
         for (JSONObject data:courseList) {
             try {
                 String res_url = data.getString(DataCenter.COURSE_IMG_URL).toString();
 
                 Resources resources =  getResources();
                 int resID  = getResources().getIdentifier(res_url, "drawable", "com.example.wing.workingsongpa");
-                Bitmap bScr = DataCenter.getInstance().resizeImge(resources,resID,width);
-
-                adapter.addItem(bScr,data);
+                Bitmap src = DataCenter.getInstance().resizeImge(resources,resID,width);
+//                Bitmap src = BitmapFactory.decodeResource(resources,resID);
+                adapter.addItem(src,data);
 //                adapter.addItem(ContextCompat.getDrawable(getActivity(), resID),data);
             }catch (JSONException e)
             {
@@ -68,20 +69,28 @@ public class AreaCourseListFlagment extends Fragment {
         listview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView parent, View v, int position, long id) {
-                // get item
-                CourseListItem item = (CourseListItem)parent.getItemAtPosition(position) ;
+// get item
+                final CourseListItem item = (CourseListItem)parent.getItemAtPosition(position) ;
 
-                // TODO : use item data.
-                //next activity
-                Intent intent = new Intent(getActivity(), DetailCourseListActivity.class);
+                final ProgressDialog pd = ProgressDialog.show(getActivity(),
+                        "", "Loading...", true);
 
-                String sendStr = item.getItemData().toString();
-                //intent를 통해서 json객체 전송(string으로 변환
-                intent.putExtra(COURSE_DATA, sendStr);
+                new Thread(new Runnable(){
+                    public void run(){
 
-//                int requestCode = 1;
-//                startActivityForResult(intent, requestCode);
-                startActivity(intent);
+                        // TODO : use item data.
+                        //next activity
+                        Intent intent = new Intent(getActivity(), DetailCourseListActivity.class);
+
+                        String sendStr = "area///" + item.getItemData().toString() ;
+                        //intent를 통해서 json객체 전송(string으로 변환
+                        intent.putExtra(COURSE_DATA, sendStr);
+                        startActivity(intent);
+
+                        pd.dismiss();
+                    }
+                }).start();
+
             }
         }) ;
 

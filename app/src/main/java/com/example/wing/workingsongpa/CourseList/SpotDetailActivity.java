@@ -94,7 +94,8 @@ public class SpotDetailActivity extends AppCompatActivity {
                 String imgUrl = imgList.getString(i).toString();
                 Resources resources =  getResources();
                 int resID  = getResources().getIdentifier(imgUrl  , "drawable", "com.example.wing.workingsongpa");
-                Bitmap scr = DataCenter.getInstance().resizeImge(resources,resID,width);
+                int reWidth = width - (int)((double)width * 0.2);
+                Bitmap scr = DataCenter.getInstance().resizeImge(resources,resID,reWidth);
 
                 //fagment만들기
                 mAdapter.addItem(scr);

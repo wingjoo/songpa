@@ -1,18 +1,90 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:orientation="vertical"
-    android:layout_width="match_parent"
-    android:layout_height="154dp">
 
-        <ImageView
-            android:id="@+id/detail_titleView"
-            android:layout_width="fill_parent"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:srcCompat="@drawable/t_road_n_02"
-            android:scaleType="fitXY"
-            />
+            >
+
+            <ImageView
+                android:id="@+id/detail_titleView"
+                android:layout_width="fill_parent"
+                android:layout_height="154dp"
+                app:srcCompat="@drawable/t_road_n_02"
+                android:scaleType="fitXY"
+                />
+
+
+            <TextView
+                android:text="Story"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="24dp"
+                android:textSize="16sp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:textColor="@color/color_title"
+                android:id="@+id/story_title"
+                />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:textSize="12sp"
+
+                android:textColor="@color/color_msg_text"
+                android:id="@+id/story_text" />
+
+
+            <TextView
+                android:text="Specialty"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:textSize="16sp"
+                android:textColor="@color/color_title"
+                android:id="@+id/speictial_title"
+                />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:textSize="12sp"
+                android:textColor="@color/color_msg_text"
+                android:id="@+id/specialty_text" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:layout_marginBottom="10dp"
+                android:textSize="12sp"
+                android:textColor="@color/color_subtitle"
+                android:id="@+id/course_info_text" />
+
+
+        </LinearLayout>
+
+
+
 
 
 
     </FrameLayout>
+
+    <!--154-->

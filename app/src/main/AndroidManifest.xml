@@ -42,9 +42,10 @@
         </activity>
         <activity
             android:name=".CourseList.DetailCourseListActivity"
-            android:theme="@style/AppTheme"
+            android:theme="@style/AppTheme.NoActionBar"
             >
             <!--android:hardwareAccelerated="false"-->
+            <!--android:theme="@style/Theme.AppCompat.Light.DarkActionBar"-->
         </activity>
 
         <activity

@@ -136,6 +136,7 @@ public class MapResourseProvider extends NMapResourceProvider {
     private final ResourceIdsOnMap mResourceIdsForMarkerOnMap[] = {
 //             Spot, Pin icons
             new ResourceIdsOnMap(MapFlagType.SPOT, R.drawable.map_spot_n, R.drawable.map_spot_s),
+            new ResourceIdsOnMap(MapFlagType.START, R.drawable.map_spot_start, R.drawable.map_spot_s),
             new ResourceIdsOnMap(MapFlagType.COURSE, R.drawable.map_spot_n, R.drawable.map_spot_s),
             new ResourceIdsOnMap(MapFlagType.NORMAL, R.drawable.map_spot_add, R.drawable.map_spot_add_s),
 
@@ -223,14 +224,15 @@ public class MapResourseProvider extends NMapResourceProvider {
     @Override
     public Drawable getDirectionArrow() {
 
-        Drawable drawable = mContext.getResources().getDrawable(R.drawable.ic_angle);
+        Drawable drawable = null;
+//        Drawable drawable = mContext.getResources().getDrawable(R.drawable.ic_angle);
 
-        if (drawable != null) {
-            int w = drawable.getIntrinsicWidth() / 2;
-            int h = drawable.getIntrinsicHeight() / 2;
-
-            drawable.setBounds(-w, -h, w, h);
-        }
+//        if (drawable != null) {
+//            int w = drawable.getIntrinsicWidth() / 2;
+//            int h = drawable.getIntrinsicHeight() / 2;
+//
+//            drawable.setBounds(-w, -h, w, h);
+//        }
 
         return drawable;
     }
@@ -269,16 +271,16 @@ public class MapResourseProvider extends NMapResourceProvider {
     protected Drawable getDrawableForMarker(int markerId, boolean focused, NMapOverlayItem item) {
         Drawable drawable = null;
 
-        if (markerId >= MapFlagType.NUMBER_BASE && markerId < MapFlagType.NUMBER_END) { // Direction Number icons
-            int resourceId = (focused) ? R.drawable.ic_map_no_02 : R.drawable.ic_map_no_01;
-            int fontColor = (focused) ? POI_FONT_COLOR_ALPHABET : POI_FONT_COLOR_NUMBER;
-
-            String strNumber = String.valueOf(markerId - MapFlagType.NUMBER_BASE);
-
-            drawable = getDrawableWithNumber(resourceId, strNumber, 0.0F, fontColor, POI_FONT_SIZE_NUMBER);
-        } else if (markerId >= MapFlagType.CUSTOM_BASE && markerId < MapFlagType.CUSTOM_END) { // Custom POI icons
-
-        }
+//        if (markerId >= MapFlagType.NUMBER_BASE && markerId < MapFlagType.NUMBER_END) { // Direction Number icons
+//            int resourceId = (focused) ? R.drawable.ic_map_no_02 : R.drawable.ic_map_no_01;
+//            int fontColor = (focused) ? POI_FONT_COLOR_ALPHABET : POI_FONT_COLOR_NUMBER;
+//
+//            String strNumber = String.valueOf(markerId - MapFlagType.NUMBER_BASE);
+//
+//            drawable = getDrawableWithNumber(resourceId, strNumber, 0.0F, fontColor, POI_FONT_SIZE_NUMBER);
+//        } else if (markerId >= MapFlagType.CUSTOM_BASE && markerId < MapFlagType.CUSTOM_END) { // Custom POI icons
+//
+//        }
 
         return drawable;
     }

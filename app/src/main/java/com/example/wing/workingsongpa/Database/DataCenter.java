@@ -8,6 +8,7 @@ import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.opengl.GLES20;
 import android.support.v4.content.ContextCompat;
@@ -27,6 +28,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
 
+
 import static com.example.wing.workingsongpa.Database.DataCenter.CourseType.COURSE_TYPE_NON;
 import static com.example.wing.workingsongpa.Database.DataCenter.CourseType.COURSE_TYPE_ROAD1;
 import static com.example.wing.workingsongpa.Database.DataCenter.CourseType.COURSE_TYPE_ROAD2;
@@ -36,7 +38,7 @@ import static com.example.wing.workingsongpa.Database.DataCenter.CourseType.COUR
 import static com.example.wing.workingsongpa.Database.DataCenter.CourseType.COURSE_TYPE_ROAD6;
 import static com.example.wing.workingsongpa.Database.DataCenter.CourseType.COURSE_TYPE_ROAD7;
 import static com.example.wing.workingsongpa.Database.DataCenter.CourseType.COURSE_TYPE_ROAD8;
-import static com.example.wing.workingsongpa.Database.DataCenter.CourseType.COURSE_TYPE_ROAD9;
+
 
 /**
  * Created by knightjym on 2017. 2. 1..
@@ -129,7 +131,6 @@ public class DataCenter {
         COURSE_TYPE_ROAD6,
         COURSE_TYPE_ROAD7,
         COURSE_TYPE_ROAD8,
-        COURSE_TYPE_ROAD9
     }
 
    private volatile static DataCenter sharedInstance;
@@ -392,9 +393,6 @@ public class DataCenter {
             case 7:
                 type = COURSE_TYPE_ROAD8;
                 break;
-            case 8:
-                type = COURSE_TYPE_ROAD9;
-                break;
 
         }
          return type;
@@ -430,9 +428,7 @@ public class DataCenter {
             case COURSE_TYPE_ROAD8:
                 color = R.color.color_course8;
                 break;
-            case COURSE_TYPE_ROAD9:
-                color = R.color.color_course9;
-                break;
+
         }
         return color;
     }
@@ -473,6 +469,40 @@ public class DataCenter {
     }
 
 
+    public int getColorDrawableNumWithType(CourseType type)
+    {
+        int color = 0xfbb829;
+        switch (type)
+        {
+            case COURSE_TYPE_ROAD1:
+                color  = 0xFFFBB829;
+                break;
+            case COURSE_TYPE_ROAD2:
+                color  = 0xFF7AB318;
+                break;
+            case COURSE_TYPE_ROAD3:
+                color  = 0xffb90504;
+                break;
+            case COURSE_TYPE_ROAD4:
+                color  = 0xff7e1a0b;
+                break;
+            case COURSE_TYPE_ROAD5:
+                color  = 0xffe94e76;
+                break;
+            case COURSE_TYPE_ROAD6:
+                color  = 0xff0c486c;
+                break;
+            case COURSE_TYPE_ROAD7:
+                color  = 0xfffa6900;
+                break;
+            case COURSE_TYPE_ROAD8:
+                color  = 0xffb62842;
+                break;
+
+        }
+        return color;
+    }
+
 
     public Bitmap resizeImge(Resources rsc, int rscID, int reqWidth)
     {
@@ -487,16 +517,17 @@ public class DataCenter {
         int imageWidth = options.outWidth;
         int imageheight = options.outWidth;
 
-        if (imageWidth > reqWidth){
+        if (imageWidth > reqWidth-10){
             int sampleSize = imageWidth/reqWidth;
 
             options.inSampleSize = sampleSize;
-
         }
 
         //리사이즈 다시 고민해봅시다
         Bitmap src = BitmapFactory.decodeResource(rsc,rscID);
         Bitmap resized = null;
+
+
         while (imageWidth > reqWidth) {
             resized = Bitmap.createScaledBitmap(src,reqWidth, (imageheight * reqWidth) / imageWidth, true);
             imageheight = resized.getHeight();
@@ -554,3 +585,6 @@ public class DataCenter {
 //        }
 
 }
+
+
+//데이트 밤길

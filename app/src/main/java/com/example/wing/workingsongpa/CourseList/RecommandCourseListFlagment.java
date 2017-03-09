@@ -1,5 +1,6 @@
 package com.example.wing.workingsongpa.CourseList;
 
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.Resources;
@@ -58,10 +59,11 @@ public class RecommandCourseListFlagment extends Fragment {
 
                 Resources resources =  getResources();
                 int resID  = getResources().getIdentifier(res_url, "drawable", "com.example.wing.workingsongpa");
-                Bitmap bScr = DataCenter.getInstance().resizeImge(resources,resID,width);
+                Bitmap src = DataCenter.getInstance().resizeImge(resources,resID,width);
 
-                adapter.addItem(bScr,data);
-//                adapter.addItem(ContextCompat.getDrawable(getActivity(), resID),data);
+//                Bitmap src = BitmapFactory.decodeResource(resources,resID);
+                adapter.addItem(src,data);
+
             }catch (JSONException e)
             {
                 Log.e("jsonErr", "list image load에러입니당~", e);
@@ -73,19 +75,26 @@ public class RecommandCourseListFlagment extends Fragment {
             @Override
             public void onItemClick(AdapterView parent, View v, int position, long id) {
                 // get item
-                CourseListItem item = (CourseListItem)parent.getItemAtPosition(position) ;
+                final CourseListItem item = (CourseListItem)parent.getItemAtPosition(position) ;
 
-                // TODO : use item data.
-                //next activity
-                Intent intent = new Intent(getActivity(), DetailCourseListActivity.class);
+                final ProgressDialog pd = ProgressDialog.show(getActivity(),
+                        "", "Loading...", true);
 
-                String sendStr = item.getItemData().toString();
-                //intent를 통해서 json객체 전송(string으로 변환
-                intent.putExtra(COURSE_DATA, sendStr);
+                new Thread(new Runnable(){
+                    public void run(){
 
-//                int requestCode = 1;
-//                startActivityForResult(intent, requestCode);
-                startActivity(intent);
+                        // TODO : use item data.
+                        //next activity
+                        Intent intent = new Intent(getActivity(), DetailCourseListActivity.class);
+
+                        String sendStr = "recommand///" + item.getItemData().toString();
+                        //intent를 통해서 json객체 전송(string으로 변환
+                        intent.putExtra(COURSE_DATA, sendStr);
+                        startActivity(intent);
+
+                        pd.dismiss();
+                    }
+                }).start();
             }
         }) ;
 

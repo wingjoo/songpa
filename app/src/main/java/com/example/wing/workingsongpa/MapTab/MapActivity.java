@@ -62,6 +62,7 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 
 import static com.example.wing.workingsongpa.CourseList.DetailCourseListActivity.SPOT_DATA;
+import static com.example.wing.workingsongpa.CourseList.RecommandCourseListFlagment.COURSE_DATA;
 
 /**
  * Created by knightjym on 2017. 2. 23..
@@ -96,6 +97,8 @@ public class MapActivity extends NMapActivity implements AppCompatCallback {
 
     private JSONArray allSpotList;
     private ImageButton trackingBtn;
+    //데이트 코스일때 낮밤 전환용
+    private ImageButton onoffDayBtn;
     private ListView bottomView;
     private EntryAdapter bottomListAdapter;
 
@@ -106,161 +109,22 @@ public class MapActivity extends NMapActivity implements AppCompatCallback {
     private ListView lvNavList;
     private AppCompatDelegate delegate;
 
+    //화면에 보이는 코스 스팟리스트
+    private JSONArray selectCourseList;
+    private JSONArray dayCourseList;
+    private JSONArray nightCourseList;
+    private Boolean isDayON;
+
+    private Boolean isRecommandCourse;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 //        setContentView(R.layout.activity_map_view);
-
-        // ****************************드로우 메뉴*********************** //
-
         delegate = AppCompatDelegate.create(this, this);
         //we need to call the onCreate() of the AppCompatDelegate
         delegate.onCreate(savedInstanceState);
         //we use the delegate to inflate the layout
         delegate.setContentView(R.layout.activity_map_view);
-
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-
-        delegate.setSupportActionBar(toolbar);
-        delegate.getSupportActionBar().setDisplayShowTitleEnabled(false);
-        delegate.getSupportActionBar().setHomeAsUpIndicator(R.drawable.menu_icon);
-        delegate.getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        delegate.getSupportActionBar().setHomeButtonEnabled(true);
-
-        drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-
-        toggle = new ActionBarDrawerToggle(
-                this, drawer, toolbar, R.string.drawer_open, R.string.drawer_close);
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            drawer.addDrawerListener(toggle);
-        } else {
-            drawer.setDrawerListener(toggle);
-        }
-        // toggle.setDrawerIndicatorEnabled(false);
-        ArrayList<ApplicationClass.Item> menuItem = new ArrayList<ApplicationClass.Item>();
-        ArrayList<ApplicationClass.Item> bottomItem = new ArrayList<ApplicationClass.Item>();
-        //[1,2,3,4,]
-        //스팟
-        menuItem.add(new SectionItem("recommd List"));
-        /***********************Draw Menu 코스 보여주기***********************/
-        //기본 코스
-        ArrayList<JSONObject> courseData = DataCenter.getInstance().allCourseList();
-        for (JSONObject data: courseData) {
-            menuItem.add(new DrawMenuItem(data, 1));
-        }
-
-        //구간 정보
-        menuItem.add(new SectionItem("구간"));
-        ArrayList<JSONObject> areaData = DataCenter.getInstance().getAreaList();
-
-        for (JSONObject data: areaData) {
-            menuItem.add(new DrawMenuItem(data, 2));
-        }
-
-        //adaper
-        DrawMenuAdapter adapter = new DrawMenuAdapter(this,menuItem);
-        lvNavList = (ListView)findViewById(R.id.nav_menu);
-        lvNavList.setAdapter(adapter);
-        lvNavList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView parent, View v, int position, long id) {
-                //drawMenu Item
-                DrawMenuItem item = (DrawMenuItem)parent.getItemAtPosition(position) ;
-                //아이템이 코스인지 구역인지 구분 필요
-                //item.itemData
-                JSONObject data =  item.itemData;
-                if (item.getSection() == 1)
-                {
-                    showCourse(data);
-                }else if (item.getSection() == 2)
-                {
-                    showArea(data);
-                }
-
-                //닫기
-                drawer.closeDrawer(lvNavList);
-            }
-        });
-
-
-        // ****************************Map setting*********************** //
-
-        mMapContext =  new NMapContext(this);
-        mMapContext.onCreate();
-        isTraking = false;
-
-        mapView = (NMapView)findViewById(R.id.mapView);
-        // initialize map view
-        mapView.setClientId(CLIENT_ID);// 클라이언트 아이디 설정
-        mapView.setClickable(true);
-        mapView.setEnabled(true);
-
-        mapView.setFocusable(true);
-        mapView.setFocusableInTouchMode(true);
-        mapView.requestFocus();
-
-        //위치 정보 확인
-        PermissionListener permissionlistener = new PermissionListener() {
-            @Override
-            public void onPermissionGranted() {
-                Toast.makeText(MapActivity.this, "Permission Granted", Toast.LENGTH_SHORT).show();
-            }
-
-            @Override
-            public void onPermissionDenied(ArrayList<String> deniedPermissions) {
-                Toast.makeText(MapActivity.this, "Permission Denied\n" + deniedPermissions.toString(), Toast.LENGTH_SHORT).show();
-            }
-        };
-
-        new TedPermission(MapActivity.this)
-                .setPermissionListener(permissionlistener)
-                .setDeniedMessage("If you reject permission,you can not use this service\n\nPlease turn on permissions at [Setting] > [Permission]")
-                .setPermissions(Manifest.permission.ACCESS_COARSE_LOCATION, Manifest.permission.ACCESS_FINE_LOCATION)
-                .check();
-
-        /*
-        scalingFactor : 타일 이미지 확대 배율. 최솟값은 1배 (1.0f) 이며, 지도 타일 1픽셀이 화면의 1픽셀에 대응됨을 의미한다. 1배일 경우 최근의 고밀도 단말에서는 글자가 지나치게 작게 보이므로 적절한 배율을 지정해 시인성을 높일 수 있다. 고정값을 사용하기보다는 화면 밀도를 기준으로 적정한 값을 계산하여 전달하는 편이 바람직하다.
-               mapHD : HD 타일 사용 여부. 고해상도 지도 타일을 사용하려면 true로 지정한다. 지도 타일이 더 선명해지지만 동일 영역을 표시하기 위한 데이터량이 대략 2배 정도 증가한다.
-         */
-        //mapView.setScalingFactor(1,true);
-
-        //내장된 줌표시기 >> 출시 할때 활성화
-//        mapView.setBuiltInZoomControls(false,null);
-        mMapContext.setupMapView(mapView);
-
-        /////지도 설정////////////
-        mapController = mapView.getMapController();
-        mapController.setZoomEnabled(true);
-        //지도 중심 좌표 및 축척 레벨을 설정한다. 축척 레벨을 지정하지 않으면 중심 좌표만 변경된다. 유효 축척 레벨 범위는 1~14이다
-        //NGeoPoint point, int level
-        //NGeoPoint(double longitude, double latitude)
-
-        allSpotList = DataCenter.getInstance().getSpotList();
-
-        // register listener for map state changes
-        mapView.setOnMapStateChangeListener(onMapViewStateChangeListener);
-
-        //map 컨트롤러
-        // use map controller to zoom in/out, pan and set map center, zoom level etc.
-        mMapController = mapView.getMapController();
-        beforPoint = new NGeoPoint(127.11227,37.49735);
-        beforZoomlevel = 10;
-        mMapController.setMapCenter(beforPoint,beforZoomlevel);
-
-        // create resource provider
-        mMapViewerResourceProvider = new MapResourseProvider(MapActivity.this);
-        // create overlay manager
-        //매니져 만들고 프로바이더 제공(프로바이더는 리소스 제공객체)
-        mOverlayManager = new NMapOverlayManager(MapActivity.this, mapView, mMapViewerResourceProvider);
-
-
-        /***********************trackingBtn***********************************/
-        mMapLocationManager = new NMapLocationManager(MapActivity.this);
-        mMapLocationManager.setOnLocationChangeListener(onMyLocationChangeListener);
-//        mMapLocationManager.setOnLocationChangeListener(onMyLocationChangeListener);
-        mMapCompassManager = new NMapCompassManager(MapActivity.this);
-        mMyLocationOverlay = mOverlayManager.createMyLocationOverlay(mMapLocationManager, mMapCompassManager);
-
 
         //***************트래킥 버튼 클릭****************//
         trackingBtn = (ImageButton)findViewById(R.id.traking_btn);
@@ -280,33 +144,264 @@ public class MapActivity extends NMapActivity implements AppCompatCallback {
             }
         });
 
+        // ****************************드로우 메뉴*********************** //
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+
+        delegate.setSupportActionBar(toolbar);
+        delegate.getSupportActionBar().setDisplayShowTitleEnabled(false);
+        delegate.getSupportActionBar().setHomeAsUpIndicator(R.drawable.menu_icon);
+        delegate.getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        delegate.getSupportActionBar().setHomeButtonEnabled(true);
+
+        drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+
+        toggle = new ActionBarDrawerToggle(
+                this, drawer, toolbar, R.string.drawer_open, R.string.drawer_close);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            drawer.addDrawerListener(toggle);
+        } else {
+            drawer.setDrawerListener(toggle);
+        }
+
+        //데이터 초기화
+        initData();
+        //menu만들기
+        createMenu();
+        //위치정보 확인 요청
+        requestTrackingPermission();
+        //맵 초기화
+        initMapView();
+
+
+
+        onoffDayBtn = (ImageButton)findViewById(R.id.OnOffDay);
+        onoffDayBtn .setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v) {
+                // Do something with the value of the button
+                if (selectedCourseType == DataCenter.CourseType.COURSE_TYPE_ROAD5)
+                {
+                    //데이트 코스일때 on/off기능
+                    if (isDayON)
+                    {
+                        isDayON = false;
+                        selectCourseList = dayCourseList;
+                        Resources resources =  getResources();
+                        int resID  = getResources().getIdentifier("map_moon", "drawable", "com.example.wing.workingsongpa");
+                        Bitmap bScr = BitmapFactory.decodeResource(resources,resID);
+                        onoffDayBtn.setImageBitmap(bScr);
+
+                        showRecommandCourse();
+                    }else
+                    {
+                        isDayON = true;
+                        selectCourseList = nightCourseList;
+                        Resources resources =  getResources();
+                        int resID  = getResources().getIdentifier("map_sun", "drawable", "com.example.wing.workingsongpa");
+                        Bitmap bScr = BitmapFactory.decodeResource(resources,resID);
+                        onoffDayBtn.setImageBitmap(bScr);
+
+                        showRecommandCourse();
+                    }
+                }
+            }
+        });
+        onoffDayBtn.setVisibility(View.GONE);
+        isDayON = true;
+
         // ****************************진입시 행동*********************** //
         Intent intent = getIntent();
-        String intentData = intent.getStringExtra(MAP_ACTIVITY_INTENT);
+        String intentStr = intent.getStringExtra(MAP_ACTIVITY_INTENT);
+        if (intentStr != null)
+        {
+            String[] extraList = intent.getStringExtra(MAP_ACTIVITY_INTENT).split("///");
+            String flagStr =  extraList[0];
+            String extraStr =  extraList[1];
 
-        if (intentData != null)
-        {//menu선택하기
             try
             {
-                JSONObject start_courseData = new JSONObject(intentData);
-//        String extra_str= intent.getStringExtra(MAP_ACTIVITY_INTENT);
-                showCourse(start_courseData);
+                JSONObject start_courseData = new JSONObject(extraStr);
+
+                int area_id = start_courseData.getInt(DataCenter.ID);
+                //선택된 코스 타입
+                selectedCourseType = DataCenter.getInstance().getCourseTypeWithID(area_id);
+
+                if (flagStr.equals("area"))
+                {
+                    isRecommandCourse = false;
+                    showArea(start_courseData);
+                }else
+                {
+                    isRecommandCourse = true;
+                    selectCourseData(start_courseData);
+                    showRecommandCourse();
+
+                }
             }catch (JSONException e)
             {
                 drawer.openDrawer(lvNavList);
             }
 
         }else
-        {//menu 띄우기
+        {
             drawer.openDrawer(lvNavList);
         }
 
-        //****************Waring bottom overlay다시 만들기
+        /**********************Bottom View*********************************/
+        setBottomView();
+
+    }
+
+
+    private void createMenu()
+    {
+        ArrayList<ApplicationClass.Item> menuItem = new ArrayList<ApplicationClass.Item>();
+        //스팟
+        menuItem.add(new SectionItem("recommd List"));
+        /***********************Draw Menu 코스 보여주기***********************/
+        ///////////////////기본 코스///////////////////
+        ArrayList<JSONObject> courseData = DataCenter.getInstance().allCourseList();
+        for (JSONObject data: courseData) {
+            menuItem.add(new DrawMenuItem(data, 1));
+        }
+        /////////////////////구간 정보///////////////////
+        menuItem.add(new SectionItem("구간"));
+        ArrayList<JSONObject> areaData = DataCenter.getInstance().getAreaList();
+
+        for (JSONObject data: areaData) {
+            menuItem.add(new DrawMenuItem(data, 2));
+        }
+
+        //adaper
+        DrawMenuAdapter adapter = new DrawMenuAdapter(this,menuItem);
+        lvNavList = (ListView)findViewById(R.id.nav_menu);
+        lvNavList.setAdapter(adapter);
+        lvNavList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView parent, View v, int position, long id) {
+                //drawMenu Item
+                DrawMenuItem item = (DrawMenuItem)parent.getItemAtPosition(position) ;
+                //아이템이 코스인지 구역인지 구분 필요
+                //item.itemData
+                JSONObject selecteData = item.itemData;
+                try
+                {
+                    int area_id = selecteData.getInt(DataCenter.ID);
+                    //선택된 코스 타입
+                    selectedCourseType = DataCenter.getInstance().getCourseTypeWithID(area_id);
+
+                    if (item.getSection() == 1)
+                    {
+                        isRecommandCourse = true;
+                        selectCourseData(selecteData);
+                        showRecommandCourse();
+
+
+                    }else if (item.getSection() == 2)
+                    {
+                        isRecommandCourse = false;
+                        showArea(selecteData);
+                    }
+                }catch (JSONException e)
+                {
+
+                }
+
+                //닫기
+                drawer.closeDrawer(lvNavList);
+            }
+        });
+    }
+
+
+
+    private void initData()
+    {
+        //모듬 스팟 데이터
+        allSpotList = DataCenter.getInstance().getSpotList();
+        beforPoint = new NGeoPoint(127.11227,37.49735);
+        beforZoomlevel = 10;
+    }
+
+    private void initMapView()
+    {
+        // ****************************Map setting*********************** //
+        mMapContext =  new NMapContext(this);
+        mMapContext.onCreate();
+        isTraking = false;
+
+        mapView = (NMapView)findViewById(R.id.mapView);
+        // initialize map view
+        mapView.setClientId(CLIENT_ID);// 클라이언트 아이디 설정
+        mapView.setClickable(true);
+        mapView.setEnabled(true);
+
+        mapView.setFocusable(true);
+        mapView.setFocusableInTouchMode(true);
+        mapView.requestFocus();
+
+        mMapContext.setupMapView(mapView);
+
+        /////지도 설정////////////
+        mapController = mapView.getMapController();
+        mapController.setZoomEnabled(true);
+        //지도 중심 좌표 및 축척 레벨을 설정한다. 축척 레벨을 지정하지 않으면 중심 좌표만 변경된다. 유효 축척 레벨 범위는 1~14이다
+        // register listener for map state changes
+        mapView.setOnMapStateChangeListener(onMapViewStateChangeListener);
+
+        //map 컨트롤러
+        // use map controller to zoom in/out, pan and set map center, zoom level etc.
+        mMapController = mapView.getMapController();
+        mMapController.setMapCenter(beforPoint,beforZoomlevel);
+
+
+        // create resource provider
+        mMapViewerResourceProvider = new MapResourseProvider(MapActivity.this);
+        // create overlay manager
+        //매니져 만들고 프로바이더 제공(프로바이더는 리소스 제공객체)
+        mOverlayManager = new NMapOverlayManager(MapActivity.this, mapView, mMapViewerResourceProvider);
+
+        mMapLocationManager = new NMapLocationManager(MapActivity.this);
+        mMapLocationManager.setOnLocationChangeListener(onMyLocationChangeListener);
+//        mMapLocationManager.setOnLocationChangeListener(onMyLocationChangeListener);
+        mMapCompassManager = new NMapCompassManager(MapActivity.this);
+        mMyLocationOverlay = mOverlayManager.createMyLocationOverlay(mMapLocationManager, mMapCompassManager);
+
+    }
+
+
+    private void requestTrackingPermission()
+    {
+        /***********************trackingBtn***********************************/
+        //위치 정보 확인
+        PermissionListener permissionlistener = new PermissionListener() {
+            @Override
+            public void onPermissionGranted() {
+//                Toast.makeText(MapActivity.this, "Permission Granted", Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onPermissionDenied(ArrayList<String> deniedPermissions) {
+//                Toast.makeText(MapActivity.this, "Permission Denied\n" + deniedPermissions.toString(), Toast.LENGTH_SHORT).show();
+            }
+        };
+
+        //////인증
+        new TedPermission(MapActivity.this)
+                .setPermissionListener(permissionlistener)
+                .setDeniedMessage("If you reject permission,you can not use this service\n\nPlease turn on permissions at [Setting] > [Permission]")
+                .setPermissions(Manifest.permission.ACCESS_COARSE_LOCATION, Manifest.permission.ACCESS_FINE_LOCATION)
+                .check();
+    }
+
+
+    private void setBottomView()
+    {
+        ArrayList<ApplicationClass.Item> bottomItem = new ArrayList<ApplicationClass.Item>();
         bottomView = (ListView)findViewById(R.id.detail_course_listView);
         bottomItem.add(new EntryItem());
         bottomListAdapter = new EntryAdapter(this, bottomItem);
         bottomView.setAdapter(bottomListAdapter);
-
 
         //스팟 선택시 행동
         //디테일 화면으로 이동
@@ -326,7 +421,6 @@ public class MapActivity extends NMapActivity implements AppCompatCallback {
                 startActivity(intent);
             }
         });
-
 
 
         bottomView.setVisibility(View.GONE);
@@ -387,7 +481,7 @@ public class MapActivity extends NMapActivity implements AppCompatCallback {
             boolean isMyLocationEnabled = mMapLocationManager.enableMyLocation(true);
             if (!isMyLocationEnabled) {
                 //셋팅이 안되어 있을경우
-                Toast.makeText(MapActivity.this, "Please enable a My Location source in system settings", Toast.LENGTH_LONG).show();
+//                Toast.makeText(MapActivity.this, "Please enable a My Location source in system settings", Toast.LENGTH_LONG).show();
 
                 Intent goToSettings = new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS);
                 startActivity(goToSettings);
@@ -490,41 +584,31 @@ public class MapActivity extends NMapActivity implements AppCompatCallback {
 
     //코스 보여주기
     //courseListData = 풀 코스 데이터
-    public void showCourse(JSONObject courseListData)
+    public void selectCourseData(JSONObject courseListData)
     {
-        clearCourse();
-        //spot를 구하는 용도로 사용
-        ArrayList<JSONObject> spotDataList = new ArrayList<JSONObject>();
-        //path를 구하는 용도로 사용
-        ArrayList<String> spotIDList  = new ArrayList<String>();
-
         try {
-            int course_id = courseListData.getInt(DataCenter.ID);
-            //선택된 코스 타입
-            selectedCourseType = DataCenter.getInstance().getCourseTypeWithID(course_id);
 
-            JSONArray courseList = courseListData.getJSONArray(DataCenter.COURSE_COURSELIST);
+            if (selectedCourseType == DataCenter.CourseType.COURSE_TYPE_ROAD5)
+            {
 
-            //course List를 확인해서 SPOT 데이터 리스트 만들기
-            for (int i=0; i<courseList.length(); i++) {
-                JSONArray spot_list = courseList.getJSONObject(i).getJSONArray("spot") ;
-                for (int c=0; c<spot_list.length(); c++)
+                JSONObject dateCourseData = courseListData.getJSONObject(DataCenter.COURSE_COURSELIST);
+
+                dayCourseList = dateCourseData.getJSONArray("day");
+                nightCourseList = dateCourseData.getJSONArray("night");
+
+                if (isDayON)
                 {
-                    String spot_id = spot_list.getString(c).toString();
-                    spotIDList.add(spot_id);
-                    int spotIndex = Integer.parseInt(spot_id);
-                    //모든 스팟에서 해당 스팟의 데이터 가져오기
-                    JSONObject spotData = allSpotList.getJSONObject(spotIndex);
-                    spotDataList.add(spotData);
+                    selectCourseList = dayCourseList;
+
+                }else
+                {
+                    selectCourseList = nightCourseList;
                 }
+            }else
+            {
+                //path그리기
+                selectCourseList = courseListData.getJSONArray(DataCenter.COURSE_COURSELIST);
             }
-            //path그리기
-            ArrayList<JSONObject> allPathLIst = DataCenter.getInstance().getAllPath(spotIDList);
-            drawPathWithList(allPathLIst);
-
-            //spot 표시
-            drawSpotWithList(spotDataList);
-
 
         }catch (JSONException e)
         {
@@ -533,19 +617,60 @@ public class MapActivity extends NMapActivity implements AppCompatCallback {
 
     }
 
+    private void showRecommandCourse()
+    {
+        if (selectCourseList != null)
+        {
+            //로멘틱 길일때 플로팅 버튼 Show
+            if (selectedCourseType == DataCenter.CourseType.COURSE_TYPE_ROAD5) {
+                onoffDayBtn.setVisibility(View.VISIBLE);
+            }else {
+                onoffDayBtn.setVisibility(View.GONE);
+            }
+            //이전 Paht 지우기
+            clearCourse();
+
+            //spot를 구하는 용도로 사용
+            ArrayList<JSONObject> spotDataList = new ArrayList<JSONObject>();
+            //path를 구하는 용도로 사용
+            ArrayList<String> spotIDList  = new ArrayList<String>();
+            try
+            {
+                //course List를 확인해서 SPOT 데이터 리스트 만들기
+                for (int i=0; i<selectCourseList.length(); i++) {
+                    JSONArray spot_list = selectCourseList.getJSONObject(i).getJSONArray("spot") ;
+                    for (int c=0; c<spot_list.length(); c++)
+                    {
+                        String spot_id = spot_list.getString(c).toString();
+                        spotIDList.add(spot_id);
+                        int spotIndex = Integer.parseInt(spot_id);
+                        //모든 스팟에서 해당 스팟의 데이터 가져오기
+                        JSONObject spotData = allSpotList.getJSONObject(spotIndex);
+                        spotDataList.add(spotData);
+                    }
+                }
+
+                ArrayList<JSONObject> allPathLIst = DataCenter.getInstance().getAllPath(spotIDList);
+                drawPathWithList(allPathLIst);
+                //spot 표시
+                drawSpotWithList(spotDataList);
+            }catch (JSONException e)
+            {
+                Log.e("jsonErr", "Show CourseSpot 에러입니당~", e);
+            }
+        }
+    }
+
+
     //구간 스팟 보여주기
-    //
+    //areaListData = [1,2,3,]
     public void showArea(JSONObject areaListData)
     {
         clearCourse();
         //Area안의 spotData : pin찍을 용도
         ArrayList<JSONObject> spotDataList = new ArrayList<JSONObject>();
 
-
         try {
-            int area_id = areaListData.getInt(DataCenter.ID);
-            //선택된 코스 타입
-            selectedCourseType = DataCenter.getInstance().getCourseTypeWithID(area_id);
 
             JSONArray spot_list = areaListData.getJSONArray(DataCenter.COURSE_COURSELIST);
 
@@ -560,14 +685,11 @@ public class MapActivity extends NMapActivity implements AppCompatCallback {
                 spotDataList.add(spotData);
             }
 
-            //path그리기
-//            ArrayList<JSONObject> allPathLIst = DataCenter.getInstance().getAllPath(spotIDList);
             JSONArray area_potion = areaListData.getJSONArray(DataCenter.AREA_LINE_POSITION);
-
             drawAreaWithList(area_potion);
 
             //spot 표시
-//            drawSpotWithList(spotDataList);
+            drawSpotWithList(spotDataList);
 
         }catch (JSONException e)
         {
@@ -582,17 +704,37 @@ public class MapActivity extends NMapActivity implements AppCompatCallback {
     //스팟 그리기
     private void drawSpotWithList(ArrayList<JSONObject> list)
     {
+
+        int firstMarkerId = MapFlagType.START;
+
         int markerId = MapFlagType.COURSE;
         NMapPOIdata poiData = new NMapPOIdata(list .size(), mMapViewerResourceProvider);
         poiData.beginPOIdata(list .size());
         try {
-            for (JSONObject spotData: list) {
+            for (int i = 0; i< list.size(); i++)
+            {
+                JSONObject spotData = (JSONObject)list.get(i);
                 int id = spotData.getInt(DataCenter.ID);
                 double longi = spotData.getDouble(DataCenter.SPOT_LONGI);
                 double lati = spotData.getDouble(DataCenter.SPOT_LATI);
                 //NMapPOIitem addPOIitem(NGeoPoint point, String title, int markerId, Object tag, int id)
-                poiData.addPOIitem(longi,lati, null, markerId, spotData, id);
+
+                if (isRecommandCourse)
+                {
+                    if (i ==0)
+                    {
+                        poiData.addPOIitem(longi,lati, null, firstMarkerId, spotData, id);
+                    }else
+                    {
+                        poiData.addPOIitem(longi,lati, null, markerId, spotData, id);
+                    }
+                }else
+                {
+                    poiData.addPOIitem(longi,lati, null, markerId, spotData, id);
+                }
+
             }
+
             // create POI data overlay
             NMapPOIdataOverlay poiDataOverlay = mOverlayManager.createPOIdataOverlay(poiData, null);
             //아이템 선택할때의 리스러
@@ -629,8 +771,6 @@ public class MapActivity extends NMapActivity implements AppCompatCallback {
             pathData.endPathData();
 
 
-            //rgb로 바꿔야 색상 바뀜color
-            //잘못됬음
             int haxColor = DataCenter.getInstance().getColorWithType(selectedCourseType);
 
             int r = (haxColor & 0xFF0000) >> 16;

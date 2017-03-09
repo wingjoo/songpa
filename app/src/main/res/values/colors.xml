@@ -22,4 +22,6 @@
     <color name="color_into_text">#5a5a5a</color>
     <color name="color_msg_text">#777777</color>
     <color name="color_selected">#D0D0D0</color>
+    
+    <color name="translate">#00FFFFFF</color>
 </resources>
