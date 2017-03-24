@@ -8,6 +8,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.graphics.Point;
+import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.os.Bundle;
 import android.provider.Settings;
@@ -126,23 +127,7 @@ public class MapActivity extends NMapActivity implements AppCompatCallback {
         //we use the delegate to inflate the layout
         delegate.setContentView(R.layout.activity_map_view);
 
-        //***************트래킥 버튼 클릭****************//
-        trackingBtn = (ImageButton)findViewById(R.id.traking_btn);
-        trackingBtn .setOnClickListener(new View.OnClickListener(){
-            @Override
-            public void onClick(View v) {
-                // Do something with the value of the button
-                if (mMapLocationManager.isMyLocationEnabled())
-                {
-                    stopMyLocation();
 
-                }else
-                {
-                    startMyLocation();
-                    isTraking = true;
-                }
-            }
-        });
 
         // ****************************드로우 메뉴*********************** //
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -173,6 +158,23 @@ public class MapActivity extends NMapActivity implements AppCompatCallback {
         initMapView();
 
 
+        //***************트래킥 버튼 클릭****************//
+        trackingBtn = (ImageButton)findViewById(R.id.traking_btn);
+        trackingBtn .setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v) {
+                // Do something with the value of the button
+                if (mMapLocationManager.isMyLocationEnabled())
+                {
+                    stopMyLocation();
+
+                }else
+                {
+                    startMyLocation();
+                    isTraking = true;
+                }
+            }
+        });
 
         onoffDayBtn = (ImageButton)findViewById(R.id.OnOffDay);
         onoffDayBtn .setOnClickListener(new View.OnClickListener(){
@@ -185,23 +187,39 @@ public class MapActivity extends NMapActivity implements AppCompatCallback {
                     if (isDayON)
                     {
                         isDayON = false;
-                        selectCourseList = dayCourseList;
-                        Resources resources =  getResources();
-                        int resID  = getResources().getIdentifier("map_moon", "drawable", "com.example.wing.workingsongpa");
-                        Bitmap bScr = BitmapFactory.decodeResource(resources,resID);
-                        onoffDayBtn.setImageBitmap(bScr);
+                        selectCourseList = nightCourseList;
+//                        Resources resources =  getResources();
+//                        int resID  = getResources().getIdentifier("map_moon", "drawable", "com.example.wing.workingsongpa");
+//                        Bitmap bScr = BitmapFactory.decodeResource(resources,resID);
+
+                        Drawable drawable;
+                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                            drawable = getResources().getDrawable(R.drawable.map_moon, getTheme());
+                            //bg_speech
+                        }else
+                        {
+                            drawable = getResources().getDrawable(R.drawable.map_moon);
+                        }
+                        onoffDayBtn.setBackground(drawable);
 
                         showRecommandCourse();
                     }else
                     {
                         isDayON = true;
-                        selectCourseList = nightCourseList;
-                        Resources resources =  getResources();
-                        int resID  = getResources().getIdentifier("map_sun", "drawable", "com.example.wing.workingsongpa");
-                        Bitmap bScr = BitmapFactory.decodeResource(resources,resID);
-                        onoffDayBtn.setImageBitmap(bScr);
+                        selectCourseList = dayCourseList;
+
+                        Drawable drawable;
+                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                            drawable = getResources().getDrawable(R.drawable.map_sun, getTheme());
+                            //bg_speech
+                        }else
+                        {
+                            drawable = getResources().getDrawable(R.drawable.map_sun);
+                        }
+                        onoffDayBtn.setBackground(drawable);
 
                         showRecommandCourse();
+
                     }
                 }
             }
@@ -441,8 +459,17 @@ public class MapActivity extends NMapActivity implements AppCompatCallback {
                     //이미지 변경
                     Resources resources =  getResources();
                     int resID  = getResources().getIdentifier("map_tracking_p", "drawable", "com.example.wing.workingsongpa");
-                    Bitmap bScr = BitmapFactory.decodeResource(resources,resID);
-                    trackingBtn.setImageBitmap(bScr);
+//                    Bitmap bScr = BitmapFactory.decodeResource(resources,resID);
+
+                    Drawable drawable;
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                        drawable = getResources().getDrawable(R.drawable.map_tracking_p, getTheme());
+                        //bg_speech
+                    }else
+                    {
+                        drawable = getResources().getDrawable(R.drawable.map_tracking_p);
+                    }
+                    trackingBtn.setBackground(drawable);
 
 
                     isTraking = false;
@@ -504,10 +531,15 @@ public class MapActivity extends NMapActivity implements AppCompatCallback {
     private void stopMyLocation() {
         if (mMyLocationOverlay != null && mMapLocationManager.isMyLocationEnabled()) {
 
-            Resources resources =  getResources();
-            int resID  = getResources().getIdentifier("map_tracking_n", "drawable", "com.example.wing.workingsongpa");
-            Bitmap bScr = BitmapFactory.decodeResource(resources,resID);
-            trackingBtn.setImageBitmap(bScr);
+            Drawable drawable;
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                drawable = getResources().getDrawable(R.drawable.map_tracking_n, getTheme());
+                //bg_speech
+            }else
+            {
+                drawable = getResources().getDrawable(R.drawable.map_tracking_n);
+            }
+            trackingBtn.setBackground(drawable);
 
             mMapLocationManager.disableMyLocation();
 
@@ -771,11 +803,11 @@ public class MapActivity extends NMapActivity implements AppCompatCallback {
             pathData.endPathData();
 
 
-            int haxColor = DataCenter.getInstance().getColorWithType(selectedCourseType);
-
-            int r = (haxColor & 0xFF0000) >> 16;
-            int g = (haxColor & 0xFF00) >> 8;
-            int b = (haxColor & 0xFF);
+//            int haxColor = DataCenter.getInstance().getColorWithType(selectedCourseType);
+//
+//            int r = (haxColor & 0xFF0000) >> 16;
+//            int g = (haxColor & 0xFF00) >> 8;
+//            int b = (haxColor & 0xFF);
 
             int color = Color.parseColor(DataCenter.getInstance().getHaxColorWithType(selectedCourseType));
 
@@ -787,7 +819,7 @@ public class MapActivity extends NMapActivity implements AppCompatCallback {
             NMapPathDataOverlay pathDataOverlay = mOverlayManager.createPathDataOverlay(pathData);
 //            pathDataOverlay.setLineColor(Color.rgb(r,g,b), 0x88);
             pathDataOverlay.setLineColor(color, 0x88);
-            pathDataOverlay.setLineWidth(9);
+            pathDataOverlay.setLineWidth(8);
             pathDataOverlay.showAllPathData(0);
             pathOverlay = pathDataOverlay;
         }catch (JSONException e)
@@ -876,17 +908,14 @@ public class MapActivity extends NMapActivity implements AppCompatCallback {
             areaData.endPathData();
 
 
-            //rgb로 바꿔야 색상 바뀜color
-//            int color = (int)Long.parseLong(myColorString, 16);
-//            int r = (color >> 16) & 0xFF;
-//            int g = (color >> 8) & 0xFF;
-//            int b = (color >> 0) & 0xFF;
+            int color = Color.parseColor(DataCenter.getInstance().getHaxColorWithType(selectedCourseType));
+
             // set path line style
             NMapPathLineStyle pathLineStyle = new NMapPathLineStyle(mapView.getContext());
             pathLineStyle.setPataDataType(NMapPathLineStyle.DATA_TYPE_POLYGON);
-            pathLineStyle.setLineColor(0xA04DD2, 0xff);
+            pathLineStyle.setLineColor(color, 0xff);
+            pathLineStyle.setFillColor(color, 0x33);
             pathLineStyle.setLineWidth(1);
-            pathLineStyle.setFillColor(Color.rgb(128,255,128), 0x88);
             areaData.setPathLineStyle(pathLineStyle);
 
             NMapPathDataOverlay pathDataOverlay = mOverlayManager.createPathDataOverlay(areaData);

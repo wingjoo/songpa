@@ -29,6 +29,7 @@ import com.example.wing.workingsongpa.Database.DataCenter;
 
 import com.example.wing.workingsongpa.MapTab.MapActivity;
 import com.example.wing.workingsongpa.R;
+import com.example.wing.workingsongpa.SplashActivity;
 import com.github.rahatarmanahmed.cpv.CircularProgressView;
 import com.github.rahatarmanahmed.cpv.CircularProgressViewAdapter;
 import com.tsengvn.typekit.TypekitContextWrapper;
@@ -49,6 +50,8 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        startActivity(new Intent(this, SplashActivity.class));
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);

@@ -68,28 +68,36 @@
                     android:id="@+id/mapView"/>
 
 
-                <ImageButton
-                    android:layout_width="40dp"
-                    android:layout_height="40dp"
-                    android:background="@android:color/transparent"
+                <LinearLayout
+                    android:orientation="vertical"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentTop="true"
                     android:layout_alignParentRight="true"
                     android:layout_marginTop="10dp"
                     android:layout_marginRight="10dp"
-                    android:layout_alignParentBottom="true"
-                    app:srcCompat="@drawable/map_tracking_n"
-                    android:scaleType="fitXY"
-                    android:id="@+id/traking_btn"
-                    />
+                    >
 
-                <ImageButton
-                    android:layout_width="40dp"
-                    android:layout_height="40dp"
-                    android:background="@color/color_course5"
-                    app:srcCompat="@drawable/map_sun"
-                    android:scaleType="center"
-                    android:id="@+id/OnOffDay"
-                    />
+                    <ImageButton
+                        android:id="@+id/traking_btn"
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
 
+                        android:background="@drawable/map_tracking_n"
+                        android:scaleType="center"
+                        />
+
+                    <ImageButton
+                        android:id="@+id/OnOffDay"
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:layout_marginTop="5dp"
+
+                        android:background="@drawable/map_sun" />
+                        android:scaleType="center"
+
+                        />
+                </LinearLayout>
 
 
                 //스팟 디테일 뷰

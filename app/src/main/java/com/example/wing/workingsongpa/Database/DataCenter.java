@@ -29,6 +29,11 @@ import java.io.InputStream;
 import java.util.ArrayList;
 
 
+import static com.example.wing.workingsongpa.Database.DataCenter.CourseType.COURSE_TYPE_AREA1;
+import static com.example.wing.workingsongpa.Database.DataCenter.CourseType.COURSE_TYPE_AREA2;
+import static com.example.wing.workingsongpa.Database.DataCenter.CourseType.COURSE_TYPE_AREA3;
+import static com.example.wing.workingsongpa.Database.DataCenter.CourseType.COURSE_TYPE_AREA4;
+import static com.example.wing.workingsongpa.Database.DataCenter.CourseType.COURSE_TYPE_AREA5;
 import static com.example.wing.workingsongpa.Database.DataCenter.CourseType.COURSE_TYPE_NON;
 import static com.example.wing.workingsongpa.Database.DataCenter.CourseType.COURSE_TYPE_ROAD1;
 import static com.example.wing.workingsongpa.Database.DataCenter.CourseType.COURSE_TYPE_ROAD2;
@@ -131,6 +136,11 @@ public class DataCenter {
         COURSE_TYPE_ROAD6,
         COURSE_TYPE_ROAD7,
         COURSE_TYPE_ROAD8,
+        COURSE_TYPE_AREA1,
+        COURSE_TYPE_AREA2,
+        COURSE_TYPE_AREA3,
+        COURSE_TYPE_AREA4,
+        COURSE_TYPE_AREA5,
     }
 
    private volatile static DataCenter sharedInstance;
@@ -320,6 +330,7 @@ public class DataCenter {
 
 
     //String[spot_id]
+
     public  ArrayList<JSONObject>  getAllPath(ArrayList<String> spot_list)
     {
         ArrayList<JSONObject> allPath = new ArrayList<JSONObject>();
@@ -393,6 +404,21 @@ public class DataCenter {
             case 7:
                 type = COURSE_TYPE_ROAD8;
                 break;
+            case 8:
+                type = COURSE_TYPE_AREA1;
+                break;
+            case 9:
+                type = COURSE_TYPE_AREA2;
+                break;
+            case 10:
+                type = COURSE_TYPE_AREA3;
+                break;
+            case 11:
+                type = COURSE_TYPE_AREA4;
+                break;
+            case 12:
+                type = COURSE_TYPE_AREA5;
+                break;
 
         }
          return type;
@@ -463,7 +489,21 @@ public class DataCenter {
             case COURSE_TYPE_ROAD8:
                 haxColor = "#b62842";
                 break;
-
+            case COURSE_TYPE_AREA1:
+                haxColor = "#ff8c00";
+                break;
+            case COURSE_TYPE_AREA2:
+                haxColor = "#0400ff";
+                break;
+            case COURSE_TYPE_AREA3:
+                haxColor = "#fcfc00";
+                break;
+            case COURSE_TYPE_AREA4:
+                haxColor = "#14fc00";
+                break;
+            case COURSE_TYPE_AREA5:
+                haxColor = "#fc002a";
+                break;
         }
         return haxColor;
     }

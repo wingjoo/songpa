@@ -47,7 +47,15 @@ public class DrawMenuAdapter extends ArrayAdapter<ApplicationClass.Item> {
                 convertView.setLongClickable(false);
 
                 final TextView sectionView = (TextView) convertView.findViewById(R.id.title);
-                sectionView.setText("코스 선택");
+                //test
+                if (position == 0)
+                {
+                    sectionView.setText("추천테마길");
+                }else
+                {
+                    sectionView.setText("테마관광거점");
+                }
+
             }else{
                 // Data Set(listViewItemList)에서 position에 위치한 데이터 참조 획득
                 DrawMenuItem item = (DrawMenuItem)i;
