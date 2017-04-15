@@ -27,6 +27,7 @@ import android.widget.AdapterView;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.wing.workingsongpa.ApplicationClass;
@@ -94,8 +95,10 @@ public class MapActivity extends NMapActivity implements AppCompatCallback {
     //overaly
     private NMapPOIdataOverlay allPinOverlay;
     private NMapPOIdataOverlay courseOverlay;
+    private NMapPOIdataOverlay groupPOIDataOverlay;
     private NMapPathDataOverlay pathOverlay;
     private NMapPathDataOverlay areaOverlay;
+
 
     private JSONArray allSpotList;
     private ImageButton trackingBtn;
@@ -110,6 +113,7 @@ public class MapActivity extends NMapActivity implements AppCompatCallback {
     private DrawerLayout drawer;
     private ListView lvNavList;
     private AppCompatDelegate delegate;
+    private ArrayList<JSONObject> createCoursList;
 
     //화면에 보이는 코스 스팟리스트
     private JSONArray selectCourseList;
@@ -121,6 +125,8 @@ public class MapActivity extends NMapActivity implements AppCompatCallback {
     private Boolean isRecommandCourse;
     private Boolean isMenuOpen;
     protected Boolean isEdittingMode;
+
+    private LinearLayout createCourseView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -286,20 +292,56 @@ public class MapActivity extends NMapActivity implements AppCompatCallback {
                 {
 //                isRecommandCourse = false;
                     isEdittingMode = true;
-//                    createCoursList = new ArrayList<JSONObject>();
-//                    choiceAllArea();
+                    createCoursList = new ArrayList<JSONObject>();
+                    choiceAllArea();
                 }else
                 {
                     isEdittingMode = false;
-//                    createCoursList = null;
+                    createCoursList = null;
                 }
             }
         });
 
         /**********************Bottom View*********************************/
         setBottomView();
-
+        setCreateControlView();
     }
+
+    /*************************추천 코드 만들기 해당 코드*************************/
+    private void setCreateControlView()
+    {
+        createCourseView = (LinearLayout)findViewById(R.id.create_control_view);
+
+        TextView createBtn = (TextView)findViewById(R.id.create_btn);
+        createBtn .setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v) {
+                //코스 생성!
+                if (createCoursList.size() > 0)
+                {
+                    //알럿!
+                    //선택된 코스를 통한 데이터 저장
+                    //선택된 코스 보여주기 화면으로 이동
+                }else
+                {
+
+                }
+            }
+        });
+
+        TextView cancelBtn = (TextView)findViewById(R.id.cancel_btn);
+        cancelBtn .setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v) {
+                //취소 액션
+
+                //알럿!
+                //선택된 코스 취소
+                //전체 코스 선택화면으로 이동
+            }
+        });
+    }
+
 
     private void createMenu()
     {
@@ -630,52 +672,7 @@ public class MapActivity extends NMapActivity implements AppCompatCallback {
         }
     }
 
-
-    //모든 스팟 보여주기
-    //NMapPOIdataOverlay로 관리 하는것 찾아보기
-//    private void showALLSpot()
-//    {
-//        int markerId = MapFlagType.SPOT;
-//
-//        if (allPinOverlay == null)
-//        {
-//            NMapPOIdata poiData = new NMapPOIdata(allSpotList .length(), mMapViewerResourceProvider);
-//            poiData.beginPOIdata(allSpotList .length());
-//            //0번 index는 빈데이터
-//            for(int i = 1; i < allSpotList .length(); i++) {
-//                try {
-//                    JSONObject spotData = allSpotList.getJSONObject(i);
-//                    int id = spotData.getInt(DataCenter.ID);
-//                    double longi = spotData.getDouble(DataCenter.SPOT_LONGI);
-//                    double lati = spotData.getDouble(DataCenter.SPOT_LATI);
-//                    //NMapPOIitem addPOIitem(NGeoPoint point, String title, int markerId, Object tag, int id)
-//                    poiData.addPOIitem(longi,lati, null, markerId, 0, id);
-//                }catch (JSONException je) {
-//                    Log.e("jsonErr", "Show all spot 에러입니당~", je);
-//                }
-//            }
-//            poiData.endPOIdata();
-//
-//            // create POI data overlay
-//            allPinOverlay = mOverlayManager.createPOIdataOverlay(poiData, null);
-//            //아이템 선택할때의 리스러
-//            allPinOverlay.setOnStateChangeListener(onPOIdataStateChangeListener);
-//            // select an item
-////        poiDataOverlay.selectPOIitem(0, true);
-//            allPinOverlay = allPinOverlay;
-//        }
-//
-//        //전체 화면에 보이기
-//        allPinOverlay.showAllPOIdata(0);
-//    }
-
-
-//    private void hideAllSopot()
-//    {
-//        mOverlayManager.removeOverlay(allPinOverlay);
-//    }
-
-    private void clearCourse()
+    private void allClear()
     {
         if (courseOverlay != null)
         {
@@ -689,10 +686,76 @@ public class MapActivity extends NMapActivity implements AppCompatCallback {
         {
             mOverlayManager.removeOverlay(areaOverlay);
         }
+
+        if (groupPOIDataOverlay != null)
+        {
+            mOverlayManager.removeOverlay(groupPOIDataOverlay);
+        }
     }
 
 
-    //코스 보여주기
+    public void choiceAllArea() {
+        allClear();
+//        new ShowAllArea().execute(mapView.getContext());
+
+        NMapPathDataOverlay pathDataOverlay = mOverlayManager.createPathDataOverlay();
+
+        ArrayList<JSONObject> areaList = DataCenter.getInstance().getAreaList(getApplicationContext());
+        NMapPOIdata poiData = new NMapPOIdata(areaList.size(), mMapViewerResourceProvider);
+        try {
+            //영역 네이밍 data
+            poiData.beginPOIdata(areaList.size());
+
+            //모든 영역 그리기
+            for (JSONObject areaData : areaList) {
+                int areaID = areaData.getInt(DataCenter.ID);
+
+                JSONArray area_potion = areaData.getJSONArray(DataCenter.AREA_LINE_POSITION);
+
+                NMapPathData pathData = new NMapPathData(area_potion.length());
+                pathData.initPathData();
+                for (int i = 0; i < area_potion.length(); i++) {
+                    JSONObject position = area_potion.getJSONObject(i);
+                    double longi = position.getDouble(DataCenter.SPOT_LONGI);
+                    double lati = position.getDouble(DataCenter.SPOT_LATI);
+                    pathData.addPathPoint(longi, lati, 0);
+                }
+                pathData.endPathData();
+
+                int color = Color.parseColor(DataCenter.getInstance().getHaxColorWithType(DataCenter.getInstance().getCourseTypeWithID(areaID)));
+                // set path line style
+                NMapPathLineStyle pathLineStyle = new NMapPathLineStyle(mapView.getContext());
+                pathLineStyle.setPataDataType(NMapPathLineStyle.DATA_TYPE_POLYGON);
+                pathLineStyle.setLineColor(color, 0xff);
+                pathLineStyle.setFillColor(color, 0x33);
+                pathLineStyle.setLineWidth(1);
+                pathData.setPathLineStyle(pathLineStyle);
+                pathDataOverlay.addPathData(pathData);
+
+                //////////////거점 이름표시///////////////////
+                JSONObject centerPosition = areaData.getJSONObject("center_position");
+
+                //pin 이미지에 텍스트 넣어야됨
+                //커스텀 핀을 사용 해야되나?
+                double center_longi = centerPosition.getDouble(DataCenter.SPOT_LONGI);
+                double center_lati = centerPosition.getDouble(DataCenter.SPOT_LATI);
+                poiData.addPOIitem(center_longi, center_lati, null, MapFlagType.NORMAL, areaData, areaID);
+            }
+
+            NMapPOIdataOverlay poiDataOverlay = mOverlayManager.createPOIdataOverlay(poiData, null);
+            //아이템 선택할때의 리스러
+            poiDataOverlay.setOnStateChangeListener(onGroupPOIdataStateChangeListener);
+            //pin overlay
+            groupPOIDataOverlay = poiDataOverlay;
+            pathDataOverlay.showAllPathData(10);
+            areaOverlay = pathDataOverlay;
+
+        } catch (JSONException e) {
+            Log.e("jsonErr", "Show AreaSpot 에러입니당~", e);
+
+        }
+    }
+        //코스 보여주기
     //courseListData = 풀 코스 데이터
     public void selectCourseData(JSONObject courseListData)
     {
@@ -738,7 +801,7 @@ public class MapActivity extends NMapActivity implements AppCompatCallback {
                 onoffDayBtn.setVisibility(View.GONE);
             }
             //이전 Paht 지우기
-            clearCourse();
+            allClear();
 
             //spot를 구하는 용도로 사용
             ArrayList<JSONObject> spotDataList = new ArrayList<JSONObject>();
@@ -776,7 +839,7 @@ public class MapActivity extends NMapActivity implements AppCompatCallback {
     //areaListData = [1,2,3,]
     public void showArea(JSONObject areaListData)
     {
-        clearCourse();
+        allClear();
         //Area안의 spotData : pin찍을 용도
         ArrayList<JSONObject> spotDataList = new ArrayList<JSONObject>();
 
@@ -914,6 +977,33 @@ public class MapActivity extends NMapActivity implements AppCompatCallback {
         }
 
     }
+
+    /************************* 핀 선택 리스너 *************************/
+    private final NMapPOIdataOverlay.OnStateChangeListener onGroupPOIdataStateChangeListener = new NMapPOIdataOverlay.OnStateChangeListener() {
+
+        //클릭시
+        @Override
+        public void onCalloutClick(NMapPOIdataOverlay poiDataOverlay, NMapPOIitem item) {
+
+        }
+        //선택시 행동
+        @Override
+        public void onFocusChanged(NMapPOIdataOverlay poiDataOverlay, NMapPOIitem item) {
+            if (item != null)
+            {
+                mOverlayManager.removeOverlay(groupPOIDataOverlay);
+                selectedCourseType = DataCenter.getInstance().getCourseTypeWithID(item.getId());
+
+                //Show Course
+                //하단 컨트롤 뷰 on
+                createCourseView.setVisibility(View.VISIBLE);
+                //전체 리스트 띄우기
+                JSONObject selectedData = (JSONObject)item.getTag();
+                showArea(selectedData);
+
+            }
+        }
+    };
 
 
     //////////////////// 핀 선택시 호출
@@ -1120,5 +1210,6 @@ public class MapActivity extends NMapActivity implements AppCompatCallback {
         super.attachBaseContext(TypekitContextWrapper.wrap(newBase));
 
     }
+
 
 }

@@ -16,7 +16,24 @@ public class MapFlagType {
     public static final int START = SPOT + 1;
     public static final int COURSE = START + 1;
     public static final int NORMAL = COURSE + 1;
-   // public static final int SELECT = NORMAL + 1;
+    //거점 이름핀 이미지
+    public static final int TITLE1 = NORMAL + 1;
+    public static final int TITLE2 = TITLE1 + 1;
+    public static final int TITLE3 = TITLE2 + 1;
+    public static final int TITLE4 = TITLE3 + 1;
+    public static final int TITLE5 = TITLE4 + 1;
+    //
+    public static final int SELECTNUM1 = TITLE5 + 1;
+    public static final int SELECTNUM2 = SELECTNUM1 + 1;
+    public static final int SELECTNUM3 = SELECTNUM2 + 1;
+    public static final int SELECTNUM4 = SELECTNUM3 + 1;
+    public static final int SELECTNUM5 = SELECTNUM4 + 1;
+    public static final int SELECTNUM6 = SELECTNUM5 + 1;
+    public static final int SELECTNUM7 = SELECTNUM6 + 1;
+    public static final int SELECTNUM8 = SELECTNUM7 + 1;
+    public static final int SELECTNUM9 = SELECTNUM8 + 1;
+
+    // public static final int SELECT = NORMAL + 1;
 
     // Direction POI icons: From, To
     private static final int DIRECTION_POI_BASE = 0x0200;

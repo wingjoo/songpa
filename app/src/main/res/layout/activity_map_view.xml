@@ -109,6 +109,45 @@
                     android:id="@+id/detail_course_listView" />
                 />
 
+                <LinearLayout
+                    android:id="@+id/create_control_view"
+                    android:orientation="horizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="56dp"
+                    android:layout_alignParentBottom="true"
+                    android:visibility="gone"
+                    >
+
+                    <TextView
+                        android:id="@+id/create_btn"
+                        android:layout_width="40dp"
+                        android:layout_height="match_parent"
+                        android:background="@color/create_btn"
+                        android:textSize="20sp"
+                        android:textAlignment="center"
+                        android:text="코스 만들기"
+                        android:textColor="@color/white"
+                        android:layout_gravity="center_vertical"
+                        android:layout_weight="1"
+                        />
+                    <TextView
+                        android:id="@+id/cancel_btn"
+                        android:layout_width="40dp"
+                        android:layout_height="match_parent"
+                        android:background="@color/cancel_btn"
+                        android:textSize="20sp"
+                        android:textAlignment="center"
+                        android:gravity="center"
+                        android:text="취소"
+                        android:textColor="@color/white"
+                        android:layout_weight="1"
+                        />
+
+                    />
+
+                </LinearLayout>
+
+
             </RelativeLayout>
         </LinearLayout>
     </android.support.design.widget.CoordinatorLayout>

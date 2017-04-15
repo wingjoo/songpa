@@ -25,39 +25,39 @@ import com.nhn.android.mapviewer.overlay.NMapResourceProvider;
 
 public class MapResourseProvider extends NMapResourceProvider {
 
-        private static final String LOG_TAG = "NMapViewerResourceProvider";
-        private static final boolean DEBUG = false;
+    private static final String LOG_TAG = "NMapViewerResourceProvider";
+    private static final boolean DEBUG = false;
 
-        private static final Bitmap.Config BITMAP_CONFIG_DEFAULT = Bitmap.Config.ARGB_8888;
+    private static final Bitmap.Config BITMAP_CONFIG_DEFAULT = Bitmap.Config.ARGB_8888;
 
-        private static final int POI_FONT_COLOR_NUMBER = 0xFF909090;
-        private static final float POI_FONT_SIZE_NUMBER = 10.0F;
+    private static final int POI_FONT_COLOR_NUMBER = 0xFF909090;
+    private static final float POI_FONT_SIZE_NUMBER = 10.0F;
 
-        private static final int POI_FONT_COLOR_ALPHABET = 0xFFFFFFFF;
-        private static final float POI_FONT_OFFSET_ALPHABET = 6.0F;
-        private static final Typeface POI_FONT_TYPEFACE = null;//Typeface.DEFAULT_BOLD;
+    private static final int POI_FONT_COLOR_ALPHABET = 0xFFFFFFFF;
+    private static final float POI_FONT_OFFSET_ALPHABET = 6.0F;
+    private static final Typeface POI_FONT_TYPEFACE = null;//Typeface.DEFAULT_BOLD;
 
-        private static final int CALLOUT_TEXT_COLOR_NORMAL = 0xFFFFFFFF;
-        private static final int CALLOUT_TEXT_COLOR_PRESSED = 0xFF9CA1AA;
-        private static final int CALLOUT_TEXT_COLOR_SELECTED = 0xFFFFFFFF;
-        private static final int CALLOUT_TEXT_COLOR_FOCUSED = 0xFFFFFFFF;
+    private static final int CALLOUT_TEXT_COLOR_NORMAL = 0xFFFFFFFF;
+    private static final int CALLOUT_TEXT_COLOR_PRESSED = 0xFF9CA1AA;
+    private static final int CALLOUT_TEXT_COLOR_SELECTED = 0xFFFFFFFF;
+    private static final int CALLOUT_TEXT_COLOR_FOCUSED = 0xFFFFFFFF;
 
-        private final Rect mTempRect = new Rect();
-        private final Paint mTextPaint = new Paint();
+    private final Rect mTempRect = new Rect();
+    private final Paint mTextPaint = new Paint();
 
-        public MapResourseProvider(Context context) {
-            super(context);
+    public MapResourseProvider(Context context) {
+        super(context);
 
-            mTextPaint.setAntiAlias(true);
-        }
+        mTextPaint.setAntiAlias(true);
+    }
 
-        /**
-         * Get drawable for markerId at focused state
-         *
-         * @param markerId unique id for POI or Number icons.
-         * @param focused true for focused state, false otherwise.
-         * @return
-         */
+    /**
+     * Get drawable for markerId at focused state
+     *
+     * @param markerId unique id for POI or Number icons.
+     * @param focused true for focused state, false otherwise.
+     * @return
+     */
     public Drawable getDrawable(int markerId, boolean focused, NMapOverlayItem item) {
         Drawable marker = null;
 
@@ -139,7 +139,7 @@ public class MapResourseProvider extends NMapResourceProvider {
             new ResourceIdsOnMap(MapFlagType.START, R.drawable.map_spot_start, R.drawable.map_spot_s),
             new ResourceIdsOnMap(MapFlagType.COURSE, R.drawable.map_spot_n, R.drawable.map_spot_s),
             new ResourceIdsOnMap(MapFlagType.NORMAL, R.drawable.map_spot_add, R.drawable.map_spot_add_s),
-
+            new ResourceIdsOnMap(MapFlagType.TITLE1, R.drawable.map_pin_ex, R.drawable.map_pin_ex)
 //            // Direction POI icons: From, To
 //            new ResourceIdsOnMap(MapFlagType.FROM, R.drawable.ic_map_start, R.drawable.ic_map_start_over),
 //            new ResourceIdsOnMap(MapFlagType.TO, R.drawable.ic_map_arrive, R.drawable.ic_map_arrive_over),
@@ -271,16 +271,16 @@ public class MapResourseProvider extends NMapResourceProvider {
     protected Drawable getDrawableForMarker(int markerId, boolean focused, NMapOverlayItem item) {
         Drawable drawable = null;
 
-//        if (markerId >= MapFlagType.NUMBER_BASE && markerId < MapFlagType.NUMBER_END) { // Direction Number icons
-//            int resourceId = (focused) ? R.drawable.ic_map_no_02 : R.drawable.ic_map_no_01;
-//            int fontColor = (focused) ? POI_FONT_COLOR_ALPHABET : POI_FONT_COLOR_NUMBER;
-//
-//            String strNumber = String.valueOf(markerId - MapFlagType.NUMBER_BASE);
-//
-//            drawable = getDrawableWithNumber(resourceId, strNumber, 0.0F, fontColor, POI_FONT_SIZE_NUMBER);
-//        } else if (markerId >= MapFlagType.CUSTOM_BASE && markerId < MapFlagType.CUSTOM_END) { // Custom POI icons
-//
-//        }
+        if (markerId >= MapFlagType.NUMBER_BASE && markerId < MapFlagType.NUMBER_END) { // Direction Number icons
+            int resourceId = (focused) ? R.drawable.map_spot_add_s : R.drawable.map_spot_add ;
+            int fontColor = (focused) ? POI_FONT_COLOR_NUMBER: POI_FONT_COLOR_NUMBER;
+
+            String strNumber = String.valueOf(markerId - MapFlagType.NUMBER_BASE);
+
+            drawable = getDrawableWithNumber(resourceId, strNumber, 0.0F, fontColor, POI_FONT_SIZE_NUMBER);
+        } else if (markerId >= MapFlagType.CUSTOM_BASE && markerId < MapFlagType.CUSTOM_END) { // Custom POI icons
+
+        }
 
         return drawable;
     }

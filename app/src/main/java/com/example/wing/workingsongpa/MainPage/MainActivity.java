@@ -112,7 +112,6 @@ public class MainActivity extends AppCompatActivity {
         tabLayout.getTabAt(1).setText("테마관광거점");
     }
 
-
     private void createViewPager(ViewPager viewPager) {
         ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager());
 
@@ -122,6 +121,11 @@ public class MainActivity extends AppCompatActivity {
         adapter.addFrag(recommandList, "Tab 1");
         adapter.addFrag(areaList, "Tab 2");
         viewPager.setAdapter(adapter);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
     }
 
 //    @Override

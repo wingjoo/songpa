@@ -1,217 +1,237 @@
-	[
-		{
-			"id": 8,
-			"title": "문화놀이관광",
-			"sub_title": "",
-			"story": "",
-			"specialty": "국내 최고 높이의 전망대와 최대 크기의 실내 테마파크를 즐기고 싶다면 이곳으로",
-			"infor_use": "- 지하철 2·8호선 잠실역\n- 지하철 8호선 석촌역",
-			"image_url":"a_road_n_01",
-			"area_position":[
-				{
-					"longitude" : 127.11,
-					"latitude" : 37.50629
-				},
-				{
-					"longitude" : 127.1033,
-					"latitude" : 37.50429
-				},
-				{
-					"longitude" : 127.0969,
-					"latitude" : 37.50686
-				},
-				{
-					"longitude" : 127.0963,
-					"latitude" : 37.51144
-				},
-				{
-					"longitude" : 127.1,
-					"latitude" : 37.51379
-				},
-				{
-					"longitude" : 127.1065,
-					"latitude" : 37.51544
-				},
-				{
-					"longitude" : 127.112,
-					"latitude" : 37.51495
-				},
-				{
-					"longitude" : 127.1135,
-					"latitude" : 37.5116
-				}
-
-			],
-
-			"course": [50,18,79,80,138,131,128,136,78,25,134,26,7,1]
+[
+	{
+		"id": 8,
+		"title": "문화놀이관광",
+		"sub_title": "",
+		"story": "",
+		"specialty": "국내 최고 높이의 전망대와 최대 크기의 실내 테마파크를 즐기고 싶다면 이곳으로",
+		"infor_use": "- 지하철 2·8호선 잠실역\n- 지하철 8호선 석촌역",
+		"image_url":"a_road_n_01",
+		"center_position":{
+			"longitude" : 127.10434,
+			"latitude" : 37.50996
 		},
-		{
-			"id": 9,
-			"title": "강변레포츠관광",
-			"sub_title": "",
-			"story": "",
-			"specialty": "시원한 한강 나들이와 뜨거운 스포츠의 열기를 한번에 느끼고 싶다면 이곳으로",
-			"infor_use": "- 지하철 2호선 잠실새내역\n- 지하철 2·9호선 종합운동장역",
-			"image_url":"a_road_n_02",
-			"area_position":[
-				{
-					"longitude" : 127.086,
-					"latitude" : 37.50893
-				},
-				{
-					"longitude" : 127.0795,
-					"latitude" : 37.50796
-				},
-				{
-					"longitude" : 127.0713,
-					"latitude" : 37.51204
-				},
-				{
-					"longitude" : 127.0767,
-					"latitude" : 37.51599
-				},
-				{
-					"longitude" : 127.0826,
-					"latitude" : 37.51893
-				},
-				{
-					"longitude" : 127.0936,
-					"latitude" : 37.52041
-				},
-				{
-					"longitude" : 127.0938,
-					"latitude" : 37.5181
-				}
+		"area_position":[
+			{
+				"longitude" : 127.11,
+				"latitude" : 37.50629
+			},
+			{
+				"longitude" : 127.1033,
+				"latitude" : 37.50429
+			},
+			{
+				"longitude" : 127.0969,
+				"latitude" : 37.50686
+			},
+			{
+				"longitude" : 127.0963,
+				"latitude" : 37.51144
+			},
+			{
+				"longitude" : 127.1,
+				"latitude" : 37.51379
+			},
+			{
+				"longitude" : 127.1065,
+				"latitude" : 37.51544
+			},
+			{
+				"longitude" : 127.112,
+				"latitude" : 37.51495
+			},
+			{
+				"longitude" : 127.1135,
+				"latitude" : 37.5116
+			}
 
-			],
+		],
 
-			"course": [99,83,98,82,102,3,103,23]
+		"course": [50,18,79,80,138,131,128,136,78,25,134,26,7,1]
+	},
+	{
+		"id": 9,
+		"title": "강변레포츠관광",
+		"sub_title": "",
+		"story": "",
+		"specialty": "시원한 한강 나들이와 뜨거운 스포츠의 열기를 한번에 느끼고 싶다면 이곳으로",
+		"infor_use": "- 지하철 2호선 잠실새내역\n- 지하철 2·9호선 종합운동장역",
+		"image_url":"a_road_n_02",
+		"center_position":{
+			"longitude" : 127.08207,
+			"latitude" : 37.51394
 		},
-		{
-			"id": 10,
-			"title": "역사공원관광",
-			"sub_title": "",
-			"story": "",
-			"specialty": "드넓은 공원에서 삶의 여유와 그 안에 간직된 한성백제의 웅장한 역사를 느끼다",
-			"infor_use": "- 지하철 8호선 몽촌토성역\n- 지하철 5호선 올림픽공원역",
-			"image_url":"a_road_n_03",
-			"area_position":[
-				{
-					"longitude" : 127.1173,
-					"latitude" : 37.50853
-				},
-				{
-					"longitude" : 127.1127,
-					"latitude" : 37.51611
-				},
-				{
-					"longitude" : 127.1168,
-					"latitude" : 37.52499
-				},
-				{
-					"longitude" : 127.1202,
-					"latitude" : 37.52526
-				},
-				{
-					"longitude" : 127.1253,
-					"latitude" : 37.52376
-				},
-				{
-					"longitude" : 127.1287,
-					"latitude" : 37.51868
-				},
-				{
-					"longitude" : 127.1288,
-					"latitude" : 37.51454
-				}
+		"area_position":[
+			{
+				"longitude" : 127.086,
+				"latitude" : 37.50893
+			},
+			{
+				"longitude" : 127.0795,
+				"latitude" : 37.50796
+			},
+			{
+				"longitude" : 127.0713,
+				"latitude" : 37.51204
+			},
+			{
+				"longitude" : 127.0767,
+				"latitude" : 37.51599
+			},
+			{
+				"longitude" : 127.0826,
+				"latitude" : 37.51893
+			},
+			{
+				"longitude" : 127.0936,
+				"latitude" : 37.52041
+			},
+			{
+				"longitude" : 127.0938,
+				"latitude" : 37.5181
+			}
 
-			],
-			"course": [89,90,91,94,33,34,37,5,28,32,92,29,93,30,48,47]
+		],
+
+		"course": [99,83,98,82,102,3,103,23]
+	},
+	{
+		"id": 10,
+		"title": "역사공원관광",
+		"sub_title": "",
+		"story": "",
+		"specialty": "드넓은 공원에서 삶의 여유와 그 안에 간직된 한성백제의 웅장한 역사를 느끼다",
+		"infor_use": "- 지하철 8호선 몽촌토성역\n- 지하철 5호선 올림픽공원역",
+		"image_url":"a_road_n_03",
+		"center_position":{
+			"longitude" : 127.12044,
+			"latitude" : 37.51782
 		},
-		{
-			"id": 11,
-			"title": "자연생태관광",
-			"sub_title": "",
-			"story": "",
-			"specialty": "푸른 시내와 초록빛 자연이 어우러진 도심 속 물길 산책로를 거닐다",
-			"infor_use": "- 지하철 5호선 올림픽공원역, 방이역\n- 지하철 3호선 오금역",
-			"area_position":[
-				{
-					"longitude" : 127.1276,
-					"latitude" : 37.51316
-				},
-				{
-					"longitude" : 127.1259,
-					"latitude" : 37.50865
-				},
-				{
-					"longitude" : 127.13,
-					"latitude" : 37.50055
-				},
-				{
-					"longitude" : 127.1385,
-					"latitude" : 37.50119
-				},
-				{
-					"longitude" : 127.1416,
-					"latitude" : 37.51018
-				},
-				{
-					"longitude" : 127.1406,
-					"latitude" : 37.51256
-				},
-				{
-					"longitude" : 127.1325,
-					"latitude" : 37.5152
-				}
+		"area_position":[
+			{
+				"longitude" : 127.1173,
+				"latitude" : 37.50853
+			},
+			{
+				"longitude" : 127.1127,
+				"latitude" : 37.51611
+			},
+			{
+				"longitude" : 127.1168,
+				"latitude" : 37.52499
+			},
+			{
+				"longitude" : 127.1202,
+				"latitude" : 37.52526
+			},
+			{
+				"longitude" : 127.1253,
+				"latitude" : 37.52376
+			},
+			{
+				"longitude" : 127.1287,
+				"latitude" : 37.51868
+			},
+			{
+				"longitude" : 127.1288,
+				"latitude" : 37.51454
+			}
 
-			],
-			"image_url":"a_road_n_04",
-			"course": [36,104,49,105,106,107,108,40,42,110]
+		],
+		"course": [89,90,91,94,33,34,37,5,28,32,92,29,93,30,48,47]
+	},
+	{
+		"id": 11,
+		"title": "자연생태관광",
+		"sub_title": "",
+		"story": "",
+		"specialty": "푸른 시내와 초록빛 자연이 어우러진 도심 속 물길 산책로를 거닐다",
+		"infor_use": "- 지하철 5호선 올림픽공원역, 방이역\n- 지하철 3호선 오금역",
+		"center_position":{
+			"longitude" : 127.13353,
+			"latitude" : 37.50877
 		},
-		{
-			"id": 12,
-			"title": "식도락·쇼핑관광",
-			"sub_title": "",
-			"story": "",
-			"specialty": "가락시장과 문정동 로데오 거리를 거닐며 송파의 맛과 멋을 즐기다",
-			"infor_use": "- 지하철 8호선 가락시장역\n- 지하철 8호선 송파역",
-			"area_position":[
-				{
-					"longitude" : 127.10668,
-					"latitude" : 37.49768
-				},
-				{
-					"longitude" : 127.11235,
-					"latitude" : 37.50143
-				},
-				{
-					"longitude" : 127.1146,
-					"latitude" : 37.50206
-				},
-				{
-					"longitude" : 127.1239,
-					"latitude" : 37.49415
-				},
-				{
-					"longitude" : 127.1274,
-					"latitude" : 37.4889
-				},
-				{
-					"longitude" : 127.1277,
-					"latitude" : 37.48731
-				},
-				{
-					"longitude" : 127.1198,
-					"latitude" : 37.48376
-				},
-				{
-					"longitude" : 127.1078,
-					"latitude" : 37.48905
-				}
-			],
-			"image_url":"a_road_n_05",
-			"course": [118,117,43,116,19,115,114,113,12,13]
-		}
+		"area_position":[
+			{
+				"longitude" : 127.1276,
+				"latitude" : 37.51316
+			},
+			{
+				"longitude" : 127.1259,
+				"latitude" : 37.50865
+			},
+			{
+				"longitude" : 127.13,
+				"latitude" : 37.50055
+			},
+			{
+				"longitude" : 127.1385,
+				"latitude" : 37.50119
+			},
+			{
+				"longitude" : 127.1416,
+				"latitude" : 37.51018
+			},
+			{
+				"longitude" : 127.1406,
+				"latitude" : 37.51256
+			},
+			{
+				"longitude" : 127.1325,
+				"latitude" : 37.5152
+			}
 
-	]
+		],
+		"image_url":"a_road_n_04",
+		"course": [36,104,49,105,106,107,108,40,42,110]
+	},
+	{
+		"id": 12,
+		"title": "식도락·쇼핑관광",
+		"sub_title": "",
+		"story": "",
+		"specialty": "가락시장과 문정동 로데오 거리를 거닐며 송파의 맛과 멋을 즐기다",
+		"infor_use": "- 지하철 8호선 가락시장역\n- 지하철 8호선 송파역",
+		"center_position":{
+			"longitude" : 127.11391,
+			"latitude" : 37.49447
+		},
+		"area_position":[
+			{
+				"longitude" : 127.10668,
+				"latitude" : 37.49768
+			},
+			{
+				"longitude" : 127.11235,
+				"latitude" : 37.50143
+			},
+			{
+				"longitude" : 127.1146,
+				"latitude" : 37.50206
+			},
+			{
+				"longitude" : 127.1239,
+				"latitude" : 37.49415
+			},
+			{
+				"longitude" : 127.1274,
+				"latitude" : 37.4889
+			},
+			{
+				"longitude" : 127.1277,
+				"latitude" : 37.48731
+			},
+			{
+				"longitude" : 127.1198,
+				"latitude" : 37.48376
+			},
+			{
+				"longitude" : 127.1078,
+				"latitude" : 37.48905
+			}
+		],
+		"image_url":"a_road_n_05",
+		"course": [118,117,43,116,19,115,114,113,12,13]
+	}
+
+]
