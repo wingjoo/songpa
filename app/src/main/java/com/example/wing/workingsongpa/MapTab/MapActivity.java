@@ -9,6 +9,7 @@ import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.graphics.Point;
 import android.graphics.drawable.Drawable;
+import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.provider.Settings;
@@ -114,9 +115,13 @@ public class MapActivity extends NMapActivity implements AppCompatCallback {
     private JSONArray selectCourseList;
     private JSONArray dayCourseList;
     private JSONArray nightCourseList;
+    JSONObject start_courseData;
     private Boolean isDayON;
 
     private Boolean isRecommandCourse;
+    private Boolean isMenuOpen;
+    protected Boolean isEdittingMode;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -126,6 +131,50 @@ public class MapActivity extends NMapActivity implements AppCompatCallback {
         delegate.onCreate(savedInstanceState);
         //we use the delegate to inflate the layout
         delegate.setContentView(R.layout.activity_map_view);
+
+        // ****************************Intent DataSet*********************** //
+        Intent intent = getIntent();
+        String intentStr = intent.getStringExtra(MAP_ACTIVITY_INTENT);
+        if (intentStr != null)
+        {
+            String[] extraList = intent.getStringExtra(MAP_ACTIVITY_INTENT).split("///");
+            String flagStr =  extraList[0];
+            String extraStr =  extraList[1];
+
+            try
+            {
+                start_courseData = new JSONObject(extraStr);
+
+                int area_id = start_courseData.getInt(DataCenter.ID);
+                //선택된 코스 타입
+                selectedCourseType = DataCenter.getInstance().getCourseTypeWithID(area_id);
+
+                if (flagStr.equals("area"))
+                {
+                    isRecommandCourse = false;
+//                    showArea(start_courseData);
+                }else
+                {
+                    isRecommandCourse = true;
+
+//                    selectCourseData(start_courseData);
+//                    showRecommandCourse();
+
+                }
+
+                isMenuOpen = false;
+
+            }catch (JSONException e)
+            {
+                selectedCourseType = DataCenter.CourseType.COURSE_TYPE_NON;
+                isMenuOpen = true;
+            }
+
+        }else
+        {
+            selectedCourseType = DataCenter.CourseType.COURSE_TYPE_NON;
+            isMenuOpen = true;
+        }
 
 
 
@@ -156,7 +205,6 @@ public class MapActivity extends NMapActivity implements AppCompatCallback {
         requestTrackingPermission();
         //맵 초기화
         initMapView();
-
 
         //***************트래킥 버튼 클릭****************//
         trackingBtn = (ImageButton)findViewById(R.id.traking_btn);
@@ -227,118 +275,137 @@ public class MapActivity extends NMapActivity implements AppCompatCallback {
         onoffDayBtn.setVisibility(View.GONE);
         isDayON = true;
 
-        // ****************************진입시 행동*********************** //
-        Intent intent = getIntent();
-        String intentStr = intent.getStringExtra(MAP_ACTIVITY_INTENT);
-        if (intentStr != null)
-        {
-            String[] extraList = intent.getStringExtra(MAP_ACTIVITY_INTENT).split("///");
-            String flagStr =  extraList[0];
-            String extraStr =  extraList[1];
 
-            try
-            {
-                JSONObject start_courseData = new JSONObject(extraStr);
-
-                int area_id = start_courseData.getInt(DataCenter.ID);
-                //선택된 코스 타입
-                selectedCourseType = DataCenter.getInstance().getCourseTypeWithID(area_id);
-
-                if (flagStr.equals("area"))
+        //add_map
+        ImageButton addMapBtn = (ImageButton) findViewById(R.id.add_map);
+        addMapBtn.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v) {
+//                //모든 구역 보여주기
+                if (!isEdittingMode)
                 {
-                    isRecommandCourse = false;
-                    showArea(start_courseData);
+//                isRecommandCourse = false;
+                    isEdittingMode = true;
+//                    createCoursList = new ArrayList<JSONObject>();
+//                    choiceAllArea();
                 }else
                 {
-                    isRecommandCourse = true;
-                    selectCourseData(start_courseData);
-                    showRecommandCourse();
-
+                    isEdittingMode = false;
+//                    createCoursList = null;
                 }
-            }catch (JSONException e)
-            {
-                drawer.openDrawer(lvNavList);
             }
-
-        }else
-        {
-            drawer.openDrawer(lvNavList);
-        }
+        });
 
         /**********************Bottom View*********************************/
         setBottomView();
 
     }
 
-
     private void createMenu()
     {
-        ArrayList<ApplicationClass.Item> menuItem = new ArrayList<ApplicationClass.Item>();
-        //스팟
-        menuItem.add(new SectionItem("recommd List"));
-        /***********************Draw Menu 코스 보여주기***********************/
-        ///////////////////기본 코스///////////////////
-        ArrayList<JSONObject> courseData = DataCenter.getInstance().allCourseList();
-        for (JSONObject data: courseData) {
-            menuItem.add(new DrawMenuItem(data, 1));
-        }
-        /////////////////////구간 정보///////////////////
-        menuItem.add(new SectionItem("구간"));
-        ArrayList<JSONObject> areaData = DataCenter.getInstance().getAreaList();
-
-        for (JSONObject data: areaData) {
-            menuItem.add(new DrawMenuItem(data, 2));
-        }
-
-        //adaper
-        DrawMenuAdapter adapter = new DrawMenuAdapter(this,menuItem);
-        lvNavList = (ListView)findViewById(R.id.nav_menu);
-        lvNavList.setAdapter(adapter);
-        lvNavList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView parent, View v, int position, long id) {
-                //drawMenu Item
-                DrawMenuItem item = (DrawMenuItem)parent.getItemAtPosition(position) ;
-                //아이템이 코스인지 구역인지 구분 필요
-                //item.itemData
-                JSONObject selecteData = item.itemData;
-                try
-                {
-                    int area_id = selecteData.getInt(DataCenter.ID);
-                    //선택된 코스 타입
-                    selectedCourseType = DataCenter.getInstance().getCourseTypeWithID(area_id);
-
-                    if (item.getSection() == 1)
-                    {
-                        isRecommandCourse = true;
-                        selectCourseData(selecteData);
-                        showRecommandCourse();
-
-
-                    }else if (item.getSection() == 2)
-                    {
-                        isRecommandCourse = false;
-                        showArea(selecteData);
-                    }
-                }catch (JSONException e)
-                {
-
-                }
-
-                //닫기
-                drawer.closeDrawer(lvNavList);
-            }
-        });
+        new CreateMenu().execute();
     }
 
+    private class CreateMenu extends AsyncTask<Void, Void, ArrayList<ApplicationClass.Item>> {
 
+        //시작전
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+        }
+
+        //백그라운드 실행내용
+        @Override
+        protected ArrayList<ApplicationClass.Item> doInBackground(Void... voids) {
+            ArrayList<ApplicationClass.Item> menuItem = new ArrayList<ApplicationClass.Item>();
+            //스팟
+            menuItem.add(new SectionItem("recommd List"));
+            /***********************Draw Menu 코스 보여주기***********************/
+            ///////////////////기본 코스///////////////////
+            ArrayList<JSONObject> courseData = DataCenter.getInstance().getCourseList(getApplicationContext());
+            for (JSONObject data: courseData) {
+                menuItem.add(new DrawMenuItem(data, 1));
+            }
+            /////////////////////구간 정보///////////////////
+            menuItem.add(new SectionItem("구간"));
+            ArrayList<JSONObject> areaData = DataCenter.getInstance().getAreaList(getApplicationContext());
+
+            for (JSONObject data: areaData) {
+                menuItem.add(new DrawMenuItem(data, 2));
+            }
+
+            return menuItem;
+        }
+
+        //프로그래스바 필요시
+        @Override
+        protected void onProgressUpdate(Void... values) {
+            super.onProgressUpdate(values);
+        }
+        //실행 후
+
+        @Override
+        protected void onPostExecute(ArrayList<ApplicationClass.Item> items) {
+            super.onPostExecute(items);
+            DrawMenuAdapter adapter = new DrawMenuAdapter(getApplicationContext(), items);
+            lvNavList = (ListView)findViewById(R.id.nav_menu);
+            lvNavList.setAdapter(adapter);
+            lvNavList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                @Override
+                public void onItemClick(AdapterView parent, View v, int position, long id) {
+                    //drawMenu Item
+                    DrawMenuItem item = (DrawMenuItem)parent.getItemAtPosition(position) ;
+                    //아이템이 코스인지 구역인지 구분 필요
+                    //item.itemData
+                    JSONObject selecteData = item.itemData;
+                    try
+                    {
+                        int area_id = selecteData.getInt(DataCenter.ID);
+                        //선택된 코스 타입
+                        selectedCourseType = DataCenter.getInstance().getCourseTypeWithID(area_id);
+
+                        if (item.getSection() == 1)
+                        {
+                            isRecommandCourse = true;
+                            selectCourseData(selecteData);
+                            showRecommandCourse();
+
+
+                        }else if (item.getSection() == 2)
+                        {
+                            isRecommandCourse = false;
+                            showArea(selecteData);
+                        }
+                    }catch (JSONException e)
+                    {
+
+                    }
+
+                    //닫기
+                    drawer.closeDrawer(lvNavList);
+                }
+            });
+
+            if (isMenuOpen)
+            {
+                drawer.openDrawer(lvNavList);
+            }else{
+                drawer.closeDrawer(lvNavList);
+            }
+        }
+    }
 
     private void initData()
     {
         //모듬 스팟 데이터
-        allSpotList = DataCenter.getInstance().getSpotList();
-        beforPoint = new NGeoPoint(127.11227,37.49735);
-        beforZoomlevel = 10;
+        new Thread(new Runnable() {
+            public void run() {
+                allSpotList = DataCenter.getInstance().getSpotList();
+                beforPoint = new NGeoPoint(127.11227,37.49735);
+                beforZoomlevel = 10;
+                isEdittingMode =false;
+            }
+        }).start();
     }
 
     private void initMapView()
@@ -372,18 +439,29 @@ public class MapActivity extends NMapActivity implements AppCompatCallback {
         mMapController = mapView.getMapController();
         mMapController.setMapCenter(beforPoint,beforZoomlevel);
 
-
         // create resource provider
         mMapViewerResourceProvider = new MapResourseProvider(MapActivity.this);
         // create overlay manager
         //매니져 만들고 프로바이더 제공(프로바이더는 리소스 제공객체)
         mOverlayManager = new NMapOverlayManager(MapActivity.this, mapView, mMapViewerResourceProvider);
-
         mMapLocationManager = new NMapLocationManager(MapActivity.this);
         mMapLocationManager.setOnLocationChangeListener(onMyLocationChangeListener);
 //        mMapLocationManager.setOnLocationChangeListener(onMyLocationChangeListener);
         mMapCompassManager = new NMapCompassManager(MapActivity.this);
         mMyLocationOverlay = mOverlayManager.createMyLocationOverlay(mMapLocationManager, mMapCompassManager);
+
+        //초기 코스 표시하기
+        if (selectedCourseType != DataCenter.CourseType.COURSE_TYPE_NON)
+        {
+            if (isRecommandCourse)
+            {
+                selectCourseData(start_courseData);
+                showRecommandCourse();
+            }else
+            {
+                showArea(start_courseData);
+            }
+        }
 
     }
 
@@ -751,20 +829,28 @@ public class MapActivity extends NMapActivity implements AppCompatCallback {
                 double lati = spotData.getDouble(DataCenter.SPOT_LATI);
                 //NMapPOIitem addPOIitem(NGeoPoint point, String title, int markerId, Object tag, int id)
 
-                if (isRecommandCourse)
+                String title = spotData.getString(DataCenter.TITLE_KEY);
+
+                if (isEdittingMode)
                 {
-                    if (i ==0)
-                    {
-                        poiData.addPOIitem(longi,lati, null, firstMarkerId, spotData, id);
-                    }else
-                    {
-                        poiData.addPOIitem(longi,lati, null, markerId, spotData, id);
-                    }
+                    //editting Mode
+                    poiData.addPOIitem(longi,lati, title, MapFlagType.NUMBER_BASE, spotData, id);
                 }else
                 {
-                    poiData.addPOIitem(longi,lati, null, markerId, spotData, id);
+                    if (isRecommandCourse)
+                    {
+                        if (i ==0)
+                        {
+                            poiData.addPOIitem(longi,lati, title, firstMarkerId, spotData, id);
+                        }else
+                        {
+                            poiData.addPOIitem(longi,lati, title, markerId, spotData, id);
+                        }
+                    }else
+                    {
+                        poiData.addPOIitem(longi,lati, title, markerId, spotData, id);
+                    }
                 }
-
             }
 
             // create POI data overlay
@@ -840,54 +926,50 @@ public class MapActivity extends NMapActivity implements AppCompatCallback {
             // [[TEMP]] handle a click event of the callout
             Toast.makeText(MapActivity.this, "onCalloutClick: " + item.getTitle(), Toast.LENGTH_LONG).show();
         }
+
         //포커스 변경시
         @Override
         public void onFocusChanged(NMapPOIdataOverlay poiDataOverlay, NMapPOIitem item) {
-            if (item != null)
-            {
+            if (item != null) {
+                if (isEdittingMode) {
 
-                Display display = getWindowManager().getDefaultDisplay();
-                Point size = new Point();
-                display.getSize(size);
-                int width = size.x;
+                } else {
+                    Display display = getWindowManager().getDefaultDisplay();
+                    Point size = new Point();
+                    display.getSize(size);
+                    int width = size.x;
 
+                    JSONObject objectData = (JSONObject) item.getTag();
+                    Resources resources = getResources();
+                    /**********************************/
+                    String img_url = null;
+                    try {
+                        img_url = objectData.getString(DataCenter.SPOT_MAIN_IMG).toString();
 
-                JSONObject objectData = (JSONObject)item.getTag();
-                Resources resources =  getResources();
-                /**********************************/
-                String img_url = null;
-                try
-                {
-                    img_url = objectData.getString(DataCenter.SPOT_MAIN_IMG).toString();
+                    } catch (JSONException e) {
 
-                }catch (JSONException e)
-                {
+                    }
+                    //디폴트 이미지 설정
+                    if (img_url == null || img_url.length() == 0) {
+                        img_url = "list_img";
+                    }
 
+                    //이미지 리소스 아이디
+                    int resID = getResources().getIdentifier(img_url, "drawable", "com.example.wing.workingsongpa");
+                    Bitmap bScr = DataCenter.getInstance().resizeImge(resources, resID, width / 4);
+
+                    bottomListAdapter.updateTopItemWithData(bScr, objectData);
+                    bottomListAdapter.notifyDataSetChanged();
+                    bottomView.setVisibility(View.VISIBLE);
                 }
+            } else {
+                if (isEdittingMode) {
 
-                if (img_url == null || img_url.length() == 0)
-                {
-                    img_url = "list_img";
+                } else {
+                    bottomView.setVisibility(View.GONE);
                 }
-
-                //이미지 리소스 아이디
-
-                int resID  = getResources().getIdentifier(img_url  , "drawable", "com.example.wing.workingsongpa");
-                Bitmap bScr = DataCenter.getInstance().resizeImge(resources,resID,width/4);
-
-
-                bottomListAdapter.updateTopItemWithData(bScr,objectData);
-                bottomListAdapter.notifyDataSetChanged();
-                bottomView.setVisibility(View.VISIBLE);
-
-//                Toast.makeText(getActivity(), "change: " + item.getTitle(), Toast.LENGTH_LONG).show();
-            }else
-            {
-                bottomView.setVisibility(View.GONE);
             }
-
         }
-
     };
 
     private  void drawAreaWithList(JSONArray jsonList)

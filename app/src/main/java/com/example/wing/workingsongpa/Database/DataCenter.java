@@ -143,7 +143,7 @@ public class DataCenter {
         COURSE_TYPE_AREA5,
     }
 
-   private volatile static DataCenter sharedInstance;
+    private volatile static DataCenter sharedInstance;
 
     private JSONArray spotList;
     private JSONArray courseList;
@@ -167,21 +167,20 @@ public class DataCenter {
     // ****************************데이터*********************** //
     public void loadDataWithContext(Context myContext)
     {
-        loadCourseListJSON(myContext);
         loadPathJSON(myContext);
         loadSpotListJSON(myContext);
-        loadAreaListJSON(myContext);
     }
 
 
     public void loadCourseListJSON(Context myContext) {
         try {
+
             InputStream is = myContext.getAssets().open(COURSE_LIST_NAME);
             int size = is.available();
             byte[] buffer = new byte[size];
             is.read(buffer);
             is.close();
-            String  json = new String(buffer, "UTF-8");
+            String json = new String(buffer, "UTF-8");
 
             courseList = new JSONArray(json);
         } catch (IOException ex) {
@@ -243,8 +242,12 @@ public class DataCenter {
 
 
 
-    public ArrayList<JSONObject> getCourseList()
+    public ArrayList<JSONObject> getCourseList(Context myContext)
     {
+        if (courseList == null)
+        {
+            loadCourseListJSON(myContext);
+        }
         ArrayList<JSONObject> list = new ArrayList<JSONObject>();
         for(int c = 0; c < courseList .length(); c++)
         {
@@ -262,29 +265,34 @@ public class DataCenter {
         return list;
     }
 
-    public ArrayList<JSONObject> allCourseList()
-    {
-        //기본만 가져오기
-        ArrayList<JSONObject> list = new ArrayList<JSONObject>();
-        for(int c = 0; c < courseList .length(); c++)
-         {
-             try
-             {
-                 JSONObject courseObject = courseList.getJSONObject(c);
-                 list.add(courseObject);
+//    public ArrayList<JSONObject> allCourseList()
+//    {
+//        //기본만 가져오기
+//        ArrayList<JSONObject> list = new ArrayList<JSONObject>();
+//        for(int c = 0; c < courseList .length(); c++)
+//         {
+//             try
+//             {
+//                 JSONObject courseObject = courseList.getJSONObject(c);
+//                 list.add(courseObject);
+//
+//             }catch (JSONException je)
+//             {
+//                 Log.e("jsonErr", "getCourseList에러입니당~", je);
+//                 break;
+//             }
+//         }
+//
+//        return list;
+//    }
 
-             }catch (JSONException je)
-             {
-                 Log.e("jsonErr", "getCourseList에러입니당~", je);
-                 break;
-             }
-         }
 
-        return list;
-    }
+    public ArrayList<JSONObject> getAreaList(Context myContext) {
 
-
-    public ArrayList<JSONObject> getAreaList() {
+        if (areaList == null)
+        {
+            loadAreaListJSON(myContext);
+        }
 
         ArrayList<JSONObject> list = new ArrayList<JSONObject>();
         for(int c = 0; c < areaList .length(); c++)
@@ -421,7 +429,7 @@ public class DataCenter {
                 break;
 
         }
-         return type;
+        return type;
     }
 
 

@@ -12,6 +12,7 @@ import com.example.wing.workingsongpa.CourseList.SectionItem;
 import com.example.wing.workingsongpa.R;
 
 import java.util.ArrayList;
+import java.util.Collection;
 
 /**
  * Created by wing on 2017-02-11.

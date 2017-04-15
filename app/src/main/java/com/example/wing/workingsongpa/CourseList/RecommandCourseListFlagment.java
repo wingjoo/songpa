@@ -8,6 +8,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Point;
 import android.opengl.GLES20;
+import android.os.AsyncTask;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
@@ -44,39 +45,53 @@ public class RecommandCourseListFlagment extends Fragment {
         Display display = getActivity().getWindowManager().getDefaultDisplay();
         Point size = new Point();
         display.getSize(size);
-        int width = size.x;
+        final int width = size.x;
 
         //리스트 뷰 가져와서 아답터 셋
         View rootView = inflater.inflate(R.layout.fragment_main, container, false);
-        ListView listview = (ListView) rootView.findViewById(R.id.course_listView);
+        final ListView listview = (ListView) rootView.findViewById(R.id.course_listView);
         listview.setAdapter(adapter) ;
 
-        //JSONArray courseList = DataCenter.getInstance().getCourseList();
-        ArrayList<JSONObject> courseList = DataCenter.getInstance().getCourseList();
-        for (JSONObject data:courseList) {
-            try {
-                String res_url = data.getString(DataCenter.COURSE_IMG_URL).toString();
 
-                Resources resources =  getResources();
-                int resID  = getResources().getIdentifier(res_url, "drawable", "com.example.wing.workingsongpa");
-                Bitmap src = DataCenter.getInstance().resizeImge(resources,resID,width);
+        new Thread(new Runnable() {
+            public void run() {
 
-//                Bitmap src = BitmapFactory.decodeResource(resources,resID);
-                adapter.addItem(src,data);
+                ArrayList<JSONObject> courseList = DataCenter.getInstance().getCourseList(getContext());
+                for (JSONObject data:courseList) {
+                    try {
+                        String res_url = data.getString(DataCenter.COURSE_IMG_URL).toString();
 
-            }catch (JSONException e)
-            {
-                Log.e("jsonErr", "list image load에러입니당~", e);
+                        Resources resources =  getResources();
+                        int resID  = getResources().getIdentifier(res_url, "drawable", "com.example.wing.workingsongpa");
+                        Bitmap src = DataCenter.getInstance().resizeImge(resources,resID,width);
+
+                        adapter.addItem(src,data);
+
+
+
+                    }catch (JSONException e)
+                    {
+                        Log.e("jsonErr", "list image load에러입니당~", e);
+                    }
+                }
+
+                listview.post(new Runnable() {
+                    @Override
+                    public void run() {
+                        adapter.notifyDataSetChanged();
+
+                    }
+                });
             }
-        }
+        }).start();
 
         //리스트 선택시 행동
         listview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView parent, View v, int position, long id) {
+
                 // get item
                 final CourseListItem item = (CourseListItem)parent.getItemAtPosition(position) ;
-
                 final ProgressDialog pd = ProgressDialog.show(getActivity(),
                         "", "Loading...", true);
 
