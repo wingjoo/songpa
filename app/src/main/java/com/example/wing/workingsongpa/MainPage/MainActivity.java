@@ -60,7 +60,12 @@ public class MainActivity extends AppCompatActivity {
         // ****************************데이터*********************** //
 
         //courseList
-        DataCenter.getInstance().loadDataWithContext(this);
+        new Thread(new Runnable() {
+            public void run() {
+                DataCenter.getInstance().loadDataWithContext(getApplicationContext());
+            }
+        }).start();
+
 
 //        isSelectedCourse = false;
         // ****************************Map*********************** //
@@ -105,8 +110,6 @@ public class MainActivity extends AppCompatActivity {
         //start 상태
         tabLayout.getTabAt(0).setText("추천테마길");
         tabLayout.getTabAt(1).setText("테마관광거점");
-
-
     }
 
 
@@ -115,7 +118,6 @@ public class MainActivity extends AppCompatActivity {
 
         RecommandCourseListFlagment recommandList = new RecommandCourseListFlagment();
         AreaCourseListFlagment areaList = new AreaCourseListFlagment();
-
 
         adapter.addFrag(recommandList, "Tab 1");
         adapter.addFrag(areaList, "Tab 2");
