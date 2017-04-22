@@ -54,18 +54,18 @@ public class MapFlagType {
     public static final int CUSTOM_END = CUSTOM_BASE + MAX_CUSTOM_COUNT;
 
     // Clickable callout에 보여지는 화살표
-    public static final int CLICKABLE_ARROW = CUSTOM_END + 1;
+//    public static final int CLICKABLE_ARROW = CUSTOM_END + 1;
 
     public static boolean isBoundsCentered(int markerId) {
-        boolean boundsCentered = false;
+        boolean boundsCentered = true;
 
-        switch (markerId) {
-            default:
-                if (markerId >= MapFlagType.NUMBER_BASE && markerId < MapFlagType.NUMBER_END) {
-                    boundsCentered = true;
-                }
-                break;
-        }
+//        switch (markerId) {
+//            default:
+//                if (markerId >= MapFlagType.NUMBER_BASE && markerId < MapFlagType.NUMBER_END) {
+//                    boundsCentered = true;
+//                }
+//                break;
+//        }
 
         return boundsCentered;
     }

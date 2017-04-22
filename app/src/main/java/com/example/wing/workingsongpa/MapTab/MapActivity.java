@@ -2,10 +2,11 @@ package com.example.wing.workingsongpa.MapTab;
 
 import android.Manifest;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.graphics.Point;
 import android.graphics.drawable.Drawable;
@@ -16,6 +17,7 @@ import android.provider.Settings;
 import android.support.annotation.Nullable;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatCallback;
 import android.support.v7.app.AppCompatDelegate;
 import android.support.v7.view.ActionMode;
@@ -24,6 +26,7 @@ import android.util.Log;
 import android.view.Display;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.ListView;
@@ -31,12 +34,12 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.wing.workingsongpa.ApplicationClass;
-import com.example.wing.workingsongpa.CourseList.DetailCourseListActivity;
 import com.example.wing.workingsongpa.CourseList.EntryAdapter;
 import com.example.wing.workingsongpa.CourseList.EntryItem;
 import com.example.wing.workingsongpa.CourseList.SectionItem;
 import com.example.wing.workingsongpa.CourseList.SpotDetailActivity;
 import com.example.wing.workingsongpa.Database.DataCenter;
+import com.example.wing.workingsongpa.MainPage.MainActivity;
 import com.example.wing.workingsongpa.R;
 import com.gun0912.tedpermission.PermissionListener;
 import com.gun0912.tedpermission.TedPermission;
@@ -65,7 +68,6 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 
 import static com.example.wing.workingsongpa.CourseList.DetailCourseListActivity.SPOT_DATA;
-import static com.example.wing.workingsongpa.CourseList.RecommandCourseListFlagment.COURSE_DATA;
 
 /**
  * Created by knightjym on 2017. 2. 23..
@@ -113,19 +115,25 @@ public class MapActivity extends NMapActivity implements AppCompatCallback {
     private DrawerLayout drawer;
     private ListView lvNavList;
     private AppCompatDelegate delegate;
-    private ArrayList<JSONObject> createCoursList;
 
     //화면에 보이는 코스 스팟리스트
     private JSONArray selectCourseList;
+    JSONObject start_courseData;
+
+    //******************데이트 코스 낮밤 구분*******************//
     private JSONArray dayCourseList;
     private JSONArray nightCourseList;
-    JSONObject start_courseData;
     private Boolean isDayON;
-
     private Boolean isRecommandCourse;
     private Boolean isMenuOpen;
+
+
     protected Boolean isEdittingMode;
 
+    //create Cusom Course
+    //선택된 코스 리스트
+    private ArrayList<JSONObject> createCustomCourseList;
+    private Integer selectedCustomCourselastIndex;
     private LinearLayout createCourseView;
 
     @Override
@@ -138,6 +146,7 @@ public class MapActivity extends NMapActivity implements AppCompatCallback {
         //we use the delegate to inflate the layout
         delegate.setContentView(R.layout.activity_map_view);
 
+        isEdittingMode = false;
         // ****************************Intent DataSet*********************** //
         Intent intent = getIntent();
         String intentStr = intent.getStringExtra(MAP_ACTIVITY_INTENT);
@@ -229,7 +238,7 @@ public class MapActivity extends NMapActivity implements AppCompatCallback {
                 }
             }
         });
-
+        //***************낮밤 버튼****************//
         onoffDayBtn = (ImageButton)findViewById(R.id.OnOffDay);
         onoffDayBtn .setOnClickListener(new View.OnClickListener(){
             @Override
@@ -280,9 +289,9 @@ public class MapActivity extends NMapActivity implements AppCompatCallback {
         });
         onoffDayBtn.setVisibility(View.GONE);
         isDayON = true;
+        setBottomView();
 
-
-        //add_map
+        //***************커스텀 코스 생성****************//
         ImageButton addMapBtn = (ImageButton) findViewById(R.id.add_map);
         addMapBtn.setOnClickListener(new View.OnClickListener(){
             @Override
@@ -290,64 +299,29 @@ public class MapActivity extends NMapActivity implements AppCompatCallback {
 //                //모든 구역 보여주기
                 if (!isEdittingMode)
                 {
+                    bottomView.setVisibility(View.GONE);
+
 //                isRecommandCourse = false;
                     isEdittingMode = true;
-                    createCoursList = new ArrayList<JSONObject>();
+                    selectedCustomCourselastIndex = 0;
+                    if (createCustomCourseList == null)
+                    {
+                        createCustomCourseList = new ArrayList<JSONObject>();
+                    }
+                    createCustomCourseList.clear();
+
                     choiceAllArea();
-                }else
-                {
-                    isEdittingMode = false;
-                    createCoursList = null;
                 }
             }
         });
-
-        /**********************Bottom View*********************************/
-        setBottomView();
         setCreateControlView();
     }
 
-    /*************************추천 코드 만들기 해당 코드*************************/
-    private void setCreateControlView()
-    {
-        createCourseView = (LinearLayout)findViewById(R.id.create_control_view);
-
-        TextView createBtn = (TextView)findViewById(R.id.create_btn);
-        createBtn .setOnClickListener(new View.OnClickListener(){
-            @Override
-            public void onClick(View v) {
-                //코스 생성!
-                if (createCoursList.size() > 0)
-                {
-                    //알럿!
-                    //선택된 코스를 통한 데이터 저장
-                    //선택된 코스 보여주기 화면으로 이동
-                }else
-                {
-
-                }
-            }
-        });
-
-        TextView cancelBtn = (TextView)findViewById(R.id.cancel_btn);
-        cancelBtn .setOnClickListener(new View.OnClickListener(){
-            @Override
-            public void onClick(View v) {
-                //취소 액션
-
-                //알럿!
-                //선택된 코스 취소
-                //전체 코스 선택화면으로 이동
-            }
-        });
-    }
-
-
+    //menu 만들기
     private void createMenu()
     {
         new CreateMenu().execute();
     }
-
     private class CreateMenu extends AsyncTask<Void, Void, ArrayList<ApplicationClass.Item>> {
 
         //시작전
@@ -371,9 +345,18 @@ public class MapActivity extends NMapActivity implements AppCompatCallback {
             /////////////////////구간 정보///////////////////
             menuItem.add(new SectionItem("구간"));
             ArrayList<JSONObject> areaData = DataCenter.getInstance().getAreaList(getApplicationContext());
-
             for (JSONObject data: areaData) {
                 menuItem.add(new DrawMenuItem(data, 2));
+            }
+
+            /////////////////////Custom Course///////////////////
+            ArrayList<JSONObject> custom = DataCenter.getInstance().getCustomList(getApplicationContext());
+            if (custom.size() > 0)
+            {
+                menuItem.add(new SectionItem("사용자 코스"));
+                for (JSONObject data: custom) {
+                    menuItem.add(new DrawMenuItem(data, 3));
+                }
             }
 
             return menuItem;
@@ -396,6 +379,13 @@ public class MapActivity extends NMapActivity implements AppCompatCallback {
                 @Override
                 public void onItemClick(AdapterView parent, View v, int position, long id) {
                     //drawMenu Item
+                    if (isEdittingMode)
+                    {
+                        //에딧팅 취소
+                        createCourseView.setVisibility(View.GONE);
+                        isEdittingMode = false;
+                    }
+
                     DrawMenuItem item = (DrawMenuItem)parent.getItemAtPosition(position) ;
                     //아이템이 코스인지 구역인지 구분 필요
                     //item.itemData
@@ -411,18 +401,21 @@ public class MapActivity extends NMapActivity implements AppCompatCallback {
                             isRecommandCourse = true;
                             selectCourseData(selecteData);
                             showRecommandCourse();
-
-
                         }else if (item.getSection() == 2)
                         {
                             isRecommandCourse = false;
                             showArea(selecteData);
+                        }else if (item.getSection() == 3)
+                        {
+                            //커스텀 클릭시
+                            isRecommandCourse = false;
+                            showCustomCourse(selecteData);
                         }
+
                     }catch (JSONException e)
                     {
 
                     }
-
                     //닫기
                     drawer.closeDrawer(lvNavList);
                 }
@@ -871,6 +864,38 @@ public class MapActivity extends NMapActivity implements AppCompatCallback {
     }
 
 
+    //구간 스팟 보여주기
+    //areaListData = [1,2,3,]
+    public void showCustomCourse(JSONObject customListData)
+    {
+        //이전 Paht 지우기
+        allClear();
+
+        //spot를 구하는 용도로 사용
+        ArrayList<JSONObject> spotDataList = new ArrayList<JSONObject>();
+
+        try
+        {
+            JSONArray spotObj_list = customListData.getJSONArray(DataCenter.COURSE_COURSELIST);
+
+            //course List를 확인해서 SPOT 데이터 리스트 만들기
+            for (int i=0; i<spotObj_list.length(); i++) {
+                JSONObject spot_list = spotObj_list.getJSONObject(i);
+                spotDataList.add(spot_list);
+            }
+
+//                ArrayList<JSONObject> allPathLIst = DataCenter.getInstance().getAllPath(spotIDList);
+//                drawPathWithList(allPathLIst);
+            //spot 표시
+            drawSpotWithList(spotDataList);
+        }catch (JSONException e)
+        {
+            Log.e("jsonErr", "Show CourseSpot 에러입니당~", e);
+        }
+
+
+    }
+
 
 
     /***********************  private Method *************************************/
@@ -897,7 +922,17 @@ public class MapActivity extends NMapActivity implements AppCompatCallback {
                 if (isEdittingMode)
                 {
                     //editting Mode
-                    poiData.addPOIitem(longi,lati, title, MapFlagType.NUMBER_BASE, spotData, id);
+
+                    Drawable markerDrawable = mMapViewerResourceProvider.getDrawableForMarkerWithIndex(0);
+//                    markerDrawable.setBounds(0, 0, markerDrawable.getIntrinsicWidth(), markerDrawable.getIntrinsicHeight());
+                    //markerDrawable = NMapPOIitem.boundCenterTop(markerDrawable);
+
+                    //markerDrawable.setBounds();
+
+                    poiData.addPOIitem(longi,lati, title, markerDrawable, spotData);
+
+
+                   // poiData.addPOIitem(longi,lati, title, MapFlagType.NUMBER_BASE, spotData, i);
                 }else
                 {
                     if (isRecommandCourse)
@@ -951,22 +986,9 @@ public class MapActivity extends NMapActivity implements AppCompatCallback {
 
             pathData.endPathData();
 
-
-//            int haxColor = DataCenter.getInstance().getColorWithType(selectedCourseType);
-//
-//            int r = (haxColor & 0xFF0000) >> 16;
-//            int g = (haxColor & 0xFF00) >> 8;
-//            int b = (haxColor & 0xFF);
-
             int color = Color.parseColor(DataCenter.getInstance().getHaxColorWithType(selectedCourseType));
 
-//            int color = Integer.parseInt(DataCenter.getInstance().getHaxColorWithType(selectedCourseType) , 16);
-//            int r = (color >> 16) & 0xFF;
-//            int g = (color >> 8) & 0xFF;
-//            int b = (color >> 0) & 0xFF;
-
             NMapPathDataOverlay pathDataOverlay = mOverlayManager.createPathDataOverlay(pathData);
-//            pathDataOverlay.setLineColor(Color.rgb(r,g,b), 0x88);
             pathDataOverlay.setLineColor(color, 0x88);
             pathDataOverlay.setLineWidth(8);
             pathDataOverlay.showAllPathData(0);
@@ -977,90 +999,6 @@ public class MapActivity extends NMapActivity implements AppCompatCallback {
         }
 
     }
-
-    /************************* 핀 선택 리스너 *************************/
-    private final NMapPOIdataOverlay.OnStateChangeListener onGroupPOIdataStateChangeListener = new NMapPOIdataOverlay.OnStateChangeListener() {
-
-        //클릭시
-        @Override
-        public void onCalloutClick(NMapPOIdataOverlay poiDataOverlay, NMapPOIitem item) {
-
-        }
-        //선택시 행동
-        @Override
-        public void onFocusChanged(NMapPOIdataOverlay poiDataOverlay, NMapPOIitem item) {
-            if (item != null)
-            {
-                mOverlayManager.removeOverlay(groupPOIDataOverlay);
-                selectedCourseType = DataCenter.getInstance().getCourseTypeWithID(item.getId());
-
-                //Show Course
-                //하단 컨트롤 뷰 on
-                createCourseView.setVisibility(View.VISIBLE);
-                //전체 리스트 띄우기
-                JSONObject selectedData = (JSONObject)item.getTag();
-                showArea(selectedData);
-
-            }
-        }
-    };
-
-
-    //////////////////// 핀 선택시 호출
-    private final NMapPOIdataOverlay.OnStateChangeListener onPOIdataStateChangeListener = new NMapPOIdataOverlay.OnStateChangeListener() {
-
-        //클릭시
-        @Override
-        public void onCalloutClick(NMapPOIdataOverlay poiDataOverlay, NMapPOIitem item) {
-
-            // [[TEMP]] handle a click event of the callout
-            Toast.makeText(MapActivity.this, "onCalloutClick: " + item.getTitle(), Toast.LENGTH_LONG).show();
-        }
-
-        //포커스 변경시
-        @Override
-        public void onFocusChanged(NMapPOIdataOverlay poiDataOverlay, NMapPOIitem item) {
-            if (item != null) {
-                if (isEdittingMode) {
-
-                } else {
-                    Display display = getWindowManager().getDefaultDisplay();
-                    Point size = new Point();
-                    display.getSize(size);
-                    int width = size.x;
-
-                    JSONObject objectData = (JSONObject) item.getTag();
-                    Resources resources = getResources();
-                    /**********************************/
-                    String img_url = null;
-                    try {
-                        img_url = objectData.getString(DataCenter.SPOT_MAIN_IMG).toString();
-
-                    } catch (JSONException e) {
-
-                    }
-                    //디폴트 이미지 설정
-                    if (img_url == null || img_url.length() == 0) {
-                        img_url = "list_img";
-                    }
-
-                    //이미지 리소스 아이디
-                    int resID = getResources().getIdentifier(img_url, "drawable", "com.example.wing.workingsongpa");
-                    Bitmap bScr = DataCenter.getInstance().resizeImge(resources, resID, width / 4);
-
-                    bottomListAdapter.updateTopItemWithData(bScr, objectData);
-                    bottomListAdapter.notifyDataSetChanged();
-                    bottomView.setVisibility(View.VISIBLE);
-                }
-            } else {
-                if (isEdittingMode) {
-
-                } else {
-                    bottomView.setVisibility(View.GONE);
-                }
-            }
-        }
-    };
 
     private  void drawAreaWithList(JSONArray jsonList)
     {
@@ -1102,10 +1040,117 @@ public class MapActivity extends NMapActivity implements AppCompatCallback {
 
     }
 
+    /*************************커스텀 그룹 선택 리스너 *************************/
+    private final NMapPOIdataOverlay.OnStateChangeListener onGroupPOIdataStateChangeListener = new NMapPOIdataOverlay.OnStateChangeListener() {
+
+        //클릭시
+        @Override
+        public void onCalloutClick(NMapPOIdataOverlay poiDataOverlay, NMapPOIitem item) {
+
+        }
+        //선택시 행동
+        @Override
+        public void onFocusChanged(NMapPOIdataOverlay poiDataOverlay, NMapPOIitem item) {
+            if (item != null)
+            {
+                mOverlayManager.removeOverlay(groupPOIDataOverlay);
+                selectedCourseType = DataCenter.getInstance().getCourseTypeWithID(item.getId());
+
+                //Show Course
+                //하단 컨트롤 뷰 on
+                createCourseView.setVisibility(View.VISIBLE);
+                //전체 리스트 띄우기
+                JSONObject selectedData = (JSONObject)item.getTag();
+                showArea(selectedData);
+
+            }
+        }
+    };
+
+
+    //////////////////// 핀 선택시 호출
+    private final NMapPOIdataOverlay.OnStateChangeListener onPOIdataStateChangeListener = new NMapPOIdataOverlay.OnStateChangeListener() {
+
+        //클릭시
+        @Override
+        public void onCalloutClick(NMapPOIdataOverlay poiDataOverlay, NMapPOIitem item) {
+
+            // [[TEMP]] handle a click event of the callout
+           // Toast.makeText(MapActivity.this, "onCalloutClick: " + item.getTitle(), Toast.LENGTH_LONG).show();
+        }
+
+        //포커스 변경시
+        @Override
+        public void onFocusChanged(NMapPOIdataOverlay poiDataOverlay, NMapPOIitem item) {
+            // 이전에 선택된 아이템이 선택 해제되면 poiItem으로 null이 전달된다.
+            if (item != null) {
+                if (isEdittingMode) {
+
+                    item.setKeepSelected(true);
+                    selectedCustomCourselastIndex += 1;
+//                        item.setMarkerId(MapFlagType.NUMBER_BASE + selectedCustomCourselastIndex);
+                    item.setOrderId(selectedCustomCourselastIndex);
+
+                    item.setMarker(mMapViewerResourceProvider.getDrawableForMarkerWithIndex(selectedCustomCourselastIndex));
+                    JSONObject selectedData = (JSONObject) item.getTag();
+                    createCustomCourseList.add(selectedData);
+
+
+//                    poiDataOverlay.updateMarkerForPOIitem(item);
+
+//                    if (item.isKeepSelected())
+//                    {
+//                        item.setKeepSelected(false);
+//                        //뻬기
+//                        JSONObject selectedData = (JSONObject) item.getTag();
+//                        createCustomCourseList.remove(selectedData);
+//                    }else
+//                    {
+//
+//
+//
+//                    }
 
 
 
+                } else {
+                    Display display = getWindowManager().getDefaultDisplay();
+                    Point size = new Point();
+                    display.getSize(size);
+                    int width = size.x;
 
+                    JSONObject objectData = (JSONObject) item.getTag();
+                    Resources resources = getResources();
+                    /**********************************/
+                    String img_url = null;
+                    try {
+                        img_url = objectData.getString(DataCenter.SPOT_MAIN_IMG).toString();
+
+                    } catch (JSONException e) {
+
+                    }
+                    //디폴트 이미지 설정
+                    if (img_url == null || img_url.length() == 0) {
+                        img_url = "list_img";
+                    }
+
+                    //이미지 리소스 아이디
+                    int resID = getResources().getIdentifier(img_url, "drawable", "com.example.wing.workingsongpa");
+                    Bitmap bScr = DataCenter.getInstance().resizeImge(resources, resID, width / 4);
+
+                    bottomListAdapter.updateTopItemWithData(bScr, objectData);
+                    bottomListAdapter.notifyDataSetChanged();
+                    bottomView.setVisibility(View.VISIBLE);
+                }
+            } else {
+                if (isEdittingMode) {
+
+                } else {
+                    bottomView.setVisibility(View.GONE);
+                }
+            }
+        }
+    };
 
     /* MapView State Change Listener*/
     private final NMapView.OnMapStateChangeListener onMapViewStateChangeListener = new NMapView.OnMapStateChangeListener() {
@@ -1154,6 +1199,111 @@ public class MapActivity extends NMapActivity implements AppCompatCallback {
         }
 
     };
+
+    /*************************추천 코드 만들기 해당 코드*************************/
+    private void setCreateControlView()
+    {
+        createCourseView = (LinearLayout)findViewById(R.id.create_control_view);
+
+        TextView createBtn = (TextView)findViewById(R.id.create_btn);
+        createBtn .setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v) {
+                //코스 생성!
+                if (createCustomCourseList.size() > 0)
+                {
+                    AlertDialog.Builder alert = new AlertDialog.Builder(MapActivity.this);
+                    alert.setTitle("코스 이름 입력");
+                    alert.setMessage("코스 이름을 입력해주세요");
+
+                    final EditText inputTitleView = new EditText(MapActivity.this);
+                    alert.setView(inputTitleView);
+
+                    alert.setPositiveButton("생성하기", new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int whichButton) {
+                            //새로우 코스 저장하기
+                            final String courseTitle = inputTitleView.getText().toString();
+
+                            new Thread(new Runnable(){
+                                public void run(){
+                                    JSONObject saveData = new JSONObject();
+                                    try
+                                    {
+                                        JSONArray jsArray = new JSONArray(createCustomCourseList);
+                                        saveData.put(DataCenter.ID,0);
+                                        saveData.put(DataCenter.COURSE_COURSELIST, jsArray);
+                                        saveData.put(DataCenter.TITLE_KEY, courseTitle);
+                                        //데이터 저장
+                                        DataCenter.getInstance().saveCustomData(getApplicationContext(), saveData);
+
+                                        //저장 완료 후 액션
+
+                                    }catch (JSONException ex)
+                                    {
+                                        //추가 실패
+                                    }
+                                }
+                            }).start();
+
+                        }
+                    });
+                    alert.setNegativeButton("취소",new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int whichButton) {
+                            //알럿 닫기
+                        }
+                    });
+                    alert.show();
+
+                }else
+                {
+                    AlertDialog.Builder alert = new AlertDialog.Builder(MapActivity.this);
+                    alert.setTitle("확인!").setMessage("코스를 선택 해주세요").setPositiveButton("확인", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialogInterface, int i) {
+                            //알럿 닫기
+                        }
+                    });
+                    alert.create();
+                    alert.show();
+
+                }
+            }
+        });
+
+        TextView cancelBtn = (TextView)findViewById(R.id.cancel_btn);
+        cancelBtn .setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v) {
+                //취소 액션
+                AlertDialog.Builder alert = new AlertDialog.Builder(MapActivity.this);
+                alert.setTitle("뒤로가기")
+                        .setMessage("이전단계로 이동하시겠습니까?")
+                        .setPositiveButton("뒤로가기", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+                                //예 버튼 클릭시 행동
+                                //선택된 코스 취소
+                                createCustomCourseList.clear();
+                                selectedCustomCourselastIndex = 0;
+                                //전체 코스 선택화면으로 이동
+                                choiceAllArea();
+                                createCourseView.setVisibility(View.GONE);
+                            }
+                        })
+                        .setNeutralButton("아니요", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+                                //알럿 닫기
+                            }
+                });
+                alert.create();
+                alert.show();
+
+            }
+        });
+    }
+
+
 
 
 

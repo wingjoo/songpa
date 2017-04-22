@@ -11,6 +11,7 @@ import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
 
+import android.util.Log;
 import android.widget.ImageView;
 import android.widget.ListView;
 
@@ -30,7 +31,7 @@ public class MapResourseProvider extends NMapResourceProvider {
 
     private static final Bitmap.Config BITMAP_CONFIG_DEFAULT = Bitmap.Config.ARGB_8888;
 
-    private static final int POI_FONT_COLOR_NUMBER = 0xFF909090;
+    private static final int POI_FONT_COLOR_NUMBER = 0xFF000000;
     private static final float POI_FONT_SIZE_NUMBER = 10.0F;
 
     private static final int POI_FONT_COLOR_ALPHABET = 0xFFFFFFFF;
@@ -51,42 +52,42 @@ public class MapResourseProvider extends NMapResourceProvider {
         mTextPaint.setAntiAlias(true);
     }
 
-    /**
-     * Get drawable for markerId at focused state
-     *
-     * @param markerId unique id for POI or Number icons.
-     * @param focused true for focused state, false otherwise.
-     * @return
-     */
-    public Drawable getDrawable(int markerId, boolean focused, NMapOverlayItem item) {
-        Drawable marker = null;
-
-        int resourceId = findResourceIdForMarker(markerId, focused);
-        if (resourceId > 0) {
-
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                marker = mContext.getResources().getDrawable(resourceId,mContext.getTheme());
-            }else
-            {
-                marker = mContext.getResources().getDrawable(resourceId);
-            }
-
-        } else {
-            resourceId = 4 * markerId;
-            if (focused) {
-                resourceId += 1;
-            }
-
-            marker = getDrawableForMarker(markerId, focused, item);
-        }
-
-        // set bounds
-        if (marker != null) {
-            setBounds(marker, markerId, item);
-        }
-
-        return marker;
-    }
+//    /**
+//     * Get drawable for markerId at focused state
+//     *
+//     * @param markerId unique id for POI or Number icons.
+//     * @param focused true for focused state, false otherwise.
+//     * @return
+//     */
+//    public Drawable getDrawable(int markerId, boolean focused, NMapOverlayItem item) {
+//        Drawable marker = null;
+//
+//        int resourceId = findResourceIdForMarker(markerId, focused);
+//        if (resourceId > 0) {
+//
+//            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+//                marker = mContext.getResources().getDrawable(resourceId,mContext.getTheme());
+//            }else
+//            {
+//                marker = mContext.getResources().getDrawable(resourceId);
+//            }
+//
+//        } else {
+//            resourceId = 4 * markerId;
+//            if (focused) {
+//                resourceId += 1;
+//            }
+//
+//            marker = getDrawableForMarker(markerId, focused, item);
+//        }
+//
+//        // set bounds
+//        if (marker != null) {
+//            setBounds(marker, markerId, item);
+//        }
+//
+//        return marker;
+//    }
 
 
 /*
@@ -267,15 +268,44 @@ public class MapResourseProvider extends NMapResourceProvider {
 //        return marker;
 //    }
 
+    public Drawable getDrawableForMarkerWithIndex(int index) {
+
+        Drawable drawable;
+        if (index == 0)
+        {
+            int resourceId = R.drawable.map_spot_add;
+            int fontColor = POI_FONT_COLOR_NUMBER;
+            String strNumber = " ";
+            drawable = getDrawableWithNumber(resourceId, strNumber, 0.0F, fontColor, POI_FONT_SIZE_NUMBER);
+        }else
+        {
+            int resourceId = R.drawable.map_spot_add_s;
+            int fontColor = POI_FONT_COLOR_NUMBER;
+            String strNumber = String.valueOf(index);
+            drawable = getDrawableWithNumber(resourceId, strNumber, 0.0F, fontColor, POI_FONT_SIZE_NUMBER);
+        }
+
+
+
+        return  drawable;
+    }
+
     @Override
     protected Drawable getDrawableForMarker(int markerId, boolean focused, NMapOverlayItem item) {
         Drawable drawable = null;
 
         if (markerId >= MapFlagType.NUMBER_BASE && markerId < MapFlagType.NUMBER_END) { // Direction Number icons
+
+
+
             int resourceId = (focused) ? R.drawable.map_spot_add_s : R.drawable.map_spot_add ;
             int fontColor = (focused) ? POI_FONT_COLOR_NUMBER: POI_FONT_COLOR_NUMBER;
 
             String strNumber = String.valueOf(markerId - MapFlagType.NUMBER_BASE);
+//            if (strNumber == "0")
+//            {
+//                strNumber = " ";
+//            }
 
             drawable = getDrawableWithNumber(resourceId, strNumber, 0.0F, fontColor, POI_FONT_SIZE_NUMBER);
         } else if (markerId >= MapFlagType.CUSTOM_BASE && markerId < MapFlagType.CUSTOM_END) { // Custom POI icons
@@ -336,6 +366,9 @@ public class MapResourseProvider extends NMapResourceProvider {
             drawable = mContext.getResources().getDrawable(R.drawable.map_pin_ex);
         }
 
+        drawable = NMapOverlayItem.boundCenterBottom(drawable);
+
+        Log.d("bounds", "getCalloutBackground() returned: " + drawable.getBounds());
         return drawable;
     }
 

@@ -7,6 +7,7 @@
 		"specialty": "국내 최고 높이의 전망대와 최대 크기의 실내 테마파크를 즐기고 싶다면 이곳으로",
 		"infor_use": "- 지하철 2·8호선 잠실역\n- 지하철 8호선 석촌역",
 		"image_url":"a_road_n_01",
+		"title_image_url":"icon_area_8",
 		"center_position":{
 			"longitude" : 127.10434,
 			"latitude" : 37.50996
@@ -57,6 +58,7 @@
 		"specialty": "시원한 한강 나들이와 뜨거운 스포츠의 열기를 한번에 느끼고 싶다면 이곳으로",
 		"infor_use": "- 지하철 2호선 잠실새내역\n- 지하철 2·9호선 종합운동장역",
 		"image_url":"a_road_n_02",
+		"title_image_url":"icon_area_9",
 		"center_position":{
 			"longitude" : 127.08207,
 			"latitude" : 37.51394
@@ -103,6 +105,7 @@
 		"specialty": "드넓은 공원에서 삶의 여유와 그 안에 간직된 한성백제의 웅장한 역사를 느끼다",
 		"infor_use": "- 지하철 8호선 몽촌토성역\n- 지하철 5호선 올림픽공원역",
 		"image_url":"a_road_n_03",
+		"title_image_url":"icon_area_10",
 		"center_position":{
 			"longitude" : 127.12044,
 			"latitude" : 37.51782
@@ -183,6 +186,7 @@
 
 		],
 		"image_url":"a_road_n_04",
+		"title_image_url":"icon_area_11",
 		"course": [36,104,49,105,106,107,108,40,42,110]
 	},
 	{
@@ -231,6 +235,7 @@
 			}
 		],
 		"image_url":"a_road_n_05",
+		"title_image_url":"icon_area_12",
 		"course": [118,117,43,116,19,115,114,113,12,13]
 	}
 

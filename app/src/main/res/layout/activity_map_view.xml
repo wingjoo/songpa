@@ -127,7 +127,7 @@
                         android:textAlignment="center"
                         android:text="코스 만들기"
                         android:textColor="@color/white"
-                        android:layout_gravity="center_vertical"
+                        android:gravity="center"
                         android:layout_weight="1"
                         />
                     <TextView

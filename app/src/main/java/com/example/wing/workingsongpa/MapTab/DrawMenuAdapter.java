@@ -52,9 +52,12 @@ public class DrawMenuAdapter extends ArrayAdapter<ApplicationClass.Item> {
                 if (position == 0)
                 {
                     sectionView.setText("추천테마길");
-                }else
+                }else if (position == 1)
                 {
                     sectionView.setText("테마관광거점");
+                }else
+                {
+                    sectionView.setText("사용자 생성 코스");
                 }
 
             }else{

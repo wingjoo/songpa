@@ -20,14 +20,22 @@ public class DrawMenuItem implements ApplicationClass.Item {
 
     private int section;
 
-    public DrawMenuItem(JSONObject newData,int section) {
+    public DrawMenuItem(JSONObject newData, int section) {
 
         itemData = newData;
         this.section = section;
 
         try{
             this.course_title =  itemData.getString(DataCenter.TITLE_KEY).toString();
-            this.sub_title = itemData.getString(DataCenter.SUB_TITLE_KEY).toString();
+
+            if (itemData.has(DataCenter.SUB_TITLE_KEY))
+            {
+                this.sub_title = itemData.getString(DataCenter.SUB_TITLE_KEY).toString();
+            }else
+            {
+                this.sub_title = "";
+            }
+
             DataCenter.CourseType type = DataCenter.getInstance().getCourseTypeWithID(itemData.getInt(DataCenter.ID));
             color = DataCenter.getInstance().getColorWithType(type);
 
