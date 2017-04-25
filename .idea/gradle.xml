@@ -10,6 +10,7 @@
           <set>
             <option value="$PROJECT_DIR$" />
             <option value="$PROJECT_DIR$/app" />
+            <option value="$PROJECT_DIR$/com.skp.Tmap_1.0.46" />
             <option value="$PROJECT_DIR$/library" />
           </set>
         </option>

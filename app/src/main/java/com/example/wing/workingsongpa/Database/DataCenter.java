@@ -29,6 +29,11 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
 
+import com.skp.Tmap.TMapData;
+import com.skp.Tmap.TMapPoint;
+import com.skp.Tmap.TMapPolyLine;
+import com.skp.Tmap.TMapTapi;
+
 
 import static com.example.wing.workingsongpa.Database.DataCenter.CourseType.COURSE_TYPE_AREA1;
 import static com.example.wing.workingsongpa.Database.DataCenter.CourseType.COURSE_TYPE_AREA2;
@@ -357,6 +362,7 @@ public class DataCenter {
                 String end_id = spot_list.get(c + 1).toString();
                 //모든 스팟에서 해당 스팟의 데이터 가져오기
                 JSONArray pathList = getBetweenPath(start_id, end_id);
+
                 for (int i = 0; i < pathList.length(); i++) {
                     JSONObject pathObj = pathList.getJSONObject(i);
                     allPath.add(pathObj);
@@ -659,5 +665,6 @@ public class DataCenter {
 //        return returnData;
 
     }
+
 
 }

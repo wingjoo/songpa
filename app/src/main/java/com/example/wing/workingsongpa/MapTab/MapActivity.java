@@ -13,6 +13,7 @@ import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
 import android.provider.Settings;
 import android.support.annotation.Nullable;
 import android.support.v4.widget.DrawerLayout;
@@ -59,6 +60,10 @@ import com.nhn.android.mapviewer.overlay.NMapMyLocationOverlay;
 import com.nhn.android.mapviewer.overlay.NMapOverlayManager;
 import com.nhn.android.mapviewer.overlay.NMapPOIdataOverlay;
 import com.nhn.android.mapviewer.overlay.NMapPathDataOverlay;
+import com.skp.Tmap.TMapData;
+import com.skp.Tmap.TMapPoint;
+import com.skp.Tmap.TMapPolyLine;
+import com.skp.Tmap.TMapTapi;
 import com.tsengvn.typekit.TypekitContextWrapper;
 
 import org.json.JSONArray;
@@ -127,8 +132,9 @@ public class MapActivity extends NMapActivity implements AppCompatCallback {
     private Boolean isRecommandCourse;
     private Boolean isMenuOpen;
 
-
     protected Boolean isEdittingMode;
+
+    NMapPathDataOverlay customPathOverlay;
 
     //create Cusom Course
     //선택된 코스 리스트
@@ -145,6 +151,9 @@ public class MapActivity extends NMapActivity implements AppCompatCallback {
         delegate.onCreate(savedInstanceState);
         //we use the delegate to inflate the layout
         delegate.setContentView(R.layout.activity_map_view);
+
+        TMapTapi tmaptapi = new TMapTapi(this);
+        tmaptapi.setSKPMapAuthentication ("4ef5764d-39cf-315c-859a-665a118cd3f6");
 
         isEdittingMode = false;
         // ****************************Intent DataSet*********************** //
@@ -878,10 +887,72 @@ public class MapActivity extends NMapActivity implements AppCompatCallback {
         {
             JSONArray spotObj_list = customListData.getJSONArray(DataCenter.COURSE_COURSELIST);
 
-            //course List를 확인해서 SPOT 데이터 리스트 만들기
-            for (int i=0; i<spotObj_list.length(); i++) {
-                JSONObject spot_list = spotObj_list.getJSONObject(i);
-                spotDataList.add(spot_list);
+            //new DrawCustomPathThread().execute(spotObj_list);
+
+            for (int c = 0; c < spotObj_list.length() ; c++) {
+
+                JSONObject spotData = spotObj_list.getJSONObject(c);
+                spotDataList.add(spotData);
+
+                if (c + 1 < spotObj_list.length() )
+                {
+                    try
+                    {
+                        //모든 스팟에서 해당 스팟의 데이터 가져오기
+                        JSONObject start_obj = spotObj_list.getJSONObject(c);
+                        JSONObject end_ojb = spotObj_list.getJSONObject(c + 1);
+
+                        double sLati = start_obj.getDouble(DataCenter.SPOT_LATI);
+                        double sLong = start_obj.getDouble(DataCenter.SPOT_LONGI);
+                        double eLati= end_ojb.getDouble(DataCenter.SPOT_LATI);
+                        double eLong = end_ojb.getDouble(DataCenter.SPOT_LONGI);
+
+                        final TMapPoint sPoint = new TMapPoint(sLati, sLong);
+                        final TMapPoint ePoint = new TMapPoint(eLati, eLong);
+
+                        final TMapData tmapdata = new TMapData();
+
+                        tmapdata.findPathDataWithType(TMapData.TMapPathType.PEDESTRIAN_PATH, sPoint, ePoint, new TMapData.FindPathDataListenerCallback() {
+                            @Override
+                            public void onFindPathData(TMapPolyLine polyLine) {
+                                ArrayList<TMapPoint> tPoints = polyLine.getLinePoint();
+
+                                final ArrayList<JSONObject> allPathList = new ArrayList<JSONObject>();
+
+                                for (TMapPoint tpoint: tPoints) {
+                                    double latitude =  tpoint.getLatitude();
+                                    double longitude =  tpoint.getLongitude();
+
+                                    JSONObject pointObj = new JSONObject();
+                                    try
+                                    {
+                                        pointObj.put(DataCenter.SPOT_LATI,latitude);
+                                        pointObj.put(DataCenter.SPOT_LONGI,longitude);
+                                        allPathList.add(pointObj);
+
+                                    }catch (JSONException ex)
+                                    {
+
+                                    }
+                                }
+
+                                runOnUiThread(new Runnable() {
+                                    public void run() {
+                                        // 메시지 큐에 저장될 메시지의 내용
+                                        appendDrawPathWithList(allPathList);
+                                    }
+                                });
+
+                            }
+                        });
+
+                    }catch (JSONException je)
+                    {
+
+                    }
+                }
+
+
             }
 
 //                ArrayList<JSONObject> allPathLIst = DataCenter.getInstance().getAllPath(spotIDList);
@@ -895,6 +966,9 @@ public class MapActivity extends NMapActivity implements AppCompatCallback {
 
 
     }
+
+
+
 
 
 
@@ -980,7 +1054,6 @@ public class MapActivity extends NMapActivity implements AppCompatCallback {
             for (JSONObject position:list) {
                 double longi =  position.getDouble(DataCenter.SPOT_LONGI);
                 double lati =  position.getDouble(DataCenter.SPOT_LATI);
-//                pathData.addPathPoint(longi, lati, NMapPathLineStyle.TYPE_SOLID);
                 pathData.addPathPoint(longi, lati, 0);
             }
 
@@ -993,12 +1066,50 @@ public class MapActivity extends NMapActivity implements AppCompatCallback {
             pathDataOverlay.setLineWidth(8);
             pathDataOverlay.showAllPathData(0);
             pathOverlay = pathDataOverlay;
+
         }catch (JSONException e)
         {
             Log.e("jsonErr", "draw Line 에러입니당~", e);
         }
-
     }
+
+    private  void appendDrawPathWithList(ArrayList<JSONObject> list)
+    {
+        // set path data points
+        NMapPathData pathData = new NMapPathData(list.size());
+
+        pathData.initPathData();
+        try{
+            for (JSONObject position:list) {
+                double longi =  position.getDouble(DataCenter.SPOT_LONGI);
+                double lati =  position.getDouble(DataCenter.SPOT_LATI);
+                pathData.addPathPoint(longi, lati, 0);
+            }
+
+            pathData.endPathData();
+
+            int color = Color.parseColor(DataCenter.getInstance().getHaxColorWithType(selectedCourseType));
+
+            if (customPathOverlay == null)
+            {
+                customPathOverlay = mOverlayManager.createPathDataOverlay(pathData);
+                customPathOverlay.setLineColor(color, 0x88);
+                customPathOverlay.setLineWidth(8);
+            }else
+            {
+                customPathOverlay.addPathData(pathData);
+            }
+
+            customPathOverlay.showAllPathData(0);
+
+        }catch (JSONException e)
+        {
+            Log.e("jsonErr", "draw Line 에러입니당~", e);
+        }
+    }
+
+
+
 
     private  void drawAreaWithList(JSONArray jsonList)
     {

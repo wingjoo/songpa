@@ -34,7 +34,6 @@ dependencies {
     compile 'gun0912.ted:tedpermission:1.0.3'
     //프로그래스바
     compile 'com.github.rahatarmanahmed:circularprogressview:2.5.0'
-
-
     compile project(path: ':library')
+    compile project(':com.skp.Tmap_1.0.46')
 }

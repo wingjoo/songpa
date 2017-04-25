@@ -1,2 +1,2 @@
-include ':app'
+include ':app', ':com.skp.Tmap_1.0.46'
 include ':library'
