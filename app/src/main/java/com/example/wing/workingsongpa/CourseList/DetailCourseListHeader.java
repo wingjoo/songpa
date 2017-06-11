@@ -45,9 +45,10 @@ public class DetailCourseListHeader extends FrameLayout{
 
     }
 
-    public void setData(Bitmap bgImg, JSONObject data)
+    public void setData(Integer resID, JSONObject data)
     {
-        backgroundImage.setImageBitmap(bgImg);
+        //setImageBitmap(bgImg);
+        backgroundImage.setImageResource(resID);
         try {
 
             String story = data.getString(DataCenter.COURSE_STORY).toString();

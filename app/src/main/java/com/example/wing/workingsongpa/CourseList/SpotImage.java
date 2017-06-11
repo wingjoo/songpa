@@ -21,8 +21,8 @@ import org.json.JSONObject;
 public class SpotImage  extends Fragment {
 
 
-    public Bitmap imgScr;
-
+    //public Bitmap imgScr;
+    public Integer imgID;
 //    public void setIcon(Drawable icon) {
 //        iconDrawable = icon ;
 //    }
@@ -37,10 +37,10 @@ public class SpotImage  extends Fragment {
 //    }
 
 
-    public static SpotImage newInstance(Bitmap data) {
+    public static SpotImage newInstance(Integer imgID) {
         SpotImage fragment = new SpotImage();
 
-        fragment.imgScr = data;
+        fragment.imgID = imgID;
 
         return fragment;
     }
@@ -63,7 +63,7 @@ public class SpotImage  extends Fragment {
         // 아이템 내 각 위젯에 데이터 반영
 
         //미완성
-        iconImageView.setImageBitmap(imgScr);
+        iconImageView.setImageResource(imgID);
 
         return rootView;
     }

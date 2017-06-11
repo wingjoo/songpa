@@ -16,8 +16,10 @@ public class MapFlagType {
     public static final int START = SPOT + 1;
     public static final int COURSE = START + 1;
     public static final int NORMAL = COURSE + 1;
+    public static final int IN = NORMAL + 1;
+    public static final int OUT = IN + 1;
     //거점 이름핀 이미지
-    public static final int TITLE1 = NORMAL + 1;
+    public static final int TITLE1 = OUT + 1;
     public static final int TITLE2 = TITLE1 + 1;
     public static final int TITLE3 = TITLE2 + 1;
     public static final int TITLE4 = TITLE3 + 1;

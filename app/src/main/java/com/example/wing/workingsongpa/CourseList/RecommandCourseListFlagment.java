@@ -63,9 +63,9 @@ public class RecommandCourseListFlagment extends Fragment {
 
                         Resources resources =  getResources();
                         int resID  = getResources().getIdentifier(res_url, "drawable", "com.example.wing.workingsongpa");
-                        Bitmap src = DataCenter.getInstance().resizeImge(resources,resID,width);
+                        //Bitmap src = DataCenter.getInstance().resizeImge(resources,resID,width);
 
-                        adapter.addItem(src,data);
+                        adapter.addItem(resID,data);
 
 
 

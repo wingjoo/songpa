@@ -116,9 +116,9 @@ public class DetailCourseListActivity extends AppCompatActivity {
 
             int courseID  = getResources().getIdentifier(res_url, "drawable", "com.example.wing.workingsongpa");
             //resizing
-            Bitmap courseScr = DataCenter.getInstance().resizeImge(resources, courseID, imageWidth);
+            //Bitmap courseScr = DataCenter.getInstance().resizeImge(resources, courseID, imageWidth);
 //                Bitmap courseScr = BitmapFactory.decodeResource(resources,courseID);
-            header.setData(courseScr,courseData);
+            header.setData(courseID, courseData);
 //
 //                titleView.setImageBitmap(courseScr);
 
@@ -164,10 +164,11 @@ public class DetailCourseListActivity extends AppCompatActivity {
                     result.put(nightCourseList.get(i));
                 }
                 courseList = result;
+            }else
+            {
+                courseList =  courseData.getJSONArray(DataCenter.COURSE_COURSELIST);
             }
 
-
-            courseList =  courseData.getJSONArray(DataCenter.COURSE_COURSELIST);
 
             EntryAdapter adapter = new EntryAdapter(this, items);
             listView.setAdapter(adapter);

@@ -15,28 +15,38 @@ import static android.R.attr.bitmap;
 
 
 public class CourseListItem {
-    private Drawable iconDrawable ;
 
     private JSONObject itemData;
+    private Integer imageID;
+
+    private Drawable iconDrawable ;
     private  Bitmap imgScr;
 
-    public void setImgScr(Bitmap scr)
+    public void setImageID(Integer id)
     {
-        imgScr = scr;
+        imageID = id;
     }
 
-    public Bitmap getImgScr()
+    public Integer getImageID()
     {
-        return imgScr;
+        return imageID;
     }
+
+//    public void setImgScr(Bitmap scr)
+//    {
+//        imgScr = scr;
+//    }
+
+//    public Bitmap getImgScr()
+//    {
+//        return imgScr;
+//    }
 
 
     public void setIcon(Drawable icon) {
 
         iconDrawable = icon ;
     }
-
-
 
     public Drawable getIcon() {
         return this.iconDrawable ;

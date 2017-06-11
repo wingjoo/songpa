@@ -5,6 +5,7 @@ import android.app.ProgressDialog;
 import android.content.Context;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Handler;
 import android.os.SystemClock;
 import android.support.design.widget.AppBarLayout;
@@ -45,6 +46,8 @@ public class MainActivity extends AppCompatActivity {
     private TabLayout tabLayout;
 
     private ImageButton mapBtn;
+    private ImageButton commentatorBtn;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -94,6 +97,24 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        commentatorBtn = (ImageButton) findViewById(R.id.connect_button);
+        commentatorBtn.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v) {
+
+                final ProgressDialog pd = ProgressDialog.show(MainActivity.this,
+                        "", "Loading...", true);
+
+                new Thread(new Runnable(){
+                    public void run(){
+                        //지도 뷰 띄우기
+                        Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse("http://culture.songpa.go.kr/user.kdf?a=songpa.menu.MenuApp&c=1001&cate_id=AM0105002000_2_"));
+                        startActivity(intent);
+                        pd.dismiss();
+                    }
+                }).start();
+            }
+        });
 
         AppBarLayout.LayoutParams params = (AppBarLayout.LayoutParams) toolbar.getLayoutParams();
         params.setScrollFlags(0);  // clear all scroll flags
@@ -109,7 +130,7 @@ public class MainActivity extends AppCompatActivity {
 //        TabLayout.Tab listTab = tabLayout.newTab();
         //start 상태
         tabLayout.getTabAt(0).setText("추천테마길");
-        tabLayout.getTabAt(1).setText("테마관광거점");
+        tabLayout.getTabAt(1).setText("테마거점관광");
     }
 
     private void createViewPager(ViewPager viewPager) {

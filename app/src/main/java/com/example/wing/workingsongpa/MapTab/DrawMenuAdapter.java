@@ -40,7 +40,7 @@ public class DrawMenuAdapter extends ArrayAdapter<ApplicationClass.Item> {
         final ApplicationClass.Item i = items.get(position);
         if (i != null) {
             if(i.isSection()){
-                SectionItem si = (SectionItem)i;
+                //SectionItem si = (SectionItem)i;
                 convertView = vi.inflate(R.layout.detail_course_list_header, null);
 
                 convertView.setOnClickListener(null);
@@ -52,48 +52,64 @@ public class DrawMenuAdapter extends ArrayAdapter<ApplicationClass.Item> {
                 if (position == 0)
                 {
                     sectionView.setText("추천테마길");
-                }else if (position == 1)
+                }else if (position == 9)//9인 이유는 추천 테마길이 9개코스라서
                 {
-                    sectionView.setText("테마관광거점");
-                }else
+                    sectionView.setText("테마건점관광");
+                }else//14부터
                 {
-                    sectionView.setText("사용자 생성 코스");
+                    sectionView.setText("사용자생성코스");
                 }
 
             }else{
-                // Data Set(listViewItemList)에서 position에 위치한 데이터 참조 획득
-                DrawMenuItem item = (DrawMenuItem)i;
-                //view
-                convertView = vi.inflate(R.layout.drawmenu_item, parent, false);
 
-                //*************UI구성**************//
-                TextView titleTextView = (TextView) convertView.findViewById(R.id.title) ;
-                // 아이템 내 각 위젯에 데이터 반영
-                String title = item.getCourse_title();
-
-                if (title.length() > 0)
+                if (i.getClass() == AddCustomCourseItem.class)
                 {
-                    titleTextView.setText(title);
+                    // Data Set(listViewItemList)에서 position에 위치한 데이터 참조 획득
+                    //AddCustomCourseItem item = (AddCustomCourseItem)i;
+                    convertView = vi.inflate(R.layout.draw_add_item, parent, false);
                 }else
                 {
-                    titleTextView.setVisibility(View.GONE);
+                    // Data Set(listViewItemList)에서 position에 위치한 데이터 참조 획득
+                    DrawMenuItem item = (DrawMenuItem)i;
+                    //view
+                    convertView = vi.inflate(R.layout.drawmenu_item, parent, false);
+
+                    //*************UI구성**************//
+                    TextView titleTextView = (TextView) convertView.findViewById(R.id.title) ;
+                    // 아이템 내 각 위젯에 데이터 반영
+                    String title = item.getCourse_title();
+
+                    if (title.length() > 0)
+                    {
+                        titleTextView.setText(title);
+                    }else
+                    {
+                        titleTextView.setVisibility(View.GONE);
+                    }
+
+                    TextView subTitleView = (TextView) convertView.findViewById(R.id.sub_title) ;
+                    // 아이템 내 각 위젯에 데이터 반영
+                    String subTitle = item.getSub_title();
+
+                    if (subTitle.length() > 0)
+                    {
+                        subTitleView.setText(subTitle);
+                        subTitleView.setTextColor(item.getCourseColor());
+                    }else
+                    {
+                        subTitleView.setVisibility(View.GONE);
+                    }
                 }
 
-                TextView subTitleView = (TextView) convertView.findViewById(R.id.sub_title) ;
-                // 아이템 내 각 위젯에 데이터 반영
-                String subTitle = item.getSub_title();
 
-                if (subTitle.length() > 0)
-                {
-                    subTitleView.setText(subTitle);
-                    subTitleView.setTextColor(item.getCourseColor());
-                }else
-                {
-                    subTitleView.setVisibility(View.GONE);
-                }
             }
         }
         return convertView;
     }
 
+    @Override
+    public void add(ApplicationClass.Item object) {
+        super.add(object);
+        this.items.add(object);
+    }
 }

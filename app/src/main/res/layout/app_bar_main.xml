@@ -81,7 +81,7 @@
                 android:layout_height="50dp"
                 app:tabIndicatorColor = "@color/line"
                 android:background="@color/mainBG"
-                app:tabTextColor="@color/color_title"
+                app:tabTextColor="@color/main_tab_normal"
                 app:tabSelectedTextColor="@color/color_selected"/>
                 />
 

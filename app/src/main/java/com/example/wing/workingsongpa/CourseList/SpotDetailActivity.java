@@ -6,6 +6,7 @@ import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.Point;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.view.ViewPager;
@@ -94,11 +95,11 @@ public class SpotDetailActivity extends AppCompatActivity {
                 String imgUrl = imgList.getString(i).toString();
                 Resources resources =  getResources();
                 int resID  = getResources().getIdentifier(imgUrl  , "drawable", "com.example.wing.workingsongpa");
-                int reWidth = width - (int)((double)width * 0.2);
-                Bitmap scr = DataCenter.getInstance().resizeImge(resources,resID,reWidth);
+                //int reWidth = width - (int)((double)width * 0.2);
+                //Bitmap scr = DataCenter.getInstance().resizeImge(resources,resID,reWidth);
 
                 //fagment만들기
-                mAdapter.addItem(scr);
+                mAdapter.addItem(resID);
             }
 
             mPager.setAdapter(mAdapter);
@@ -118,18 +119,19 @@ public class SpotDetailActivity extends AppCompatActivity {
                 subTitle.setVisibility(View.GONE);
             }
 
-            //title
+            /////////////////////title/////////////////////
             String title_str =  spotData.getString(DataCenter.TITLE_KEY);
             TextView title = (TextView)findViewById(R.id.title);
             if (title_str .length() > 0 )
             {
-                title.setText(title_str);
+
+                title.setText("["+title_str+"]");
             }else
             {
                 title.setVisibility(View.GONE);
             }
 
-            //info
+            /////////////////////info/////////////////////
             String info_str =  spotData.getString(DataCenter.SPOT_INFO);
             TextView intoText = (TextView)findViewById(R.id.info_text);
             if (info_str .length() > 0 )
@@ -140,7 +142,7 @@ public class SpotDetailActivity extends AppCompatActivity {
                 intoText.setVisibility(View.GONE);
             }
 
-            //msg
+            /////////////////////MSG/////////////////////
             String msg_str =  spotData.getString(DataCenter.SPOT_MSG);
             TextView msgText = (TextView)findViewById(R.id.msg_text);
             if (msg_str .length() > 0 )
@@ -151,44 +153,50 @@ public class SpotDetailActivity extends AppCompatActivity {
                 msgText.setVisibility(View.GONE);
             }
 
+            /////////////////////sub MSG/////////////////////
             LinearLayout layout = (LinearLayout)findViewById(R.id.contents_layout);
-
-//            int dpValue = 5; // margin in dips
             float d = getResources().getDisplayMetrics().density;
-//            int margin = (int)(dpValue * d);
 
             JSONArray sub_msgs = spotData.getJSONArray(DataCenter.SPOT_SUBMSG);
             if (sub_msgs != null && sub_msgs.length() > 0)
             {
+                Typeface type = Typeface
+                        .createFromAsset(this.getAssets(), "NanumGothic.ttf");
+
                 for (int i = 0; i<sub_msgs.length(); i++)
                 {
                     JSONObject sub_msg_dic = sub_msgs.getJSONObject(i);
                     String sub_msg_title = sub_msg_dic.getString(DataCenter.TITLE_KEY);
                     String sub_msg_text = sub_msg_dic.getString(DataCenter.TEXT_KEY);
 
-
-                    //title
+                    //msg title
                     TextView titleTV = new TextView(getApplicationContext());
                     titleTV.setText(sub_msg_title);
-                    titleTV.setTextSize((float) 12);
-                    titleTV.setTextColor(Color.parseColor("#252525"));
+                    titleTV.setTextSize(TypedValue.COMPLEX_UNIT_SP,11);
+                    titleTV.setTextColor(Color.parseColor("#000000"));
                     LinearLayout.LayoutParams titleParam = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
                     titleParam.setMargins((int)(10 * d),(int)(6 * d),(int)(10 * d),0);
                     titleTV.setLayoutParams(titleParam);
+                    titleTV.setTypeface(type);
                     layout.addView(titleTV);
 
-                    //text
+                    //msg text
                     TextView textTV = new TextView(getApplicationContext());
                     textTV.setText(sub_msg_text);
-                    textTV.setTextSize((float) 12);
-                    textTV.setTextColor(Color.parseColor("#777777"));
+                    textTV.setTextSize(TypedValue.COMPLEX_UNIT_SP, 10);
+                    textTV.setTextColor(Color.parseColor("#777777"));//b6b6b6
+                    textTV.setLineSpacing(7,1);
+
 //                    textTV.setPadding(10, 6, 10, 0);
                     LinearLayout.LayoutParams textParam = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
-                    textParam.setMargins((int)(10 * d),(int)(6 * d),(int)(10 * d),0);
+
+                    textParam.setMargins((int)(10 * d),(int)(6 * d),(int)(10 * d),(int)(10 * d));
                     textTV.setLayoutParams(textParam);
+                    textTV.setTypeface(type);
                     layout.addView(textTV);
 
                 }
+
             }
 
         }catch (JSONException je)

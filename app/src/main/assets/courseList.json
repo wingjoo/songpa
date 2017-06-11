@@ -11,18 +11,31 @@
 			"image_url":"t_road_n_01",
 			"course": [
 				{
-					"course_info":"거리 약 2.1km, 이용시간 약 1시간 내외",
+					"course_info":"코스1: 거리 약 2.1km, 이용시간 약 1시간 내외",
 					"spot":[85,86,87,88]
 				},
 				{
-					"course_info":"거리 약 3km, 이용시간 약 1시간 반 내외",
+					"course_info":"코스2: 거리 약 3km, 이용시간 약 1시간 반 내외",
 					"spot":[89,90,91,92,93]
 				},
 				{
-					"course_info":"거리 약 2km, 이용시간 약 30분 내외 ",
+					"course_info":"코스3: 거리 약 2km, 이용시간 약 30분 내외 ",
 					"spot":[94,95]
 				}
-			]
+			],
+
+			"in_position": {
+					"id": 0,
+					"title":"in:천호역 10번출구",
+					"longitude" : 127.1228,
+					"latitude" : 37.53865
+				},
+			"out_position": {
+					"id": 0,
+					"title":"out:석촌역 6번 출구",
+					"longitude" : 127.107,
+					"latitude" : 37.50486
+			}
 		},
 		{
 			"id": 1,
@@ -36,14 +49,26 @@
 			"image_url":"t_road_n_02",
 			"course":[
 				{
-					"course_info":"거리 약 1.8km, 이용시간 약 1시간 내외",
+					"course_info":"코스1: 거리 약 1.8km, 이용시간 약 1시간 내외",
 					"spot":[104,105,106,107]
 				},
 				{
-					"course_info":"거리 약 2.5km, 이용시간 약 1시간 반 내외",
+					"course_info":"코스2: 거리 약 2.5km, 이용시간 약 1시간 반 내외",
 					"spot":[108,109,110,111,112]
 				}
-			]
+			],
+			"in_position": {
+				"id": 1,
+				"title":"in:올림픽 공원역 2번 출구",
+				"longitude" : 127.1312,
+				"latitude" : 37.51608
+			},
+			"out_position": {
+				"id": 1,
+				"title":"out:마천역 1번 출구",
+				"longitude" : 127.1522,
+				"latitude" : 37.49471
+			}
 		},
 		{
 			"id": 2,
@@ -57,14 +82,26 @@
 			"image_url":"t_road_n_03",
 			"course":[
 				{
-					"course_info":"거리 약 1.9km, 이용시간 약 1시간 내외",
+					"course_info":"코스1: 거리 약 1.9km, 이용시간 약 1시간 내외",
 					"spot":[113,114,115]
 				},
 				{
-					"course_info":"거리 약 1km, 이용시간 약 30분 내외",
+					"course_info":"코스2: 거리 약 1km, 이용시간 약 30분 내외",
 					"spot":[116,117,118]
 				}
-			]
+			],
+			"in_position": {
+				"id" : 2,
+				"title":"in:문정역 2번 출구",
+				"longitude" : 127.1226,
+				"latitude" : 37.48623
+			},
+			"out_position": {
+				"id" : 2,
+				"title":"out:송파역 1번 출구",
+				"longitude" : 127.1126,
+				"latitude" : 37.49971
+			}
 		},
 		{
 			"id": 3,
@@ -78,18 +115,30 @@
 			"image_url":"t_road_n_04",
 			"course": [
 				{
-					"course_info":"거리 약 2.36km, 이용시간 약 1시간 반 내외",
+					"course_info":"코스1: 거리 약 2.36km, 이용시간 약 1시간 반 내외",
 					"spot":[119,120,121,122]
 				},
 				{
-					"course_info":"거리 약 1.7km, 이용시간 약 1시간 내외",
+					"course_info":"코스2: 거리 약 1.7km, 이용시간 약 1시간 내외",
 					"spot":[123,124]
 				},
 				{
-					"course_info":"거리 약 1.2km, 이용시간 약 30분 내외",
+					"course_info":"코스3: 거리 약 1.2km, 이용시간 약 30분 내외",
 					"spot":[125,126]
 				}
-			]
+			],
+			"in_position": {
+				"id" : 3,
+				"title":"in:장지역 3번 출구",
+				"longitude" : 127.1258,
+				"latitude" : 37.47863
+			},
+			"out_position": {
+				"id" : 3,
+				"title":"out:개롱역 1번 출구",
+				"longitude" : 127.1347,
+				"latitude" : 37.49871
+			}
 		},
 		{
 			"id": 4,
@@ -100,28 +149,75 @@
 			"infor_use": "지하철 2호선, 8호선 잠실역의 롯데월드몰과 타워 주변에서 여정을 시작하여 석촌호수를 걷는다. 낮엔 삼전도비와 고분군이 간직한 역사 이야기를 즐기고, 밤엔 연인과 송파의 야경을 즐기면 좋다.",
 			"total_distan": "낮길 : 약 2km / 밤길 : 약 6.8km",
 			"walking_time": "낮길 : 약 1시간 내외 / 밤길 : 약 2시간 반 내외",
-			"image_url":"t_road_n_05",
-			"course":{
-				"day" : [
+			"image_url": "t_road_n_05",
+			"course": {
+				"day": [
 					{
-						"course_info":"COURSE 1_낮길",
-						"spot":[134,135,136]
+						"course_info": "낮길_코스1: 거리 약 840m, 이용시간 약 30분 내외",
+						"spot": [
+							134,
+							135,
+							136
+						]
 					},
 					{
-						"course_info":"COURSE 2_낮길",
-						"spot":[137,138,139,140]
+						"course_info": "낮길_코스2: 거리 약 1.2km, 이용시간 약 30분 내외",
+						"spot": [
+							137,
+							138,
+							139,
+							140
+						]
 					}
 				],
-				"night" :[
+				"night": [
 					{
-						"course_info":"COURSE 3_밤길",
-						"spot":[78,79,80,81]
+						"course_info": "밤길_코스1: 거리 약 4.5km, 이용시간 약 1시간 반 내외",
+						"spot": [
+							78,
+							79,
+							80,
+							81
+						]
 					},
 					{
-						"course_info":"COURSE 4_밤길",
-						"spot":[82,83,84]
+						"course_info": "밤길_코스2: 거리 약 1.8km, 이용시간 약 1시간 내외",
+						"spot": [
+							82,
+							83,
+							84
+						]
 					}
 				]
+			},
+			"in_position": {
+				"day": {
+					"id" : 4,
+					"title": "in:잠실역 1번출구",
+					"longitude" : 127.1012,
+					"latitude" : 37.51322
+				},
+				"night": {
+					"id" : 44,
+					"title": "in:잠실역 2번출구",
+					"longitude" : 127.1009,
+					"latitude" : 37.51283
+
+				}
+			},
+			"out_position":{
+				"day":{
+					"id" : 4,
+					"title":"out:석촌역 7번 출구",
+					"longitude" : 127.1067,
+					"latitude" : 37.50511
+				},
+				"night":{
+					"id" : 44,
+					"title":"out:잠실나루역 4번 출구",
+					"longitude" : 127.1036,
+					"latitude" : 37.52113
+				}
 			}
 		},
 		{
@@ -136,14 +232,26 @@
 			"image_url":"t_road_n_06",
 			"course":[
 				{
-					"course_info":"거리 약 3.5km, 이용시간 약 1시간 반 내외",
+					"course_info":"코스1: 거리 약 3.5km, 이용시간 약 1시간 반 내외",
 					"spot":[96,97,98,99,100]
 				},
 				{
-					"course_info":"거리 약 1.5km, 이용시간 약 30분 내외",
+					"course_info":"코스2: 거리 약 1.5km, 이용시간 약 30분 내외",
 					"spot":[101,102,103]
 				}
-			]
+			],
+			"in_position": {
+				"id" : 5,
+				"title":"in:잠실새내역 5번 출구",
+				"longitude" : 127.0853,
+				"latitude" : 37.51147
+			},
+			"out_position": {
+				"id" : 5,
+				"title":"out:종합운동장역 6번 출구",
+				"longitude" : 127.0733,
+				"latitude" : 37.51171
+			}
 		},
 		{
 			"id": 6,
@@ -157,14 +265,26 @@
 			"image_url":"t_road_n_07",
 			"course":[
 				{
-					"course_info":"거리 약 2.2km, 이용시간 약 한 시간 내외",
+					"course_info":"코스1: 거리 약 2.2km, 이용시간 약 한 시간 내외",
 					"spot":[127,128,129,130,131]
 				},
 				{
-					"course_info":"거리 약 900m, 이용시간 30분 내외",
+					"course_info":"코스2: 거리 약 900m, 이용시간 30분 내외",
 					"spot":[132,133]
 				}
-			]
+			],
+			"in_position": {
+				"id" : 6,
+				"title":"in:잠실역 7번출구",
+				"longitude" : 127.0996,
+				"latitude" : 37.51428
+			},
+			"out_position": {
+				"id" : 6,
+				"title":"out:몽촌토성역 3번 출구",
+				"longitude" : 127.1124,
+				"latitude" : 37.5171
+			}
 		},
 		{
 			"id": 7,
@@ -178,21 +298,29 @@
 			"image_url":"t_road_n_08",
 			"course":[
 				{
-					"course_info":"거리 약 2.8km, 이용시간 약 1시간 내외",
+					"course_info":"코스1: 거리 약 2.8km, 이용시간 약 1시간 내외",
 					"spot":[62,63,64]
 				},
 				{
-					"course_info":"거리 약 3.45km, 이용시간 약 1시간 반 내외",
+					"course_info":"코스2: 거리 약 3.45km, 이용시간 약 1시간 반 내외",
 					"spot":[65,66,67,68]
 				},
 				{
-					"course_info":"거리 약 4.64km, 이용시간 약 2시간 내외 ",
+					"course_info":"코스3: 거리 약 4.64km, 이용시간 약 2시간 내외 ",
 					"spot":[69,70,71,72,75,74,73]
 				},
 				{
-					"course_info":"거리 약 900m, 이용시간 약 1시간 내외",
+					"course_info":"코스4: 거리 약 900m, 이용시간 약 1시간 내외",
 					"spot":[76,77]
 				}
-			]
+			],
+			"in_position": {
+				"id" : 7,
+				"title":"in:마천역 1번 출구",
+				"longitude" : 127.1522,
+				"latitude" : 37.49474
+			},
+			"out_position": {
+			}
 		}
 	]

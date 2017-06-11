@@ -82,9 +82,13 @@ public class SpotDetailAdapter extends FragmentPagerAdapter {
 //    }
 
     // 아이템 데이터 추가를 위한 함수. 개발자가 원하는대로 작성 가능.
-    public void addItem(Bitmap data) {
-        SpotImage item = SpotImage.newInstance(data);
+//    public void addItem(Bitmap data) {
+//        SpotImage item = SpotImage.newInstance(data);
+//        spotImgList .add(item);
+//    }
+
+    public void addItem(Integer imgID) {
+        SpotImage item = SpotImage.newInstance(imgID);
         spotImgList .add(item);
     }
-
 }

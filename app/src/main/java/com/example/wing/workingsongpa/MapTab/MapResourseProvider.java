@@ -31,7 +31,7 @@ public class MapResourseProvider extends NMapResourceProvider {
 
     private static final Bitmap.Config BITMAP_CONFIG_DEFAULT = Bitmap.Config.ARGB_8888;
 
-    private static final int POI_FONT_COLOR_NUMBER = 0xFF000000;
+    private static final int POI_FONT_COLOR_NUMBER = 0xFFFFFFFF;
     private static final float POI_FONT_SIZE_NUMBER = 10.0F;
 
     private static final int POI_FONT_COLOR_ALPHABET = 0xFFFFFFFF;
@@ -140,6 +140,8 @@ public class MapResourseProvider extends NMapResourceProvider {
             new ResourceIdsOnMap(MapFlagType.START, R.drawable.map_spot_start, R.drawable.map_spot_s),
             new ResourceIdsOnMap(MapFlagType.COURSE, R.drawable.map_spot_n, R.drawable.map_spot_s),
             new ResourceIdsOnMap(MapFlagType.NORMAL, R.drawable.map_spot_add, R.drawable.map_spot_add_s),
+            new ResourceIdsOnMap(MapFlagType.IN, R.drawable.icon_map_in, R.drawable.icon_map_in),
+            new ResourceIdsOnMap(MapFlagType.OUT, R.drawable.icon_map_out, R.drawable.icon_map_out),
             new ResourceIdsOnMap(MapFlagType.TITLE1, R.drawable.map_pin_ex, R.drawable.map_pin_ex)
 //            // Direction POI icons: From, To
 //            new ResourceIdsOnMap(MapFlagType.FROM, R.drawable.ic_map_start, R.drawable.ic_map_start_over),
@@ -273,7 +275,7 @@ public class MapResourseProvider extends NMapResourceProvider {
         Drawable drawable;
         if (index == 0)
         {
-            int resourceId = R.drawable.map_spot_add;
+            int resourceId = R.drawable.map_spot_n;
             int fontColor = POI_FONT_COLOR_NUMBER;
             String strNumber = " ";
             drawable = getDrawableWithNumber(resourceId, strNumber, 0.0F, fontColor, POI_FONT_SIZE_NUMBER);
@@ -284,11 +286,39 @@ public class MapResourseProvider extends NMapResourceProvider {
             String strNumber = String.valueOf(index);
             drawable = getDrawableWithNumber(resourceId, strNumber, 0.0F, fontColor, POI_FONT_SIZE_NUMBER);
         }
+        return  drawable;
+    }
 
+    public Drawable getDrawableForGruopWithID(int groupID) {
 
+        Drawable drawable;
+        int resourceId = R.drawable.icon_area_8;
+        switch (groupID)
+        {
+            case 8:
+                resourceId = R.drawable.icon_area_8;
+                break;
+            case 9:
+                resourceId = R.drawable.icon_area_9;
+                break;
+            case 10:
+                resourceId = R.drawable.icon_area_10;
+                break;
+            case 11:
+                resourceId = R.drawable.icon_area_11;
+                break;
+            case 12:
+                resourceId = R.drawable.icon_area_12;
+                break;
+        }
+
+        int fontColor = POI_FONT_COLOR_NUMBER;
+        String strNumber = " ";
+        drawable = getDrawableWithNumber(resourceId, strNumber, 0.0F, fontColor, POI_FONT_SIZE_NUMBER);
 
         return  drawable;
     }
+
 
     @Override
     protected Drawable getDrawableForMarker(int markerId, boolean focused, NMapOverlayItem item) {
@@ -298,7 +328,7 @@ public class MapResourseProvider extends NMapResourceProvider {
 
 
 
-            int resourceId = (focused) ? R.drawable.map_spot_add_s : R.drawable.map_spot_add ;
+            int resourceId = (focused) ? R.drawable.map_spot_add_s : R.drawable.map_spot_n ;
             int fontColor = (focused) ? POI_FONT_COLOR_NUMBER: POI_FONT_COLOR_NUMBER;
 
             String strNumber = String.valueOf(markerId - MapFlagType.NUMBER_BASE);

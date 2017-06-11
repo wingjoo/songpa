@@ -52,7 +52,8 @@ public class CourseListViewAdapter extends BaseAdapter {
         ImageView iconImageView = (ImageView) convertView.findViewById(R.id.item_bg) ;
 
 //        Bitmap imgScr  = DataCenter.getInstance().drawableToBitmap(listViewItem.getIcon());
-        iconImageView.setImageBitmap(listViewItem.getImgScr());
+        iconImageView.setImageResource(listViewItem.getImageID());
+        //iconImageView.setImageBitmap(listViewItem.getImgScr());
 
         // 아이템 내 각 위젯에 데이터 반영
 //        iconImageView.setImageDrawable(listViewItem.getIcon());
@@ -80,10 +81,13 @@ public class CourseListViewAdapter extends BaseAdapter {
         listViewItemList.add(item);
     }
 
-    public void addItem(Bitmap scr, JSONObject itemData) {
+    //public void addItem(Bitmap scr, JSONObject itemData) {
+    public void addItem(Integer scr, JSONObject itemData) {
         CourseListItem item = new CourseListItem();
         item.setItemData(itemData);
-        item.setImgScr(scr);
+
+        item.setImageID(scr);
+        //item.setImgScr(scr);
         listViewItemList.add(item);
     }
 

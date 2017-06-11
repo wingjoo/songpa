@@ -128,6 +128,8 @@ public class DataCenter {
     public static final String COURSE_SPECIALTY = "specialty";
     public static final String COURSE_INFORUSE = "infor_use";
     public static final String COURSE_IMG_URL = "image_url";
+    public static final String COURSE_IN = "in_position";
+    public static final String COURSE_OUT = "out_position";
 
     public static final String AREA_LINE_POSITION = "area_position";
 
@@ -476,7 +478,7 @@ public class DataCenter {
     }
 
 
-    public String getHaxColorWithType(CourseType type) {
+    public String getHaxColorWithType(CourseType type, boolean isDay) {
         String haxColor = "#fbb829";
         switch (type) {
             case COURSE_TYPE_ROAD1:
@@ -492,7 +494,15 @@ public class DataCenter {
                 haxColor = "#7e1a0b";
                 break;
             case COURSE_TYPE_ROAD5:
-                haxColor = "#e94e76";
+                if (isDay)
+                {//컬러 변경해야됨
+                    haxColor = "#f3a890";
+
+                }else
+                {
+                    haxColor = "#e62280";
+                }
+
                 break;
             case COURSE_TYPE_ROAD6:
                 haxColor = "#0c486c";
@@ -557,34 +567,30 @@ public class DataCenter {
 
 
     public Bitmap resizeImge(Resources rsc, int rscID, int reqWidth) {
-//        BitmapFactory.Options options = new BitmapFactory.Options();
-//        options.inSampleSize = 2;
-//        Bitmap src = BitmapFactory.decodeResource(rsc,rscID,options);
 
         BitmapFactory.Options options = new BitmapFactory.Options();
         options.inJustDecodeBounds = true;
-        BitmapFactory.decodeResource(rsc, rscID, options);
+        BitmapFactory.decodeResource(rsc,rscID, options);
 
         int imageWidth = options.outWidth;
         int imageheight = options.outWidth;
 
-        if (imageWidth > reqWidth - 10) {
-            int sampleSize = imageWidth / reqWidth;
+        if (imageWidth > reqWidth-10){
+            int sampleSize = imageWidth/reqWidth;
 
             options.inSampleSize = sampleSize;
         }
 
         //리사이즈 다시 고민해봅시다
-        Bitmap src = BitmapFactory.decodeResource(rsc, rscID);
+        Bitmap src = BitmapFactory.decodeResource(rsc,rscID);
         Bitmap resized = null;
 
 
         while (imageWidth > reqWidth) {
-            resized = Bitmap.createScaledBitmap(src, reqWidth, (imageheight * reqWidth) / imageWidth, true);
+            resized = Bitmap.createScaledBitmap(src,reqWidth, (imageheight * reqWidth) / imageWidth, true);
             imageheight = resized.getHeight();
             imageWidth = resized.getWidth();
         }
-
 
         return resized;
     }
